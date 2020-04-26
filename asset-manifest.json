@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/app-reader-test-deploy/static/css/main.e555a225.chunk.css",
-    "main.js": "/app-reader-test-deploy/static/js/main.59a0e6d1.chunk.js",
-    "main.js.map": "/app-reader-test-deploy/static/js/main.59a0e6d1.chunk.js.map",
+    "main.css": "/app-reader-test-deploy/static/css/main.3f59f8b2.chunk.css",
+    "main.js": "/app-reader-test-deploy/static/js/main.f598ea67.chunk.js",
+    "main.js.map": "/app-reader-test-deploy/static/js/main.f598ea67.chunk.js.map",
     "runtime-main.js": "/app-reader-test-deploy/static/js/runtime-main.a89e4974.js",
     "runtime-main.js.map": "/app-reader-test-deploy/static/js/runtime-main.a89e4974.js.map",
     "static/js/2.698c19d2.chunk.js": "/app-reader-test-deploy/static/js/2.698c19d2.chunk.js",
     "static/js/2.698c19d2.chunk.js.map": "/app-reader-test-deploy/static/js/2.698c19d2.chunk.js.map",
     "index.html": "/app-reader-test-deploy/index.html",
-    "precache-manifest.f2e00fa9df7e725fbeb192d354147498.js": "/app-reader-test-deploy/precache-manifest.f2e00fa9df7e725fbeb192d354147498.js",
+    "precache-manifest.5ac20675e400b44121c7e81b41ee11c2.js": "/app-reader-test-deploy/precache-manifest.5ac20675e400b44121c7e81b41ee11c2.js",
     "service-worker.js": "/app-reader-test-deploy/service-worker.js",
-    "static/css/main.e555a225.chunk.css.map": "/app-reader-test-deploy/static/css/main.e555a225.chunk.css.map",
+    "static/css/main.3f59f8b2.chunk.css.map": "/app-reader-test-deploy/static/css/main.3f59f8b2.chunk.css.map",
     "static/js/2.698c19d2.chunk.js.LICENSE.txt": "/app-reader-test-deploy/static/js/2.698c19d2.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a89e4974.js",
     "static/js/2.698c19d2.chunk.js",
-    "static/css/main.e555a225.chunk.css",
-    "static/js/main.59a0e6d1.chunk.js"
+    "static/css/main.3f59f8b2.chunk.css",
+    "static/js/main.f598ea67.chunk.js"
   ]
 }
