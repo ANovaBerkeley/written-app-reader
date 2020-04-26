@@ -130,6 +130,7 @@ class Applications extends Component {
       this.airtableStateHandler(reviewerName);
       var formdiv = document.getElementById('app-view');
       formdiv.scrollTop = 0;
+      console.log(formdiv.scrollTop);
       console.log(this.state)
     }
     catch (err) {
