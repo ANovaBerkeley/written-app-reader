@@ -89,6 +89,11 @@ class Applications extends Component {
           });
         }
       );
+      
+      this.setState({
+        comments: '',
+        flag: "No",
+      });
 
       if (this.state.error) {
         return false;
@@ -117,10 +122,6 @@ class Applications extends Component {
         method: "POST"
       });
       console.log(await r.text());
-      this.setState({
-        comments: '',
-        flag: "No",
-      });
 
       toaster.notify(<div className="toast"><h4 className="toast-text">Voted {vote} for {applicantName}!</h4></div>, {
         duration: 1000,
