@@ -90,11 +90,6 @@ class Applications extends Component {
         }
       );
 
-      // scroll to top QOL
-      var formdiv = document.getElementById('app-view');
-      formdiv.scrollTop = 0;
-      console.log(formdiv.scrollTop);
-
       if (this.state.error) {
         return false;
       }
@@ -133,6 +128,7 @@ class Applications extends Component {
       })
 
       this.airtableStateHandler(reviewerName);
+      document.getElementById('app-view').scrollTop = 0;
       console.log(this.state)
     }
     catch (err) {
@@ -288,7 +284,7 @@ class Applications extends Component {
                   No
                 </button>
                 <button className="skip-button" onClick={() => {
-                  this.airtableStateHandler(reviewerName); window.scrollTo(0,0);}}>
+                  this.airtableStateHandler(reviewerName); document.getElementById('app-view').scrollTop = 0;}}>
                   Skip
                 </button>
                 <button className="yes-button" disabled={this.state.numYeses <= 0} onClick={() => {
