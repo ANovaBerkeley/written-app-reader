@@ -60,11 +60,12 @@
   flex-grow: 1;
   display: table;
   border-bottom: solid;
-  text-indent: 10px;
+  left: 10px;
   border-width: 1px;
 }
 .reviewer-name {
-  bottom: 10vh;
+  color: #00aaba;
+  font-size: 2vh;
 }
 .app-options textarea {
   display: table-cell;

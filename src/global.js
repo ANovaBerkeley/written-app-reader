@@ -5,7 +5,13 @@
 global.AIRTABLE_KEY = "keyd6qkfF0Q6csT9G"; 
 global.APPLICATIONS_URL = "https://api.airtable.com/v0/appm1EwjHL56mOmPx/All%20Applications"; // Applications airtable link
 global.DECISIONS_URL = "https://api.airtable.com/v0/appm1EwjHL56mOmPx/Decisions"; // Decisions airtable link
-global.OFFICERS = ["sai", "maggie", "joy"];
+global.OFFICERS = [
+    "Aditya Varshney",
+    "Anna Gao",
+    "Sai Yandapalli",
+    "Hau Nguyen",
+    "Andrew Lieu"
+];
 global.NUM_YES = 30;
 global.IGNORED_FIELDS = [
     "Name",

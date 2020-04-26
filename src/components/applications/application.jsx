@@ -19,7 +19,7 @@ class Applications extends Component {
       comments: '',
       flag: "No",
       numYeses: null,
-      reviewerName: "test", // TODO: keep track of the current user via sign-in
+      reviewerName: null, // TODO: keep track of the current user via sign-in
     }
   }
   
@@ -193,8 +193,28 @@ class Applications extends Component {
     });
   }
 
+  /** 
+   * Prompts user to enter their name. 
+   * If the name is valid, allow the user to proceed & populate reviewerName state
+   * If invalid, populate error state. 
+   * Gets called on Mount and on refresh.
+   */
+  authUserWeak() {
+    const error = Error("Invalid Credentials!");
+    if (!this.state.reviewerName) {
+      // popup input
+      var userName = prompt("Please enter your name: ", "First Last");
+      if (userName === null || userName === "" || !global.OFFICERS.includes(userName)) { // TODO: fix this weak-ass auth approach
+        this.setState({error: error});
+      } else {
+        this.setState({reviewerName: userName});
+      }
+    }
+  }
+
   /** Sets up app reader component */
   componentDidMount() {
+    this.authUserWeak();
     this.airtableStateHandler(this.state.reviewerName);
   }
 
@@ -226,7 +246,8 @@ class Applications extends Component {
             <div className="app-section">
               <div className="app-view" id="app-view"></div>
               <div className="app-options">
-                <h3 className="reviewer-name">Reviewer: {this.state.reviewerName}</h3>
+                <h3 className="reviewer-label">Reviewer:</h3>
+                <p className="reviewer-name">{this.state.reviewerName}</p>
                 <h4 className="comments-label">Comment:</h4>
                 <textarea id="comments-textbox" className="comments-textbox" name="app" value={this.state.comments} disabled="true"></textarea>
                 <div className="flag">
@@ -270,7 +291,8 @@ class Applications extends Component {
           <div className="app-section">
             <div className="app-view" id="app-view">{currentApp}</div>
             <div className="app-options">
-              <h3 className="reviewer-name">Reviewer: {this.state.reviewerName}</h3>
+              <h3 className="reviewer-label">Reviewer:</h3>
+              <p className="reviewer-name">{this.state.reviewerName}</p>
               <h4 className="comments-label">Comment:</h4>
               <textarea id="comments-textbox" className="comments-textbox" name="app" value={this.state.comments} onChange={this.handleCommentsChange.bind(this)}></textarea>
               <div className="flag">
