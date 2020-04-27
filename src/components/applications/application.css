@@ -91,3 +91,12 @@
 .toast-text {
   vertical-align: middle;
 }
+.done-toast {
+  background-color: #00aaba;
+  width: 12vw;
+  height: 7vw;
+  border-style: solid;
+  border-color: yellow;
+  border-width: .1vw;
+  border-radius: 20px;
+}

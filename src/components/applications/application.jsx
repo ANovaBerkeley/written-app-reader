@@ -19,7 +19,9 @@ class Applications extends Component {
       comments: '',
       flag: "No",
       numYeses: null,
-      reviewerName: null, // TODO: keep track of the current user via sign-in
+      reviewerName: null,
+      votingStarted: false,
+      votingComplete: false,
     }
   }
   
@@ -218,6 +220,68 @@ class Applications extends Component {
     }
   }
 
+  /** Votes "No" on the remaining apps once the user is out of yeses */
+  async voteOnRemainingApps() {
+    document.getElementById("leftover-no-button").disabled=true;
+    if (this.state.numYeses === 0) {
+      console.log("Voting 'No' on remaining apps!")
+      // mark remaining apps as "No"
+      const records = this.state.remainingApps.map(
+        (app) => {
+          let applicantName = app.fields['Name'];
+          let reviewerName = this.state.reviewerName;
+          let vote = "No";
+          let flag = "No";
+          let comments = "";
+          let id = app.id;
+          return "{\"fields\": {\"Applicant Name\": \""+applicantName+"\",\"Reviewer Name\": \""+reviewerName+"\",\"Interview\": \""+vote+"\",\"Flag\": \""+flag+"\",\"Comments\": \""+comments+"\", \"ID\": \""+id+"\"}}"
+        }
+      );
+
+      try {
+        records.map((r) =>
+          fetch(global.DECISIONS_URL, {
+            body: "{\"records\": ["+ r +"]}",
+            headers: {
+              Authorization: "Bearer " + global.AIRTABLE_KEY,
+              "Content-Type": "application/json"
+            },
+            method: "POST"
+          }));
+      }
+      catch (err) {
+        console.log("fetch failed [VOTE]", err);
+      }
+    }
+    this.setState({votingComplete: true}, () => {
+      console.log(this.state.votingComplete, "votingComplete"); 
+      toaster.notify(<div className="done-toast"><h4 className="toast-text">All done! Great work!</h4></div>, {
+        position: 'bottom',
+        duration: null,
+      });
+    });
+  }
+
+  /** Renders the voteutton if remaining apps exist */
+  renderVoteRemainingButton() {
+    if (this.state.remainingApps.length > 0) {
+      return (
+        <div>
+          <button className="leftover-no-button" id="leftover-no-button" onClick={() => {this.voteOnRemainingApps(); this.airtableStateHandler(this.state.reviewerName);}}>
+            Vote "No" on Remaining {this.state.remainingApps.length} Apps
+          </button>
+        </div>
+      );
+    }
+  }
+
+  /** Refreshes page on start to retrieve updated state */
+  initPage() {
+    console.log(this.state.votingStarted, "status in startVoting");
+    this.setState({votingStarted: true,});
+    this.airtableStateHandler(this.state.reviewerName);
+  }
+
   /** Sets up app reader component */
   componentDidMount() {
     this.authUserWeak();
@@ -233,13 +297,22 @@ class Applications extends Component {
     if (!isLoaded) {
       return <div>Loading...</div>
     }
-    
-    if (!this.state.remainingApps.length || this.state.numYeses === 0) {
+
+    if (!this.state.votingStarted) {
+      console.info('Initializing');
+      this.initPage();
+    }
+
+    if (this.state.remainingApps.length === 0 || this.state.numYeses === 0) {
       const resource = !this.state.remainingApps.length ? "apps" : "yeses"
-      toaster.notify(<div className="toast"><h4 className="toast-text">No {resource} remaining!</h4></div>, {
-        position: 'bottom',
-        duration: null,
-      }); // TODO: fix! appears twice for some reason
+      const voteRemainingButton = this.renderVoteRemainingButton();
+
+      if (!this.state.votingComplete) {
+        toaster.notify(<div className="toast"><h4 className="toast-text">No {resource} remaining!</h4></div>, {
+          position: 'bottom',
+          duration: null,
+        }); // TODO: fix! appears twice for some reason
+      }
       return (
         <div>
           <div className="container">
@@ -248,30 +321,31 @@ class Applications extends Component {
               <div className="header-stats">Apps Remaining: {this.state.remainingApps.length}</div>
               <div className="header-stats">Yeses Remaining: {this.state.numYeses}</div>
             </div>
-  
+
             <div className="app-section">
               <div className="app-view" id="app-view"></div>
               <div className="app-options">
                 <h3 className="reviewer-label">Reviewer:</h3>
                 <p className="reviewer-name">{this.state.reviewerName}</p>
                 <h4 className="comments-label">Comment:</h4>
-                <textarea id="comments-textbox" className="comments-textbox" name="app" value={this.state.comments} disabled="true"></textarea>
+                <textarea id="comments-textbox" className="comments-textbox" name="app" value={this.state.comments} disabled={true}></textarea>
                 <div className="flag">
-                  <input id="flag-checkbox" className="flag-checkbox" type="checkbox" checked={this.state.flag==="Yes"} disabled="true"></input>
+                  <input id="flag-checkbox" className="flag-checkbox" type="checkbox" checked={this.state.flag==="Yes"} disabled={true}></input>
                   <label htmlFor="flag-checkbox">Flag</label>
                 </div>
                 <div className="vote">
                   <h3 className="vote-label">Vote</h3>
-                  <button className="no-button" disabled="true">
+                  <button className="no-button" disabled={true}>
                     No
                   </button>
-                  <button className="skip-button" disabled="true">
+                  <button className="skip-button" disabled={true}>
                     Skip
                   </button>
-                  <button className="yes-button" disabled="true">
+                  <button className="yes-button" disabled={true}>
                     Yes
                   </button>
                 </div>
+                {voteRemainingButton}
               </div>
             </div>
           </div>
@@ -284,7 +358,6 @@ class Applications extends Component {
     const applicantName = fields["Name"];
     const reviewerName = this.state.reviewerName;
     const currentApp = this.renderApp(fields);
-
     return (
       <div>
         <div className="container">
