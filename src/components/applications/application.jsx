@@ -208,7 +208,12 @@ class Applications extends Component {
       if (userName === null || userName === "" || !global.OFFICERS.includes(userName)) { // TODO: fix this weak-ass auth approach
         this.setState({error: error});
       } else {
-        this.setState({reviewerName: userName});
+        var keyAttempt = prompt("Secret key: ", "Given to you by executives");
+        if (keyAttempt === null || keyAttempt === "" || !global.SEM_SECRET===keyAttempt) { // TODO: fix this weak-ass auth approach
+          this.setState({error: error});
+        } else {
+          this.setState({reviewerName: userName});
+        }
       }
     }
   }

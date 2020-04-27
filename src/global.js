@@ -12,6 +12,7 @@ global.OFFICERS = [
     "Hau Nguyen",
     "Andrew Lieu"
 ];
+global.SEM_SECRET = "993342"
 global.NUM_YES = 30;
 global.IGNORED_FIELDS = [
     "Name",
