@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   BrowserRouter as Router,
+  Redirect,
   Switch,
   Route,
   Link
@@ -70,6 +71,7 @@ class App extends Component {
               <Route path="/written-app/decisions">
                 <Decisions />
               </Route>
+              <Redirect from="" to="/written-app/guidelines" />
             </Switch>
           </div>
         </div>
