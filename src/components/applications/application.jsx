@@ -12,7 +12,6 @@ class Applications extends Component {
     super();
     this.state = {
       error: null,
-      isLoaded: false,
       userDecisions: [],
       allApplications: [],
       remainingApps: [],
@@ -80,12 +79,10 @@ class Applications extends Component {
             allApplications: this.shuffle(result.records),
             numYeses: global.NUM_YES - state.userDecisions.filter(r => r.fields['Interview'] === "Yes").length,
             remainingApps: result.records.filter(r => !(state.userDecisions.map(r => r.fields['ID'])).includes(r.id)),
-            isLoaded: true,
           }});
         },
         (error) => {
           this.setState({
-            isLoaded: true,
             error,
           });
         }
@@ -277,7 +274,6 @@ class Applications extends Component {
     }
 
     if (this.state.remainingApps.length === 0 || this.state.numYeses === 0) {
-      const resource = !this.state.remainingApps.length ? "apps" : "yeses"
       const voteRemainingButton = this.renderVoteRemainingButton();
 
       return (
