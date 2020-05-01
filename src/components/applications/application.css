@@ -60,7 +60,7 @@
   flex-grow: 1;
   display: table;
   border-bottom: solid;
-  left: 10px;
+  padding: 10px 10px;
   border-width: 1px;
 }
 .reviewer-name {

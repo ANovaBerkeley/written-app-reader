@@ -19,7 +19,6 @@ class Applications extends Component {
       comments: '',
       flag: "No",
       numYeses: null,
-      reviewerName: null,
       votingStarted: false,
       votingComplete: false,
     }
@@ -196,30 +195,6 @@ class Applications extends Component {
     });
   }
 
-  /** 
-   * Prompts user to enter their name. 
-   * If the name is valid, allow the user to proceed & populate reviewerName state
-   * If invalid, populate error state. 
-   * Gets called on Mount and on refresh.
-   */
-  authUserWeak() {
-    const error = Error("Invalid Credentials!");
-    if (!this.state.reviewerName) {
-      // popup input
-      var userName = prompt("Please enter your name: ", "First Last");
-      if (userName === null || userName === "" || !global.OFFICERS.includes(userName)) { // TODO: fix this weak-ass auth approach
-        this.setState({error: error});
-      } else {
-        var keyAttempt = prompt("Secret key: ", "Given to you by executives");
-        if (keyAttempt === null || keyAttempt === "" || !global.SEM_SECRET===keyAttempt) { // TODO: fix this weak-ass auth approach
-          this.setState({error: error});
-        } else {
-          this.setState({reviewerName: userName});
-        }
-      }
-    }
-  }
-
   /** Votes "No" on the remaining apps once the user is out of yeses */
   async voteOnRemainingApps() {
     document.getElementById("leftover-no-button").disabled=true;
@@ -229,7 +204,7 @@ class Applications extends Component {
       const records = this.state.remainingApps.map(
         (app) => {
           let applicantName = app.fields['Name'];
-          let reviewerName = this.state.reviewerName;
+          let reviewerName = this.props.reviewerName;
           let vote = "No";
           let flag = "No";
           let comments = "";
@@ -267,9 +242,17 @@ class Applications extends Component {
     if (this.state.remainingApps.length > 0) {
       return (
         <div>
-          <button className="leftover-no-button" id="leftover-no-button" onClick={() => {this.voteOnRemainingApps(); this.airtableStateHandler(this.state.reviewerName);}}>
+          <h3>No Yeses Remaining</h3>
+          <button className="leftover-no-button" id="leftover-no-button" onClick={() => {this.voteOnRemainingApps(); this.airtableStateHandler(this.props.reviewerName);}}>
             Vote "No" on Remaining {this.state.remainingApps.length} Apps
           </button>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h3>No Apps to Review.</h3>
+          <p>Visit the Airtable to make changes</p>
         </div>
       );
     }
@@ -279,25 +262,15 @@ class Applications extends Component {
   initPage() {
     console.log(this.state.votingStarted, "status in startVoting");
     this.setState({votingStarted: true,});
-    this.airtableStateHandler(this.state.reviewerName);
+    this.airtableStateHandler(this.props.reviewerName);
   }
 
   /** Sets up app reader component */
   componentDidMount() {
-    this.authUserWeak();
-    this.airtableStateHandler(this.state.reviewerName);
+    this.airtableStateHandler(this.props.reviewerName);
   }
 
   render() {
-    const error = this.state.error;
-    const isLoaded = this.state.isLoaded;
-    if (error) {
-      return <div>Error: {error.message}</div>
-    }
-    if (!isLoaded) {
-      return <div>Loading...</div>
-    }
-
     if (!this.state.votingStarted) {
       console.info('Initializing');
       this.initPage();
@@ -307,12 +280,6 @@ class Applications extends Component {
       const resource = !this.state.remainingApps.length ? "apps" : "yeses"
       const voteRemainingButton = this.renderVoteRemainingButton();
 
-      if (!this.state.votingComplete) {
-        toaster.notify(<div className="toast"><h4 className="toast-text">No {resource} remaining!</h4></div>, {
-          position: 'bottom',
-          duration: null,
-        }); // TODO: fix! appears twice for some reason
-      }
       return (
         <div>
           <div className="container">
@@ -326,7 +293,7 @@ class Applications extends Component {
               <div className="app-view" id="app-view"></div>
               <div className="app-options">
                 <h3 className="reviewer-label">Reviewer:</h3>
-                <p className="reviewer-name">{this.state.reviewerName}</p>
+                <p className="reviewer-name">{this.props.reviewerName}</p>
                 <h4 className="comments-label">Comment:</h4>
                 <textarea id="comments-textbox" className="comments-textbox" name="app" value={this.state.comments} disabled={true}></textarea>
                 <div className="flag">
@@ -334,18 +301,8 @@ class Applications extends Component {
                   <label htmlFor="flag-checkbox">Flag</label>
                 </div>
                 <div className="vote">
-                  <h3 className="vote-label">Vote</h3>
-                  <button className="no-button" disabled={true}>
-                    No
-                  </button>
-                  <button className="skip-button" disabled={true}>
-                    Skip
-                  </button>
-                  <button className="yes-button" disabled={true}>
-                    Yes
-                  </button>
+                  {voteRemainingButton}
                 </div>
-                {voteRemainingButton}
               </div>
             </div>
           </div>
@@ -356,7 +313,7 @@ class Applications extends Component {
     const fields = current.fields;
     const id = current.id;
     const applicantName = fields["Name"];
-    const reviewerName = this.state.reviewerName;
+    const reviewerName = this.props.reviewerName;
     const currentApp = this.renderApp(fields);
     return (
       <div>
@@ -371,7 +328,7 @@ class Applications extends Component {
             <div className="app-view" id="app-view">{currentApp}</div>
             <div className="app-options">
               <h3 className="reviewer-label">Reviewer:</h3>
-              <p className="reviewer-name">{this.state.reviewerName}</p>
+              <p className="reviewer-name">{this.props.reviewerName}</p>
               <h4 className="comments-label">Comment:</h4>
               <textarea id="comments-textbox" className="comments-textbox" name="app" value={this.state.comments} onChange={this.handleCommentsChange.bind(this)}></textarea>
               <div className="flag">

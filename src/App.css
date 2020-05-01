@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.topnav {
+  overflow: hidden;
+  background-color: #b7dee6;
+}
+
+.topnav ul {
+  list-style: none;
+}
+
+.topnav li {
+  float: left;
+  padding: 14px 16px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav li:hover {
+  background-color: #248487;
+  color: black;
+}
+
+.topnav li.active {
+  background-color: #00aaba;
+  color: white;
+}
