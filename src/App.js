@@ -30,7 +30,6 @@ class App extends Component {
   authUser() {
     const error = Error("Invalid Credentials!");
     if (!this.state.reviewerName) {
-      // popup input
       var userName = prompt("Please enter your name: ", "First Last");
       if (userName === null || userName === "" || !global.OFFICERS.includes(userName)) { // TODO: fix this weak-ass auth approach
         this.setState({error: error});
@@ -51,7 +50,6 @@ class App extends Component {
 
   render() {
     const error = this.state.error;
-    const isLoaded = this.state.isLoaded;
     if (error) {
       return <div>Error: {error.message}</div>
     }
