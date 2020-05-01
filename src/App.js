@@ -63,13 +63,13 @@ class App extends Component {
           <hr />
           <div>
             <Switch>
-              <Route exact path="/">
+              <Route path="/written-app/guidelines">
                 <Guidelines />
               </Route>
-              <Route path="/applications">
+              <Route path="/written-app/applications">
                 <Application reviewerName={this.state.reviewerName}/>
               </Route>
-              <Route path="/decisions">
+              <Route path="/written-app/decisions">
                 <Decisions />
               </Route>
             </Switch>
@@ -85,13 +85,13 @@ function NavBar() {
     <div class="topnav">
       <ul>
         <li>
-          <Link id="guidelines" to="/" style={{ color: 'inherit', textDecoration: 'inherit'}}>Guidelines</Link>
+          <Link id="guidelines" to="/written-app/guidelines" style={{ color: 'inherit', textDecoration: 'inherit'}}>Guidelines</Link>
         </li>
         <li>
-          <Link id="apps" to="/applications" style={{ color: 'inherit', textDecoration: 'inherit'}}>Read applications</Link>
+          <Link id="apps" to="/written-app/applications" style={{ color: 'inherit', textDecoration: 'inherit'}}>Read applications</Link>
         </li>
         <li>
-          <Link id="decisions" to="/decisions" style={{ color: 'inherit', textDecoration: 'inherit'}}>See Your App Decision History (tbd)</Link>
+          <Link id="decisions" to="/written-app/decisions" style={{ color: 'inherit', textDecoration: 'inherit'}}>See Your App Decision History (tbd)</Link>
         </li>
       </ul>
     </div>
