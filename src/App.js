@@ -36,7 +36,7 @@ class App extends Component {
         this.setState({error: error});
       } else {
         var keyAttempt = prompt("Secret key: ", "Given to you by executives");
-        if (keyAttempt === null || keyAttempt === "" || !global.SEM_SECRET===keyAttempt) { // TODO: fix this weak-ass auth approach
+        if (keyAttempt === null || keyAttempt === "" || global.SEM_SECRET!==keyAttempt) { // TODO: fix this weak-ass auth approach
           this.setState({error: error});
         } else {
           this.setState({reviewerName: userName});
@@ -62,16 +62,16 @@ class App extends Component {
           <hr />
           <div>
             <Switch>
-              <Route path="/written-app/guidelines">
+              <Route path="/app-reader-test-deploy/guidelines">
                 <Guidelines />
               </Route>
-              <Route path="/written-app/applications">
+              <Route path="/app-reader-test-deploy/applications">
                 <Application reviewerName={this.state.reviewerName}/>
               </Route>
-              <Route path="/written-app/decisions">
+              <Route path="/app-reader-test-deploy/decisions">
                 <Decisions />
               </Route>
-              <Redirect from="" to="/written-app/guidelines" />
+              <Redirect from="" to="/app-reader-test-deploy/guidelines" />
             </Switch>
           </div>
         </div>
@@ -85,13 +85,13 @@ function NavBar() {
     <div class="topnav">
       <ul>
         <li>
-          <Link id="guidelines" to="/written-app/guidelines" style={{ color: 'inherit', textDecoration: 'inherit'}}>Guidelines</Link>
+          <Link id="guidelines" to="/app-reader-test-deploy/guidelines" style={{ color: 'inherit', textDecoration: 'inherit'}}>Guidelines</Link>
         </li>
         <li>
-          <Link id="apps" to="/written-app/applications" style={{ color: 'inherit', textDecoration: 'inherit'}}>Read applications</Link>
+          <Link id="apps" to="/app-reader-test-deploy/applications" style={{ color: 'inherit', textDecoration: 'inherit'}}>Read applications</Link>
         </li>
         <li>
-          <Link id="decisions" to="/written-app/decisions" style={{ color: 'inherit', textDecoration: 'inherit'}}>See Your App Decision History (tbd)</Link>
+          <Link id="decisions" to="/app-reader-test-deploy/decisions" style={{ color: 'inherit', textDecoration: 'inherit'}}>See Your App Decision History (tbd)</Link>
         </li>
       </ul>
     </div>
