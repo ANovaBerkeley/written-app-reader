@@ -1,6 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# app-reading made ez
+
+## To Execs
+This platform intends to be easy to use, modify, and build upon. For executives, each semester, update the `global.js` file in the `src` folder. Things to update in `global.js`:
+- Officers' names
+- Number of Yeses per officer
+- Airtable Base ID
+- This semester's secret password (any string or number)
+- Semester guidelines (contains relevant dates, times, instructions for officers to remember, a rubric, etc.)
+- (Optional) Instructions on how to reorder the application questions
+- (Optional) List of questions to avoid showing the user (i.e. don't show Name, Year, Phone, Email to anonymize candidates)
+
+## Making changes and redeploying:
+1. Push the changes to master
+2. Run `npm run deploy`
+3. Wait ~30 seconds
+4. Visit: https://adityavarshney.github.io/app-reader-test-deploy/
+
+## How does a user access and use the app reader?
+1. Visit: https://adityavarshney.github.io/app-reader-test-deploy/
+2. When the prompt appears, enter your name as it is listed in the repo’s `src/global.js` file (`global.OFFICERS`) in the `master` branch.
+3. Enter the semester password (also listed in the repo’s `src/global.js` file).
+4. If you entered your name/password correctly and are in the list of known officers, you’ll be allowed to review apps.
+5. Go ham! Your decisions will be submitted to the Airtable identified in the repo’s `src/global.js` file.
+
+## How to run the App-Reader locally:
+- Install Node.js with NPM
+- Clone the repo
+-- master: git clone https://github.com/saiyandapalli/ANova-App-Reader.git 
+-- https://github.com/saiyandapalli/ANova-App-Reader/tree/master
+-- Adi-branch: git clone -b adi-branch --single-branch https://github.com/saiyandapalli/ANova-App-Reader.git
+-- https://github.com/saiyandapalli/ANova-App-Reader/tree/adi-branch
+- Download the `global.js` file sent to you by exec
+- Move this file to the `appreader/src/` directory in the repo
+- Open terminal, navigate to the repo location (`cd ANova-App-Reader`)
+- Enter the appreader folder (`cd appreader`)
+- Run `npm install`
+- Run `npm start`. This will start the appreader application on localhost port 3000. If there’s something already running on port 3000, no worries, just hit ‘Y’ when terminal prompts you.
+- When the prompt appears, enter your name as it is listed in the repo’s `src/global.js` file (`global.OFFICERS`) in the `master` branch
+- Enter the semester password (also listed in the repo’s `src/global.js` file).
+- If you entered your name/password correctly and are in the list of known officers, you’ll be allowed to review apps.
+- Go ham! Your decisions will be submitted to the Airtable identified in the repo’s `src/global.js` file.
+
+### Resources Used:
+- Remote deploy to gh pages: https://github.com/gitname/react-gh-pages
+- React Basics: https://reactjs.org/tutorial/tutorial.html
 
 ## Available Scripts
+
+The docs below are generic create-react-app commands. Use for testing. 
 
 In the project directory, you can run:
 
