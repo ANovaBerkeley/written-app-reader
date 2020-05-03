@@ -1,4 +1,4 @@
-# app-reading made ez
+# reading apps made ez
 
 ## To Execs
 This platform intends to be easy to use, modify, and build upon. For executives, each semester, update the `global.js` file in the `src` folder. Things to update in `global.js`:
