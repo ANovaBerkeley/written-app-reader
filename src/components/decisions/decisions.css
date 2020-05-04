@@ -1,3 +1,22 @@
 .md-body {
-    padding-left: 2vw;
+  padding-left: 2vw;
+}
+.d-listview {
+  
+}
+.d-button {
+  background-color: #b7dee6;
+  padding: 2px;
+}
+.d-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+.d-td {
+  padding: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100px;
+  border: solid 1px #000;
 }

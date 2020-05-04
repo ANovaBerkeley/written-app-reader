@@ -69,7 +69,7 @@ class App extends Component {
                 <Application reviewerName={this.state.reviewerName}/>
               </Route>
               <Route path="/app-reader-test-deploy/decisions">
-                <Decisions />
+                <Decisions reviewerName={this.state.reviewerName} />
               </Route>
               <Redirect from="" to="/app-reader-test-deploy/guidelines" />
             </Switch>
@@ -82,7 +82,7 @@ class App extends Component {
 
 function NavBar() {
   return (
-    <div class="topnav">
+    <div className="topnav">
       <ul>
         <li>
           <Link id="guidelines" to="/app-reader-test-deploy/guidelines" style={{ color: 'inherit', textDecoration: 'inherit'}}>Guidelines</Link>
