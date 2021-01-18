@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Markdown from 'markdown-to-jsx';
+import Markdown from "markdown-to-jsx";
 import "./guidelines.css";
 import "../../global.js";
 
@@ -14,9 +14,7 @@ class Guidelines extends Component {
   }
 
   render() {
-    return (
-      <Markdown className="md-body" children={pagecontent}/>
-    );
+    return <Markdown className="md-body" children={pagecontent} />;
   }
 }
 
