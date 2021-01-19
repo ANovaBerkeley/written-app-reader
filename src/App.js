@@ -6,7 +6,7 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import Application from "./components/applications/application";
+import Applications from "./components/applications/applications";
 import Guidelines from "./components/guidelines/guidelines";
 import Decisions from "./components/decisions/decisions";
 import "./global.js";
@@ -75,7 +75,7 @@ class App extends Component {
                 <Guidelines />
               </Route>
               <Route path="/app-reader-test-deploy/applications">
-                <Application reviewerName={this.state.reviewerName} />
+                <Applications reviewerName={this.state.reviewerName} />
               </Route>
               <Route path="/app-reader-test-deploy/decisions">
                 <Decisions />
