@@ -14,6 +14,7 @@ global.OFFICERS = [
   "Sai Yandapalli",
   "Hau Nguyen",
   "Andrew Lieu",
+  "test2",
 ];
 
 global.APPLICATIONS_URL =

@@ -21,3 +21,10 @@ export const orderFields = (fields) => {
     ? global.QUESTION_ORDER.slice().map((i) => Object.keys(fields)[i])
     : Object.keys(fields);
 };
+
+export const handleErrors = (response) => {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response.json();
+};
