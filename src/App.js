@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -12,24 +12,28 @@ import Decisions from "./components/decisions/decisions";
 import "./global.js";
 import "./App.css";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      reviewerName: null,
-      error: null,
-    };
-  }
+// class App extends Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     reviewerName: null,
+  //     error: null,
+  //   };
+  // }
 
+  const App = () => {
   /**
    * Prompts user to enter their name.
    * If the name is valid, allow the user to proceed & populate reviewerName state
    * If invalid, populate error state.
    * Gets called on Mount and on refresh.
    */
-  authUser() {
-    const error = Error("Invalid Credentials!");
-    if (!this.state.reviewerName) {
+  const [reviewerName, setReviewerName] = useState("");
+  const [error, setError] = useState("");
+  
+  const authUser = () => {
+    
+    if (!reviewerName) {
       var userName = prompt("Please enter your name: ", "First Last");
       if (
         userName === null ||
@@ -37,7 +41,8 @@ class App extends Component {
         !global.OFFICERS.includes(userName)
       ) {
         // TODO: fix this weak-ass auth approach
-        this.setState({ error: error });
+        // this.setState({ error: error });
+        setError(Error("Invalid Credentials!"));
       } else {
         var keyAttempt = prompt("Secret key: ", "Given to you by executives");
         if (
@@ -46,50 +51,54 @@ class App extends Component {
           global.SEM_SECRET !== keyAttempt
         ) {
           // TODO: fix this weak-ass auth approach
-          this.setState({ error: error });
+          // this.setState({ error: error });
+          setError(error);
         } else {
-          this.setState({ reviewerName: userName });
+          // this.setState({ reviewerName: userName });
+          setReviewerName(userName);
         }
       }
     }
   }
 
-  componentDidMount() {
-    this.authUser();
+  // componentDidMount() {
+  //   this.authUser();
+  // }
+
+  useEffect(()=> {
+    authUser();
+  }, []);
+
+  // const error = useState(error);
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
-  render() {
-    const error = this.state.error;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    }
-
-    return (
-      <Router>
+  return (
+    <Router>
+      <div>
+        <NavBar />
+        <hr />
         <div>
-          <NavBar />
-          <hr />
-          <div>
-            <Switch>
-              <Route path="/app-reader-test-deploy/guidelines">
-                <Guidelines />
-              </Route>
-              <Route path="/app-reader-test-deploy/applications">
-                <Applications reviewerName={this.state.reviewerName} />
-              </Route>
-              <Route path="/app-reader-test-deploy/decisions">
-                <Decisions />
-              </Route>
-              <Redirect from="" to="/app-reader-test-deploy/guidelines" />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/app-reader-test-deploy/guidelines">
+              <Guidelines />
+            </Route>
+            <Route path="/app-reader-test-deploy/applications">
+              <Applications reviewerName />
+            </Route>
+            <Route path="/app-reader-test-deploy/decisions">
+              <Decisions />
+            </Route>
+            <Redirect from="" to="/app-reader-test-deploy/guidelines" />
+          </Switch>
         </div>
-      </Router>
-    );
-  }
+      </div>
+    </Router>
+  );
 }
 
-function NavBar() {
+const NavBar = () => {
   return (
     <div class="topnav">
       <ul>
