@@ -12,16 +12,8 @@ import Decisions from "./components/decisions/decisions";
 import "./global.js";
 import "./App.css";
 
-// class App extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     reviewerName: null,
-  //     error: null,
-  //   };
-  // }
 
-  const App = () => {
+const App = () => {
   /**
    * Prompts user to enter their name.
    * If the name is valid, allow the user to proceed & populate reviewerName state
@@ -41,7 +33,6 @@ import "./App.css";
         !global.OFFICERS.includes(userName)
       ) {
         // TODO: fix this weak-ass auth approach
-        // this.setState({ error: error });
         setError(Error("Invalid Credentials!"));
       } else {
         var keyAttempt = prompt("Secret key: ", "Given to you by executives");
@@ -51,25 +42,18 @@ import "./App.css";
           global.SEM_SECRET !== keyAttempt
         ) {
           // TODO: fix this weak-ass auth approach
-          // this.setState({ error: error });
           setError(error);
         } else {
-          // this.setState({ reviewerName: userName });
           setReviewerName(userName);
         }
       }
     }
   }
 
-  // componentDidMount() {
-  //   this.authUser();
-  // }
-
   useEffect(()=> {
     authUser();
   }, []);
 
-  // const error = useState(error);
   if (error) {
     return <div>Error: {error.message}</div>;
   }
