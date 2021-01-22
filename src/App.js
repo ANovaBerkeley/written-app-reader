@@ -12,7 +12,6 @@ import Decisions from "./components/decisions/decisions";
 import "./global.js";
 import "./App.css";
 
-
 const App = () => {
   /**
    * Prompts user to enter their name.
@@ -22,9 +21,8 @@ const App = () => {
    */
   const [reviewerName, setReviewerName] = useState("");
   const [error, setError] = useState("");
-  
+
   const authUser = () => {
-    
     if (!reviewerName) {
       var userName = prompt("Please enter your name: ", "First Last");
       if (
@@ -48,9 +46,9 @@ const App = () => {
         }
       }
     }
-  }
+  };
 
-  useEffect(()=> {
+  useEffect(() => {
     authUser();
   }, []);
 
@@ -69,7 +67,7 @@ const App = () => {
               <Guidelines />
             </Route>
             <Route path="/app-reader-test-deploy/applications">
-              <Applications reviewerName />
+              <Applications reviewerName={reviewerName} />
             </Route>
             <Route path="/app-reader-test-deploy/decisions">
               <Decisions />
@@ -80,7 +78,7 @@ const App = () => {
       </div>
     </Router>
   );
-}
+};
 
 const NavBar = () => {
   return (
@@ -116,6 +114,6 @@ const NavBar = () => {
       </ul>
     </div>
   );
-}
+};
 
 export default App;
