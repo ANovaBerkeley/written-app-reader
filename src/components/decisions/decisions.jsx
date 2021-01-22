@@ -19,4 +19,4 @@ class Decisions extends Component {
   }
 }
 
-export default Decisions
+export default Decisions;

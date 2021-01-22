@@ -1,101 +1,119 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
   Switch,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
-import Application from "./components/applications/application";
+import Applications from "./components/applications/applications";
 import Guidelines from "./components/guidelines/guidelines";
 import Decisions from "./components/decisions/decisions";
 import "./global.js";
 import "./App.css";
 
-class App extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      reviewerName: null,
-      error: null,
-    };
-  }
-
-  /** 
-   * Prompts user to enter their name. 
+const App = () => {
+  /**
+   * Prompts user to enter their name.
    * If the name is valid, allow the user to proceed & populate reviewerName state
-   * If invalid, populate error state. 
+   * If invalid, populate error state.
    * Gets called on Mount and on refresh.
    */
-  authUser() {
-    const error = Error("Invalid Credentials!");
-    if (!this.state.reviewerName) {
+  const [reviewerName, setReviewerName] = useState("");
+  const [error, setError] = useState("");
+
+  const authUser = () => {
+    if (!reviewerName) {
       var userName = prompt("Please enter your name: ", "First Last");
-      if (userName === null || userName === "" || !global.OFFICERS.includes(userName)) { // TODO: fix this weak-ass auth approach
-        this.setState({error: error});
+      if (
+        userName === null ||
+        userName === "" ||
+        !global.OFFICERS.includes(userName)
+      ) {
+        // TODO: fix this weak-ass auth approach
+        setError(Error("Invalid Credentials!"));
       } else {
         var keyAttempt = prompt("Secret key: ", "Given to you by executives");
-        if (keyAttempt === null || keyAttempt === "" || global.SEM_SECRET!==keyAttempt) { // TODO: fix this weak-ass auth approach
-          this.setState({error: error});
+        if (
+          keyAttempt === null ||
+          keyAttempt === "" ||
+          global.SEM_SECRET !== keyAttempt
+        ) {
+          // TODO: fix this weak-ass auth approach
+          setError(error);
         } else {
-          this.setState({reviewerName: userName});
+          setReviewerName(userName);
         }
       }
     }
+  };
+
+  useEffect(() => {
+    authUser();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
-  componentDidMount() {
-    this.authUser();
-  }
-
-  render() {
-    const error = this.state.error;
-    if (error) {
-      return <div>Error: {error.message}</div>
-    }
-
-    return (
-      <Router>
+  return (
+    <Router>
+      <div>
+        <NavBar />
+        <hr />
         <div>
-          <NavBar />
-          <hr />
-          <div>
-            <Switch>
-              <Route path="/app-reader-test-deploy/guidelines">
-                <Guidelines />
-              </Route>
-              <Route path="/app-reader-test-deploy/applications">
-                <Application reviewerName={this.state.reviewerName}/>
-              </Route>
-              <Route path="/app-reader-test-deploy/decisions">
-                <Decisions />
-              </Route>
-              <Redirect from="" to="/app-reader-test-deploy/guidelines" />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/app-reader-test-deploy/guidelines">
+              <Guidelines />
+            </Route>
+            <Route path="/app-reader-test-deploy/applications">
+              <Applications reviewerName={reviewerName} />
+            </Route>
+            <Route path="/app-reader-test-deploy/decisions">
+              <Decisions />
+            </Route>
+            <Redirect from="" to="/app-reader-test-deploy/guidelines" />
+          </Switch>
         </div>
-      </Router>
-    );
-  }
-}
+      </div>
+    </Router>
+  );
+};
 
-function NavBar() {
+const NavBar = () => {
   return (
     <div class="topnav">
       <ul>
         <li>
-          <Link id="guidelines" to="/app-reader-test-deploy/guidelines" style={{ color: 'inherit', textDecoration: 'inherit'}}>Guidelines</Link>
+          <Link
+            id="guidelines"
+            to="/app-reader-test-deploy/guidelines"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            Guidelines
+          </Link>
         </li>
         <li>
-          <Link id="apps" to="/app-reader-test-deploy/applications" style={{ color: 'inherit', textDecoration: 'inherit'}}>Read applications</Link>
+          <Link
+            id="apps"
+            to="/app-reader-test-deploy/applications"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            Read applications
+          </Link>
         </li>
         <li>
-          <Link id="decisions" to="/app-reader-test-deploy/decisions" style={{ color: 'inherit', textDecoration: 'inherit'}}>See Your App Decision History (tbd)</Link>
+          <Link
+            id="decisions"
+            to="/app-reader-test-deploy/decisions"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            See Your App Decision History (tbd)
+          </Link>
         </li>
       </ul>
     </div>
   );
-}
+};
 
 export default App;
