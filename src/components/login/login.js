@@ -66,7 +66,6 @@ import { login } from "../../store/actions";
         </Form>
 
         {error && <div>{error}</div>}
-
       </div>
     );
   }

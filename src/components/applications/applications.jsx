@@ -9,12 +9,13 @@ import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 
 import Application from "./application";
 import VoteRemaining from "./voteRemaining";
+import { Redirect } from "react-router-dom";
 
 /**
  * @param {*} props: {reviewerName: string}
  */
 const Applications = (props) => {
-  const { dispatch, remainingApps, numYeses, reviewerName } = props;
+  const { dispatch, remainingApps, numYeses, reviewerName, verified } = props;
 
   const [error, setError] = useState("");
   const [comments, setComments] = useState("");
@@ -198,98 +199,103 @@ const Applications = (props) => {
     applicantName = fields["Name"];
   }
 
-  return (
-    <div>
-      <div className="container">
-        <div className="header">
-          <div className="header-application">Application</div>
-          <div className="header-stats">
-            Apps Remaining: {remainingApps.length}
-          </div>
-          <div className="header-stats">Yeses Remaining: {numYeses}</div>
-        </div>
-
-        <div className="app-section">
-          <div className="app-view" id="app-view">
-            {currentApp && <Application currentApp={currentApp} />}
-          </div>
-          <div className="app-options">
-            <h3 className="reviewer-label">Reviewer:</h3>
-            <p className="reviewer-name">{reviewerName}</p>
-            <h4 className="comments-label">Comment:</h4>
-            <textarea
-              id="comments-textbox"
-              className="comments-textbox"
-              name="app"
-              value={comments}
-              onChange={handleCommentsChange}
-            ></textarea>
-            <div className="flag">
-              <input
-                id="flag-checkbox"
-                className="flag-checkbox"
-                type="checkbox"
-                checked={flag === "Yes"}
-                onChange={handleFlagChange}
-              />
-              <label htmlFor="flag-checkbox">Flag</label>
+  if (!verified) {
+    return (<Redirect from="" to="/app-reader-test-deploy/login"/>);
+  } else {
+    return (
+      <div>
+        <div className="container">
+          <div className="header">
+            <div className="header-application">Application</div>
+            <div className="header-stats">
+              Apps Remaining: {remainingApps.length}
             </div>
-            {doneVoting ? (
-              <VoteRemaining />
-            ) : (
-              <div className="vote">
-                {" "}
-                <h3 className="vote-label">Vote</h3>
-                <button
-                  className="no-button"
-                  disabled={numYeses <= 0}
-                  onClick={() => {
-                    airtableVoteHandler(
-                      applicantName,
-                      reviewerName,
-                      "No",
-                      flag,
-                      comments,
-                      id
-                    );
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  No
-                </button>
-                <button className="skip-button" onClick={handleSkip}>
-                  Skip
-                </button>
-                <button
-                  className="yes-button"
-                  disabled={numYeses <= 0}
-                  onClick={() => {
-                    airtableVoteHandler(
-                      applicantName,
-                      reviewerName,
-                      "Yes",
-                      flag,
-                      comments,
-                      id
-                    );
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  Yes
-                </button>
+            <div className="header-stats">Yeses Remaining: {numYeses}</div>
+          </div>
+
+          <div className="app-section">
+            <div className="app-view" id="app-view">
+              {currentApp && <Application currentApp={currentApp} />}
+            </div>
+            <div className="app-options">
+              <h3 className="reviewer-label">Reviewer:</h3>
+              <p className="reviewer-name">{reviewerName}</p>
+              <h4 className="comments-label">Comment:</h4>
+              <textarea
+                id="comments-textbox"
+                className="comments-textbox"
+                name="app"
+                value={comments}
+                onChange={handleCommentsChange}
+              ></textarea>
+              <div className="flag">
+                <input
+                  id="flag-checkbox"
+                  className="flag-checkbox"
+                  type="checkbox"
+                  checked={flag === "Yes"}
+                  onChange={handleFlagChange}
+                />
+                <label htmlFor="flag-checkbox">Flag</label>
               </div>
-            )}
+              {doneVoting ? (
+                <VoteRemaining />
+              ) : (
+                <div className="vote">
+                  {" "}
+                  <h3 className="vote-label">Vote</h3>
+                  <button
+                    className="no-button"
+                    disabled={numYeses <= 0}
+                    onClick={() => {
+                      airtableVoteHandler(
+                        applicantName,
+                        reviewerName,
+                        "No",
+                        flag,
+                        comments,
+                        id
+                      );
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    No
+                  </button>
+                  <button className="skip-button" onClick={handleSkip}>
+                    Skip
+                  </button>
+                  <button
+                    className="yes-button"
+                    disabled={numYeses <= 0}
+                    onClick={() => {
+                      airtableVoteHandler(
+                        applicantName,
+                        reviewerName,
+                        "Yes",
+                        flag,
+                        comments,
+                        id
+                      );
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    Yes
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 const mapStateToProps = (state) => {
   console.log("STATE");
   console.log(state);
   return {
+    verified: state.mainReducer.verified,
     remainingApps: state.mainReducer.remainingApps,
     numYeses: state.mainReducer.numYeses,
   };
