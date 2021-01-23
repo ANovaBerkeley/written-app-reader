@@ -1,22 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import "./decisions.css";
 import "../../global.js";
+import { Redirect } from "react-router-dom";
+// import NavBar from "../navbar/navbar";
 
-class Decisions extends Component {
-  constructor() {
-    super();
-    this.state = {
-      // TODO: add state variables
-    };
-  }
-
-  render() {
+const Decisions = (props) => {
+  const { verified } = props;
+  if (!verified) {
+    return (<Redirect from="" to="/app-reader-test-deploy/login"/>);
+  } else {
     return (
-      <div className="md-body">
-        <h2>App Decision History</h2>
-      </div>
+      <>
+        {/* <NavBar page="decisions" /> */}
+        <div className="md-body">
+          <h2>App Decision History</h2>
+        </div>
+      </>
     );
   }
 }
 
-export default Decisions;
+const mapStateToProps = (state) => {
+  return {
+    verified: state.mainReducer.verified,
+  };
+};
+
+export default connect(mapStateToProps)(Decisions);
