@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import toaster from "toasted-notes"; // requires react-spring module! yarn add toasted-notes; npm install react-spring;
+import { toast } from "react-toastify";
 
 import "./applications.css";
 import "../../global.js";
@@ -55,15 +55,11 @@ const VoteRemaining = (props) => {
         console.log("fetch failed [VOTE]", err);
       }
     }
-    toaster.notify(
-      <div className="done-toast">
-        <h4 className="toast-text">All done! Great work!</h4>
-      </div>,
-      {
-        position: "bottom",
-        duration: null,
-      }
-    );
+    toast("All done! Great work!", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: true,
+    });
   };
 
   if (remainingApps.length > 0) {

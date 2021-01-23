@@ -61,7 +61,7 @@ const App = () => {
   // }
 
   return (
-    <Router history ={history}>
+    <Router history={history}>
       <div>
         <div>
           <Switch>
@@ -72,7 +72,7 @@ const App = () => {
               <Guidelines />
             </Route>
             <Route path="/app-reader-test-deploy/applications">
-              <Applications reviewerName={reviewerName} />
+              <Applications />
             </Route>
             <Route path="/app-reader-test-deploy/decisions">
               <Decisions />

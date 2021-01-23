@@ -299,6 +299,7 @@ const mapStateToProps = (state) => {
   return {
     verified: state.mainReducer.verified,
     remainingApps: state.mainReducer.remainingApps,
+    reviewerName: state.mainReducer.name,
     numYeses: state.mainReducer.numYeses,
   };
 };

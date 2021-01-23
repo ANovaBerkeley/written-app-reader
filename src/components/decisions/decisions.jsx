@@ -15,6 +15,7 @@ const Decisions = (props) => {
         <NavBar page="decisions" />
         <div className="md-body">
           <h2>App Decision History</h2>
+          <h4> Page Under Construction</h4>
         </div>
       </>
     );
