@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import "./guidelines.css";
 import "../../global.js";
 import { Redirect } from "react-router-dom";
-// import NavBar from "../navbar/navbar";
+import NavBar from "../navbar/navbar";
 
 const Guidelines = (props) => {
   const { verified } = props;
   if (!verified) {
-    return (<Redirect from="" to="/app-reader-test-deploy/login"/>);
+    return <Redirect from="" to="/app-reader-test-deploy/login" />;
   } else {
     return (
       <>
-        {/* <NavBar page="guidelines" /> */}
+        <NavBar page="guidelines" />
         <div className="guidelines">
           <h1>Recruitment Guidelines</h1>
           <p style={{ fontSize: 18 }}>
@@ -27,14 +27,14 @@ const Guidelines = (props) => {
           <p>
             You will be reading through all of the written applications, and
             voting “Yes” or “No” on whether you’d like the candidate to move
-            forward to interviews. You are allowed to vote “Yes” for a maximum of
-            30 candidates. If you are unsure of a candidate, you can select “Skip”
-            to come back to their application at the end. You can submit comments
-            and/or flag a candidate if you want to discuss them further during
-            delibs. If you would like to review your votes or make a change, you
-            can do so under the <b>Decision History</b> tab. You will not be able
-            to see the applicants’ names to maintain anonymity. Click on{" "}
-            <b>Read Applications</b> to start!
+            forward to interviews. You are allowed to vote “Yes” for a maximum
+            of 30 candidates. If you are unsure of a candidate, you can select
+            “Skip” to come back to their application at the end. You can submit
+            comments and/or flag a candidate if you want to discuss them further
+            during delibs. If you would like to review your votes or make a
+            change, you can do so under the <b>Decision History</b> tab. You
+            will not be able to see the applicants’ names to maintain anonymity.
+            Click on <b>Read Applications</b> to start!
           </p>
 
           <h2>Deadlines</h2>
@@ -75,11 +75,12 @@ const Guidelines = (props) => {
               responsibilities of mentoring students?
             </li>
             <li>
-              Do they come off as open-minded, strict, self-centered, aloof, etc.?
+              Do they come off as open-minded, strict, self-centered, aloof,
+              etc.?
             </li>
             <li>
-              Reading this app, would you anticipate that they'd adjust well to an
-              ANova site?
+              Reading this app, would you anticipate that they'd adjust well to
+              an ANova site?
             </li>
           </ul>
 
@@ -87,8 +88,8 @@ const Guidelines = (props) => {
           <ul>
             <li>How much do they understand about inequality vs. inequity?</li>
             <li>
-              How much do they know about different socioeconomic issues relating
-              to education and beyond?
+              How much do they know about different socioeconomic issues
+              relating to education and beyond?
             </li>
             <li>
               Have they been active in assisting underresourced or marginalized

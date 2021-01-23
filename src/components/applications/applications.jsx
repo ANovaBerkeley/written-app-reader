@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import toaster from "toasted-notes"; // requires react-spring module! yarn add toasted-notes; npm install react-spring;
+import { toast } from "react-toastify";
 
 import "./applications.css";
 import "../../global.js";
 import { shuffle, handleErrors } from "../../utils/helpers";
 import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 
+import NavBar from "../navbar/navbar";
 import Application from "./application";
 import VoteRemaining from "./voteRemaining";
 import { Redirect } from "react-router-dom";
@@ -130,17 +131,13 @@ const Applications = (props) => {
       .then((result) => {
         console.log("SUCCESS submitting vote");
         console.log(result);
-        toaster.notify(
-          <div className="toast">
-            <h4 className="toast-text">
-              Voted {vote} for {applicantName}!
-            </h4>
-          </div>,
-          {
-            duration: 1000,
-            position: "bottom",
-          }
-        );
+        const toastMessage = "Voted " + vote + " for " + applicantName + "!";
+
+        toast(toastMessage, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
 
         if (vote === "Yes") {
           dispatch(updateNumYeses(numYeses - 1));
@@ -200,87 +197,92 @@ const Applications = (props) => {
   }
 
   if (!verified) {
-    return (<Redirect from="" to="/app-reader-test-deploy/login"/>);
+    return <Redirect from="" to="/app-reader-test-deploy/login" />;
   } else {
     return (
-      <div>
-        <div className="container">
-          <div className="header">
-            <div className="header-application">Application</div>
-            <div className="header-stats">
-              Apps Remaining: {remainingApps.length}
-            </div>
-            <div className="header-stats">Yeses Remaining: {numYeses}</div>
-          </div>
-
+      <div className="page">
+        <NavBar page="applications" />
+        <div className="applications">
           <div className="app-section">
             <div className="app-view" id="app-view">
               {currentApp && <Application currentApp={currentApp} />}
             </div>
             <div className="app-options">
-              <h3 className="reviewer-label">Reviewer:</h3>
-              <p className="reviewer-name">{reviewerName}</p>
-              <h4 className="comments-label">Comment:</h4>
-              <textarea
-                id="comments-textbox"
-                className="comments-textbox"
-                name="app"
-                value={comments}
-                onChange={handleCommentsChange}
-              ></textarea>
-              <div className="flag">
-                <input
-                  id="flag-checkbox"
-                  className="flag-checkbox"
-                  type="checkbox"
-                  checked={flag === "Yes"}
-                  onChange={handleFlagChange}
-                />
-                <label htmlFor="flag-checkbox">Flag</label>
+              <div className="header-stats">{numYeses} YESES REMAINING</div>
+              <div>
+                <h4 className="reviewer-label">Reviewer:</h4>
+                <p style={{ margin: 0 }}>{reviewerName}</p>
+              </div>
+              <div>
+                <h4 className="comments-label">Comment:</h4>
+                <textarea
+                  id="comments-textbox"
+                  className="comments-textbox"
+                  name="app"
+                  value={comments}
+                  onChange={handleCommentsChange}
+                ></textarea>
+                <div className="flag">
+                  <input
+                    id="flag-checkbox"
+                    className="flag-checkbox"
+                    type="checkbox"
+                    checked={flag === "Yes"}
+                    onChange={handleFlagChange}
+                  />
+                  <label htmlFor="flag-checkbox"> Flag</label>
+                </div>
               </div>
               {doneVoting ? (
                 <VoteRemaining />
               ) : (
-                <div className="vote">
-                  {" "}
-                  <h3 className="vote-label">Vote</h3>
-                  <button
-                    className="no-button"
-                    disabled={numYeses <= 0}
-                    onClick={() => {
-                      airtableVoteHandler(
-                        applicantName,
-                        reviewerName,
-                        "No",
-                        flag,
-                        comments,
-                        id
-                      );
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    No
-                  </button>
-                  <button className="skip-button" onClick={handleSkip}>
-                    Skip
-                  </button>
-                  <button
-                    className="yes-button"
-                    disabled={numYeses <= 0}
-                    onClick={() => {
-                      airtableVoteHandler(
-                        applicantName,
-                        reviewerName,
-                        "Yes",
-                        flag,
-                        comments,
-                        id
-                      );
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    Yes
-                  </button>
+                <div>
+                  <h4>Vote:</h4>
+                  <div className="vote-buttons">
+                    <button
+                      className="vote-button"
+                      style={{ backgroundColor: "#9AFFB0" }}
+                      disabled={numYeses <= 0}
+                      onClick={() => {
+                        airtableVoteHandler(
+                          applicantName,
+                          reviewerName,
+                          "Yes",
+                          flag,
+                          comments,
+                          id
+                        );
+                        window.scrollTo(0, 0);
+                      }}
+                    >
+                      YES
+                    </button>
+                    <button
+                      className="vote-button"
+                      style={{ backgroundColor: "#FF9393" }}
+                      disabled={numYeses <= 0}
+                      onClick={() => {
+                        airtableVoteHandler(
+                          applicantName,
+                          reviewerName,
+                          "No",
+                          flag,
+                          comments,
+                          id
+                        );
+                        window.scrollTo(0, 0);
+                      }}
+                    >
+                      NO
+                    </button>
+                    <button
+                      className="vote-button"
+                      style={{ backgroundColor: "#CACACA" }}
+                      onClick={handleSkip}
+                    >
+                      SKIP
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

@@ -85,7 +85,7 @@ const VoteRemaining = (props) => {
     return (
       <div className="vote">
         <h3>No Apps to Review.</h3>
-        <p>Visit the Airtable to make changes</p>
+        <p>Visit the Airtable to make changes.</p>
       </div>
     );
   }

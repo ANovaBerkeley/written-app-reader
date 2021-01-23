@@ -4,8 +4,8 @@ import {
   Redirect,
   Switch,
   Route,
-  Link,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Applications from "./components/applications/applications";
 import Guidelines from "./components/guidelines/guidelines";
 import Decisions from "./components/decisions/decisions";
@@ -13,6 +13,8 @@ import Login from "./components/login/login";
 import "./global.js";
 import "./App.css";
 import history from "./utils/history";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   /**
@@ -61,8 +63,6 @@ const App = () => {
   return (
     <Router history ={history}>
       <div>
-        <NavBar />
-        <hr />
         <div>
           <Switch>
             <Route path="/app-reader-test-deploy/login">
@@ -79,45 +79,10 @@ const App = () => {
             </Route>
             <Redirect from="" to="/app-reader-test-deploy/login" />
           </Switch>
+          <ToastContainer />
         </div>
       </div>
     </Router>
-  );
-};
-
-const NavBar = () => {
-  return (
-    <div class="topnav">
-      <ul>
-        <li>
-          <Link
-            id="guidelines"
-            to="/app-reader-test-deploy/guidelines"
-            style={{ color: "inherit", textDecoration: "inherit" }}
-          >
-            Guidelines
-          </Link>
-        </li>
-        <li>
-          <Link
-            id="apps"
-            to="/app-reader-test-deploy/applications"
-            style={{ color: "inherit", textDecoration: "inherit" }}
-          >
-            Read applications
-          </Link>
-        </li>
-        <li>
-          <Link
-            id="decisions"
-            to="/app-reader-test-deploy/decisions"
-            style={{ color: "inherit", textDecoration: "inherit" }}
-          >
-            See Your App Decision History (tbd)
-          </Link>
-        </li>
-      </ul>
-    </div>
   );
 };
 
