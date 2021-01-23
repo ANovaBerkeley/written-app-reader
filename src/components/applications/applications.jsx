@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import "./applications.css";
 import "../../global.js";
-import { shuffle, handleErrors } from "../../utils/helpers";
+import { handleErrors } from "../../utils/helpers";
 import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 
 import NavBar from "../navbar/navbar";
@@ -23,71 +23,6 @@ const Applications = (props) => {
   const [flag, setFlag] = useState("No");
 
   const currentApp = remainingApps.length > 0 ? remainingApps[0] : null;
-
-  const getDecisionsData = async () => {
-    const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
-    const decisions = await fetch(
-      global.DECISIONS_URL + formula + reviewerName + "%22&view=Grid%20view",
-      {
-        headers: {
-          Authorization: "Bearer " + global.AIRTABLE_KEY,
-        },
-      }
-    )
-      .then(handleErrors)
-      .then((result) => result.records)
-      .catch((error) => {
-        setError(error);
-        console.log("error fetching decisions data");
-        console.log(error);
-      });
-    return decisions;
-  };
-
-  const getApplicationsData = async (decisions) => {
-    fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
-      headers: {
-        Authorization: "Bearer " + global.AIRTABLE_KEY,
-      },
-    })
-      .then(handleErrors)
-      .then((result) => {
-        const yeses =
-          global.NUM_YES -
-          decisions.filter((r) => r.fields["Interview"] === "Yes").length;
-        dispatch(updateNumYeses(yeses));
-
-        let remaining = result.records.filter(
-          (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
-        );
-        remaining = shuffle(remaining);
-        console.log("updating remaining apps");
-        console.log(remaining);
-        dispatch(updateRemainingApps(remaining));
-      })
-      .catch((error) => {
-        setError(error);
-        console.log("error fetching applications data");
-        console.log(error);
-      });
-  };
-
-  /**
-   * Updates state variables to reflect current Airtable state,
-   * To find all applications a reviewer has yet to vote on:
-   * (1) GET from Decision Table, filter by Reviewer Name
-   * (2) GET from All Applications Table
-   * from (2) remove all records with matching IDs in (1)
-   * @param {string} reviewerName: name of reviewer
-   */
-  const airtableStateHandler = async () => {
-    const decisions = await getDecisionsData();
-
-    await getApplicationsData(decisions);
-
-    setComments("");
-    setFlag("No");
-  };
 
   /**
    * Asynchronously submits a vote via POST and calls airtableStateHandler.
@@ -180,12 +115,17 @@ const Applications = (props) => {
     setComments("");
     setFlag("No");
     document.getElementById("app-view").scrollTop = 0;
+    toast("Skipped application", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: true,
+    });
   };
 
   /** Sets up app reader component */
-  useEffect(() => {
-    airtableStateHandler();
-  }, []);
+  // useEffect(() => {
+  //   airtableStateHandler();
+  // }, []);
 
   const doneVoting = remainingApps.length === 0 || numYeses === 0;
   let id = "";
@@ -200,7 +140,7 @@ const Applications = (props) => {
     return <Redirect from="" to="/app-reader-test-deploy/login" />;
   } else {
     return (
-      <div className="page">
+      <>
         <NavBar page="applications" />
         <div className="applications">
           <div className="app-section">
@@ -288,7 +228,7 @@ const Applications = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 };

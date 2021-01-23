@@ -1,6 +1,7 @@
 export const UPDATE_REMAINING_APPS = "UPDATE_REMAINING_APPS";
 export const UPDATE_NUM_YESES = "UPDATE_NUM_YESES";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 /**
  *
@@ -32,5 +33,15 @@ export const login = (body) => {
   return {
     type: LOGIN,
     body,
+  };
+};
+
+/**
+ *
+ * @param {*} body: string, name
+ */
+export const logout = () => {
+  return {
+    type: LOGOUT,
   };
 };
