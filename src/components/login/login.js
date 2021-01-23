@@ -31,7 +31,7 @@ const Login = (props) => {
 
   return (
     <div className="page">
-      <img src={Logo} alt="ANova" className="logo" />
+      <img src={Logo} alt="ANova" className="login-logo" />
       <div className="Login">
         <Form onSubmit={handleSubmit}>
           <h2 style={{ marginTop: 0 }}>
