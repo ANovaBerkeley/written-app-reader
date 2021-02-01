@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { formatFieldResponse, orderFields } from "../../utils/helpers";
 
 /**
@@ -12,7 +13,7 @@ const AppLine = (props) => {
   if (!global.IGNORED_FIELDS.includes(i)) {
     // certain fields removed to eliminate app reader bias
     return (
-      <div className="app-question" key={i}>
+      <div>
         <p className="app-field">
           <b>{i}</b>
         </p>
@@ -30,11 +31,30 @@ const AppLine = (props) => {
  *                                 id: string}}
  */
 const Application = (props) => {
-  const { currentApp } = props;
+  const { remainingApps, currentApp } = props;
   const fields = currentApp.fields;
 
   const orderedFields = orderFields(fields);
-  return orderedFields.map((i) => <AppLine fields={fields} i={i} key={i} />);
+  const appLines = orderedFields.map((i) => (
+    <AppLine fields={fields} i={i} key={i} />
+  ));
+  return (
+    <>
+      <div className="header">
+        <h1 className="header-application">Application</h1>
+        <div className="header-stats">
+          {remainingApps.length} APPS REMAINING
+        </div>
+      </div>
+      <div>{appLines}</div>
+    </>
+  );
 };
 
-export default Application;
+const mapStateToProps = (state) => {
+  return {
+    remainingApps: state.mainReducer.remainingApps,
+  };
+};
+
+export default connect(mapStateToProps)(Application);

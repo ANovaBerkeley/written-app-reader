@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import { UPDATE_REMAINING_APPS, UPDATE_NUM_YESES, LOGIN } from "./actions";
+import {
+  UPDATE_REMAINING_APPS,
+  UPDATE_NUM_YESES,
+  LOGIN,
+  LOGOUT,
+} from "./actions";
 
 const DEFAULT = {
   name: "",
@@ -14,7 +19,9 @@ const mainReducer = (state = DEFAULT, action) => {
   } else if (action.type === UPDATE_NUM_YESES) {
     return { ...state, numYeses: action.body };
   } else if (action.type === LOGIN) {
-    return { ...state, name: action.body, verified: true};
+    return { ...state, name: action.body, verified: true };
+  } else if (action.type === LOGOUT) {
+    return DEFAULT;
   } else {
     return state;
   }
