@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -18,7 +18,6 @@ import { Redirect } from "react-router-dom";
 const Applications = (props) => {
   const { dispatch, remainingApps, numYeses, reviewerName, verified } = props;
 
-  const [error, setError] = useState("");
   const [comments, setComments] = useState("");
   const [flag, setFlag] = useState("No");
 
@@ -85,9 +84,13 @@ const Applications = (props) => {
         document.getElementById("app-view").scrollTop = 0;
       })
       .catch((error) => {
-        setError(error);
         console.log("error submitting vote");
         console.log(error);
+        toast.error("Unable to submit vote", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
       });
   };
 
@@ -141,23 +144,31 @@ const Applications = (props) => {
   } else if (remainingApps.length === 0) {
     return (
       <>
-      <NavBar page="applications" />
+        <NavBar page="applications" />
         <div className="applications">
-          <div className="app-section" style={{width: '100%'}}>
-            <div className="app-view" id="app-view" >
-              <div className="header" >
+          <div className="app-section" style={{ width: "100%" }}>
+            <div className="app-view" id="app-view">
+              <div className="header">
                 <h1 className="header-application">Application</h1>
                 <div className="header-stats">
                   {remainingApps.length} APPS REMAINING
                 </div>
               </div>
-            <h3>Congratulations, you're done! &#127881; </h3> 
-            <p>You can close this tab and exit out of terminal to close the server.</p>
+              <h3>
+                Congratulations, you're done!{" "}
+                <span role="img" aria-label="yay">
+                  &#127881;
+                </span>{" "}
+              </h3>
+              <p>
+                You can close this tab and exit out of terminal to close the
+                server.
+              </p>
             </div>
           </div>
         </div>
       </>
-    )
+    );
   } else {
     return (
       <>
@@ -193,60 +204,60 @@ const Applications = (props) => {
                   <label htmlFor="flag-checkbox"> Flag</label>
                 </div>
               </div>
-                <div>
-                  <h4>Vote:</h4>
-                  <div className="vote-buttons">
+              <div>
+                <h4>Vote:</h4>
+                <div className="vote-buttons">
                   {doneVoting ? (
                     <VoteRemaining />
                   ) : (
                     <>
-                        <button
-                          className="vote-button"
-                          style={{ backgroundColor: "#9AFFB0" }}
-                          disabled={numYeses <= 0}
-                          onClick={() => {
-                            airtableVoteHandler(
-                              applicantName,
-                              reviewerName,
-                              "Yes",
-                              flag,
-                              comments,
-                              id
-                            );
-                            window.scrollTo(0, 0);
-                          }}
-                        >
-                          YES
-                        </button>
-                        <button
-                          className="vote-button"
-                          style={{ backgroundColor: "#FF9393" }}
-                          disabled={numYeses <= 0}
-                          onClick={() => {
-                            airtableVoteHandler(
-                              applicantName,
-                              reviewerName,
-                              "No",
-                              flag,
-                              comments,
-                              id
-                            );
-                            window.scrollTo(0, 0);
-                          }}
-                        >
-                          NO
-                        </button>
+                      <button
+                        className="vote-button"
+                        style={{ backgroundColor: "#9AFFB0" }}
+                        disabled={numYeses <= 0}
+                        onClick={() => {
+                          airtableVoteHandler(
+                            applicantName,
+                            reviewerName,
+                            "Yes",
+                            flag,
+                            comments,
+                            id
+                          );
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        YES
+                      </button>
+                      <button
+                        className="vote-button"
+                        style={{ backgroundColor: "#FF9393" }}
+                        disabled={numYeses <= 0}
+                        onClick={() => {
+                          airtableVoteHandler(
+                            applicantName,
+                            reviewerName,
+                            "No",
+                            flag,
+                            comments,
+                            id
+                          );
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        NO
+                      </button>
                     </>
-                    )}
-                    <button
-                      className="vote-button"
-                      style={{ backgroundColor: "#CACACA" }}
-                      onClick={handleSkip}
-                    >
-                      SKIP
-                    </button>
-                  </div>
+                  )}
+                  <button
+                    className="vote-button"
+                    style={{ backgroundColor: "#CACACA" }}
+                    onClick={handleSkip}
+                  >
+                    SKIP
+                  </button>
                 </div>
+              </div>
             </div>
           </div>
         </div>

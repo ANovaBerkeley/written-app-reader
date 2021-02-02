@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { formatFieldResponse, orderFields } from "../../utils/helpers";
-import { AIRTABLE_KEY, NUM_YES, SEM_SECRET, OFFICERS } from "../../secrets.js";
-import {
-  updateRemainingApps,
-  updateNumYeses,
-  login,
-} from "../../store/actions";
+import { AIRTABLE_KEY, NUM_YES } from "../../secrets.js";
+import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 import { shuffle, handleErrors } from "../../utils/helpers";
 
 /**
@@ -41,7 +37,6 @@ const AppLine = (props) => {
 const Application = (props) => {
   const { remainingApps, currentApp, name, dispatch } = props;
   const fields = currentApp.fields;
-  const [ error, setError ] = useState("Unable to refresh");
 
   const orderedFields = orderFields(fields);
   const appLines = orderedFields.map((i) => (
@@ -67,7 +62,7 @@ const Application = (props) => {
       });
     return decisions;
   };
-  
+
   const getApplicationsData = async (decisions) => {
     fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
       headers: {
@@ -80,7 +75,7 @@ const Application = (props) => {
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
-  
+
         let remaining = result.records.filter(
           (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
         );
@@ -95,7 +90,7 @@ const Application = (props) => {
         throw error;
       });
   };
-  
+
   /**
    * Updates state variables to reflect current Airtable state,
    * To find all applications a reviewer has yet to vote on:
@@ -114,7 +109,6 @@ const Application = (props) => {
         hideProgressBar: true,
       });
     }
-
   };
 
   return (
@@ -126,20 +120,20 @@ const Application = (props) => {
             {remainingApps.length} APPS REMAINING
           </div>
           <button
-          className="vote-button"
-          id="refresh-button"
-          style={{ backgroundColor: "#248487", color: "#FFFFFF"}}
-          onClick={() => {
-            airtableStateHandler();
-            window.scrollTo(0, 0);
-          }}
+            className="vote-button"
+            id="refresh-button"
+            style={{ backgroundColor: "#248487", color: "#FFFFFF" }}
+            onClick={() => {
+              airtableStateHandler();
+              window.scrollTo(0, 0);
+            }}
           >
-          REFRESH APPS
+            REFRESH APPS
           </button>
           {/* {error && <div className="refresh-error">{error}</div>} */}
         </div>
       </div>
-        <div>{appLines}</div>
+      <div>{appLines}</div>
     </>
   );
 };

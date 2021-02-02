@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -9,11 +9,11 @@ import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 
 const VoteRemaining = (props) => {
   const { dispatch, remainingApps, numYeses, reviewerName } = props;
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   /** Votes "No" on the remaining apps once the user is out of yeses */
   const voteOnRemainingApps = async () => {
-    setLoading(true)
+    setLoading(true);
     if (numYeses === 0) {
       console.log("Voting 'No' on remaining apps!");
       // mark remaining apps as "No"

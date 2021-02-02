@@ -5,6 +5,8 @@ import "../../global.js";
 import { Redirect } from "react-router-dom";
 import NavBar from "../navbar/navbar";
 
+import { NUM_YES } from "../../secrets";
+
 const Guidelines = (props) => {
   const { verified } = props;
   if (!verified) {
@@ -28,13 +30,21 @@ const Guidelines = (props) => {
             You will be reading through all of the written applications, and
             voting “Yes” or “No” on whether you’d like the candidate to move
             forward to interviews. You are allowed to vote “Yes” for a maximum
-            of 30 candidates. If you are unsure of a candidate, you can select
-            “Skip” to come back to their application at the end. You can submit
-            comments and/or flag a candidate if you want to discuss them further
-            during delibs. If you would like to review your votes or make a
-            change, you can do so under the <b>Decision History</b> tab. You
-            will not be able to see the applicants’ names to maintain anonymity.
-            Click on <b>Read Applications</b> to start!
+            of {NUM_YES} candidates. If you are unsure of a candidate, you can
+            select “Skip” to come back to their application at the end. You can
+            submit comments and/or flag a candidate if you want to discuss them
+            further during delibs. You will not be able to see the applicants’
+            names to maintain anonymity. Click on <b>Read Applications</b> to
+            start!
+          </p>
+
+          <p>
+            Note: Currently, if you make a mistake in your votes, you have to go
+            into Airtable and manually change your vote. This is{" "}
+            <b>not recommended</b>, as it will allow you to see information that
+            could bias your vote, so please vote carefully! If you manually
+            change a vote, click the <b>Refresh Apps</b> button to update the
+            apps.{" "}
           </p>
 
           <h2>Deadlines</h2>
@@ -46,7 +56,6 @@ const Guidelines = (props) => {
               The deliberations meeting will be on <b>2/4 at 7PM PST</b> at{" "}
               <a href="https://berkeley.zoom.us/j/95674299414?pwd=NG1ZaXc0ZGc0RWxCL0tNaXhENUIwQT09">
                 https://berkeley.zoom.us/j/95674299414?pwd=NG1ZaXc0ZGc0RWxCL0tNaXhENUIwQT09
-
               </a>
             </li>
           </ul>

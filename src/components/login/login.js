@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
@@ -20,7 +21,7 @@ const Login = (props) => {
   const [key, setKey] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
-  
+
   const getDecisionsData = async () => {
     const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
     const decisions = await fetch(
@@ -40,7 +41,7 @@ const Login = (props) => {
       });
     return decisions;
   };
-  
+
   const getApplicationsData = async (decisions) => {
     fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
       headers: {
@@ -53,7 +54,7 @@ const Login = (props) => {
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
-  
+
         let remaining = result.records.filter(
           (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
         );
@@ -68,7 +69,7 @@ const Login = (props) => {
         console.log(error);
       });
   };
-  
+
   /**
    * Updates state variables to reflect current Airtable state,
    * To find all applications a reviewer has yet to vote on:
@@ -78,12 +79,12 @@ const Login = (props) => {
    */
   const airtableStateHandler = async () => {
     const decisions = await getDecisionsData();
-  
+
     await getApplicationsData(decisions);
   };
 
   const submitForm = () => {
-    if (!OFFICERS.includes(name) || key != SEM_SECRET) {
+    if (!OFFICERS.includes(name) || key !== SEM_SECRET) {
       setError("Invalid Credentials. Please try again.");
       return;
     } else {
@@ -97,49 +98,53 @@ const Login = (props) => {
     event.preventDefault();
   };
 
-  return (
-    <div className="page">
-      <img src={Logo} alt="ANova" className="login-logo" />
-      <div className="Login">
-        <Form onSubmit={handleSubmit}>
-          <h2 style={{ marginTop: 0 }}>
-            Welcome to the ANova Written App Reader!
-          </h2>
-          <Form.Group className="form-item" size="lg" controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              className="form-input"
-              autoFocus
-              type="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="form-item" size="lg" controlId="key">
-            <Form.Label>Security Key</Form.Label>
-            <Form.Control
-              className="form-input"
-              type="key"
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-            />
-          </Form.Group>
-          <Button
-            className="form-button"
-            block
-            size="lg"
-            type="submit"
-            // disabled={!validateForm()}
-            onClick={submitForm}
-          >
-            Login
-          </Button>
-        </Form>
+  if (verified) {
+    return <Redirect from="" to="/app-reader-test-deploy/guidelines" />;
+  } else {
+    return (
+      <div className="page">
+        <img src={Logo} alt="ANova" className="login-logo" />
+        <div className="Login">
+          <Form onSubmit={handleSubmit}>
+            <h2 style={{ marginTop: 0 }}>
+              Welcome to the ANova Written App Reader!
+            </h2>
+            <Form.Group className="form-item" size="lg" controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                className="form-input"
+                autoFocus
+                type="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="form-item" size="lg" controlId="key">
+              <Form.Label>Security Key</Form.Label>
+              <Form.Control
+                className="form-input"
+                type="key"
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+              />
+            </Form.Group>
+            <Button
+              className="form-button"
+              block
+              size="lg"
+              type="submit"
+              // disabled={!validateForm()}
+              onClick={submitForm}
+            >
+              Login
+            </Button>
+          </Form>
 
-        {error && <div className="login-error">{error}</div>}
+          {error && <div className="login-error">{error}</div>}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 const mapStateToProps = (state) => {
