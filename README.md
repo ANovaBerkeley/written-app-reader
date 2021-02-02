@@ -1,115 +1,55 @@
-# reading apps made ez
+# ANova Application Reader 2.0 🎉
+This reader is made to be used by officers to read written applcations during recruitment, with a new and improved UI!
 
-## To Execs
-This platform intends to be easy to use, modify, and build upon. For executives, each semester, update the `global.js` file in the `src` folder. Things to update in `global.js`:
-- Officers' names
-- Number of Yeses per officer
-- Airtable Base ID
-- This semester's secret password (any string or number)
-- Semester guidelines (contains relevant dates, times, instructions for officers to remember, a rubric, etc.)
-- (Optional) Instructions on how to reorder the application questions
-- (Optional) List of questions to avoid showing the user (i.e. don't show Name, Year, Phone, Email to anonymize candidates)
+## [For Officers] Running the Reader 💻
+1. In your terminal, clone the repo: `git clone  https://github.com/ANovaBerkeley/written-app-reader.git`
+2. Navigate into the repo: `cd written-app-reader`
+3. Make sure you have Node.js installed: https://nodejs.org/
+4. Download all the necessary dependencies: `npm i && cd src && npm i`
+5. Make sure you're in the `src` folder. Place `secrets.js` in the `src` folder, which you should have received from Exec.
+6. Run `npm start`, which will open the app reader at http://localhost:3000. If there’s something already running on port 3000, just hit ‘Y’ when terminal prompts you.
+7. Enter your name and secret key (which can be found in `secrets.js`), and get reading!
 
-## Making changes and redeploying:
-1. Push the changes to master
-2. Run `npm run deploy`
-3. Wait ~30 seconds
-4. Visit: https://adityavarshney.github.io/app-reader-test-deploy/
+## Updating the Reader for Recruitment 👩‍💻
+There's two ways to contribute to this repo: Pull Requests or Contributing Directly.
 
-## How does a user access and use the app reader?
-1. Visit: https://adityavarshney.github.io/app-reader-test-deploy/
-2. When the prompt appears, enter your name as it is listed in the repo’s `src/global.js` file (`global.OFFICERS`) in the `master` branch.
-3. Enter the semester password (also listed in the repo’s `src/global.js` file).
-4. If you entered your name/password correctly and are in the list of known officers, you’ll be allowed to review apps.
-5. Go ham! Your decisions will be submitted to the Airtable identified in the repo’s `src/global.js` file.
+### Pull Requests
+1. Fork this repo to your own GitHub account.
+2. Make any changes to the reader.
+3. When you're done with your changes, create a pull request (aka a code review!). Someone in the ANova GitHub organization can then review your code, ask for revisions, correct any potential bugs, and then merge in your code.
 
-## How to run the App-Reader locally:
-- Install Node.js with NPM
-- Clone the repo
--- master: git clone https://github.com/saiyandapalli/ANova-App-Reader.git 
--- https://github.com/saiyandapalli/ANova-App-Reader/tree/master
--- Adi-branch: git clone -b adi-branch --single-branch https://github.com/saiyandapalli/ANova-App-Reader.git
--- https://github.com/saiyandapalli/ANova-App-Reader/tree/adi-branch
-- Download the `global.js` file sent to you by exec
-- Move this file to the `appreader/src/` directory in the repo
-- Open terminal, navigate to the repo location (`cd ANova-App-Reader`)
-- Enter the appreader folder (`cd appreader`)
-- Run `npm install`
-- Run `npm start`. This will start the appreader application on localhost port 3000. If there’s something already running on port 3000, no worries, just hit ‘Y’ when terminal prompts you.
-- When the prompt appears, enter your name as it is listed in the repo’s `src/global.js` file (`global.OFFICERS`) in the `master` branch
-- Enter the semester password (also listed in the repo’s `src/global.js` file).
-- If you entered your name/password correctly and are in the list of known officers, you’ll be allowed to review apps.
-- Go ham! Your decisions will be submitted to the Airtable identified in the repo’s `src/global.js` file.
+### Contribute Directly (Not Recommended)
+1. Ask a previous contributor to add you to the Berkeley ANova GitHub organization.
+2. Clone this repo and make necessary changes. Try to keep the # of commits as low as possible to reduce clutter. (Tip: `git rebase`)
+3. Push directly to master after testing thoroughly: `git push origin master`
 
-### Resources Used:
-- Remote deploy to gh pages: https://github.com/gitname/react-gh-pages
-- React Basics: https://reactjs.org/tutorial/tutorial.html
+## Linking the Reader with Airtable
+The reader uses the Airtable API to read the responses from the application, and write to a new table called Decisions.
 
-## Available Scripts
+### [For Exec] Creating a new Workspace and Base
+1. Login to the ANova Airtable and create a new Workspace with the semester and year as the title. (e.g. Spring 2020)
+2. Create a new Airtable base from scratch. This will create a new table in `Grid` view called `Table 1`. On the bottom left under "Create a view", add a `Form` view and input the current semester's interview questions.
+3. Rename `Table 1` to `All Applications`.
+4. Create a new empty table in this base called `Decisions` with the columns `Applicant Name`, `Reviewer Name`, and `Interview`.
+5. Now, go to `https://airtable.com/api` and click on the current semester's base. Copy the hash in the Introduction that says, "The ID of this base is app________".
+6. Go to `https://airtable.com/account` and copy the API key.
+7. Create a `secrets.js` file. Copy the code block below and paste it into your `secrets.js` file, and replace the variable values with the correct API key, the base ID, the semester secret officers will use to login, a list of officers for this semester, and the number of yeses each officer has. An example `secrets.js` file is:
+```
+// For secret global variables.
+export const AIRTABLE_KEY = "keyZ8W3ko0tHQO5zV"; // keep this secret
 
-The docs below are generic create-react-app commands. Use for testing. 
+/** Change these every semester */
+export const BASE_ID = "appm1EwjHL56mOmPx";
+export const SEM_SECRET = "993342";
+export const OFFICERS = [
+  "Aditya Varshney",
+  "Anna Gao",
+  "Sai Yandapalli",
+  "Hau Nguyen",
+  "Andrew Lieu",
+];
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+export const NUM_YES = 30;
+```
+8. Never commit the `secrets.js` file. Instead, DM it to the officers directly (in Slack or whatever). 
+9. You should be ready to go 🥳 Happy Recruitment!

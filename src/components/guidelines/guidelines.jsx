@@ -44,8 +44,9 @@ const Guidelines = (props) => {
             </li>
             <li>
               The deliberations meeting will be on <b>2/4 at 7PM PST</b> at{" "}
-              <a href="berkeley.zoom.us/dslafhkjdah">
-                berkeley.zoom.us/dslafhkjdah
+              <a href="https://berkeley.zoom.us/j/95674299414?pwd=NG1ZaXc0ZGc0RWxCL0tNaXhENUIwQT09">
+                https://berkeley.zoom.us/j/95674299414?pwd=NG1ZaXc0ZGc0RWxCL0tNaXhENUIwQT09
+
               </a>
             </li>
           </ul>

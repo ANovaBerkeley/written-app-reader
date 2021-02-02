@@ -6,7 +6,7 @@ import "./applications.css";
 import "../../global.js";
 import { handleErrors } from "../../utils/helpers";
 import { updateRemainingApps, updateNumYeses } from "../../store/actions";
-
+import { AIRTABLE_KEY } from "../../secrets.js";
 import NavBar from "../navbar/navbar";
 import Application from "./application";
 import VoteRemaining from "./voteRemaining";
@@ -57,7 +57,7 @@ const Applications = (props) => {
         id +
         '"}}]}',
       headers: {
-        Authorization: "Bearer " + global.AIRTABLE_KEY,
+        Authorization: "Bearer " + AIRTABLE_KEY,
         "Content-Type": "application/json",
       },
       method: "POST",
@@ -138,6 +138,26 @@ const Applications = (props) => {
 
   if (!verified) {
     return <Redirect from="" to="/app-reader-test-deploy/login" />;
+  } else if (remainingApps.length === 0) {
+    return (
+      <>
+      <NavBar page="applications" />
+        <div className="applications">
+          <div className="app-section" style={{width: '100%'}}>
+            <div className="app-view" id="app-view" >
+              <div className="header" >
+                <h1 className="header-application">Application</h1>
+                <div className="header-stats">
+                  {remainingApps.length} APPS REMAINING
+                </div>
+              </div>
+            <h3>Congratulations, you're done! &#127881; </h3> 
+            <p>You can close this tab and exit out of terminal to close the server.</p>
+            </div>
+          </div>
+        </div>
+      </>
+    )
   } else {
     return (
       <>
@@ -173,48 +193,51 @@ const Applications = (props) => {
                   <label htmlFor="flag-checkbox"> Flag</label>
                 </div>
               </div>
-              {doneVoting ? (
-                <VoteRemaining />
-              ) : (
                 <div>
                   <h4>Vote:</h4>
                   <div className="vote-buttons">
-                    <button
-                      className="vote-button"
-                      style={{ backgroundColor: "#9AFFB0" }}
-                      disabled={numYeses <= 0}
-                      onClick={() => {
-                        airtableVoteHandler(
-                          applicantName,
-                          reviewerName,
-                          "Yes",
-                          flag,
-                          comments,
-                          id
-                        );
-                        window.scrollTo(0, 0);
-                      }}
-                    >
-                      YES
-                    </button>
-                    <button
-                      className="vote-button"
-                      style={{ backgroundColor: "#FF9393" }}
-                      disabled={numYeses <= 0}
-                      onClick={() => {
-                        airtableVoteHandler(
-                          applicantName,
-                          reviewerName,
-                          "No",
-                          flag,
-                          comments,
-                          id
-                        );
-                        window.scrollTo(0, 0);
-                      }}
-                    >
-                      NO
-                    </button>
+                  {doneVoting ? (
+                    <VoteRemaining />
+                  ) : (
+                    <>
+                        <button
+                          className="vote-button"
+                          style={{ backgroundColor: "#9AFFB0" }}
+                          disabled={numYeses <= 0}
+                          onClick={() => {
+                            airtableVoteHandler(
+                              applicantName,
+                              reviewerName,
+                              "Yes",
+                              flag,
+                              comments,
+                              id
+                            );
+                            window.scrollTo(0, 0);
+                          }}
+                        >
+                          YES
+                        </button>
+                        <button
+                          className="vote-button"
+                          style={{ backgroundColor: "#FF9393" }}
+                          disabled={numYeses <= 0}
+                          onClick={() => {
+                            airtableVoteHandler(
+                              applicantName,
+                              reviewerName,
+                              "No",
+                              flag,
+                              comments,
+                              id
+                            );
+                            window.scrollTo(0, 0);
+                          }}
+                        >
+                          NO
+                        </button>
+                    </>
+                    )}
                     <button
                       className="vote-button"
                       style={{ backgroundColor: "#CACACA" }}
@@ -224,7 +247,6 @@ const Applications = (props) => {
                     </button>
                   </div>
                 </div>
-              )}
             </div>
           </div>
         </div>

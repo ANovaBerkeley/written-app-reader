@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import { formatFieldResponse, orderFields } from "../../utils/helpers";
+import { AIRTABLE_KEY, NUM_YES, SEM_SECRET, OFFICERS } from "../../secrets.js";
+import {
+  updateRemainingApps,
+  updateNumYeses,
+  login,
+} from "../../store/actions";
+import { shuffle, handleErrors } from "../../utils/helpers";
 
 /**
  * @param {*} props: {fields: dict of app fields
@@ -31,22 +39,107 @@ const AppLine = (props) => {
  *                                 id: string}}
  */
 const Application = (props) => {
-  const { remainingApps, currentApp } = props;
+  const { remainingApps, currentApp, name, dispatch } = props;
   const fields = currentApp.fields;
+  const [ error, setError ] = useState("Unable to refresh");
 
   const orderedFields = orderFields(fields);
   const appLines = orderedFields.map((i) => (
     <AppLine fields={fields} i={i} key={i} />
   ));
+
+  const getDecisionsData = async () => {
+    const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
+    const decisions = await fetch(
+      global.DECISIONS_URL + formula + name + "%22&view=Grid%20view",
+      {
+        headers: {
+          Authorization: "Bearer " + AIRTABLE_KEY,
+        },
+      }
+    )
+      .then(handleErrors)
+      .then((result) => result.records)
+      .catch((error) => {
+        console.log("error fetching decisions data");
+        console.log(error);
+        throw error;
+      });
+    return decisions;
+  };
+  
+  const getApplicationsData = async (decisions) => {
+    fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_KEY,
+      },
+    })
+      .then(handleErrors)
+      .then((result) => {
+        const yeses =
+          NUM_YES -
+          decisions.filter((r) => r.fields["Interview"] === "Yes").length;
+        dispatch(updateNumYeses(yeses));
+  
+        let remaining = result.records.filter(
+          (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
+        );
+        remaining = shuffle(remaining);
+        console.log("updating remaining apps");
+        console.log(remaining);
+        dispatch(updateRemainingApps(remaining));
+      })
+      .catch((error) => {
+        console.log("error fetching applications data");
+        console.log(error);
+        throw error;
+      });
+  };
+  
+  /**
+   * Updates state variables to reflect current Airtable state,
+   * To find all applications a reviewer has yet to vote on:
+   * (1) GET from Decision Table, filter by Reviewer Name
+   * (2) GET from All Applications Table
+   * from (2) remove all records with matching IDs in (1)
+   */
+  const airtableStateHandler = async () => {
+    try {
+      const decisions = await getDecisionsData();
+      await getApplicationsData(decisions);
+    } catch {
+      toast.error("Failed to refresh", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+
+  };
+
   return (
     <>
       <div className="header">
         <h1 className="header-application">Application</h1>
-        <div className="header-stats">
-          {remainingApps.length} APPS REMAINING
+        <div className="header-right">
+          <div className="header-stats">
+            {remainingApps.length} APPS REMAINING
+          </div>
+          <button
+          className="vote-button"
+          id="refresh-button"
+          style={{ backgroundColor: "#248487", color: "#FFFFFF"}}
+          onClick={() => {
+            airtableStateHandler();
+            window.scrollTo(0, 0);
+          }}
+          >
+          REFRESH APPS
+          </button>
+          {/* {error && <div className="refresh-error">{error}</div>} */}
         </div>
       </div>
-      <div>{appLines}</div>
+        <div>{appLines}</div>
     </>
   );
 };
@@ -54,6 +147,7 @@ const Application = (props) => {
 const mapStateToProps = (state) => {
   return {
     remainingApps: state.mainReducer.remainingApps,
+    name: state.mainReducer.name,
   };
 };
 

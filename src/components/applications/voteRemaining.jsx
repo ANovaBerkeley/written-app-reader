@@ -1,17 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
 import "./applications.css";
 import "../../global.js";
+import { AIRTABLE_KEY } from "../../secrets.js";
 import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 
 const VoteRemaining = (props) => {
   const { dispatch, remainingApps, numYeses, reviewerName } = props;
+  const [loading, setLoading] = useState(false)
 
   /** Votes "No" on the remaining apps once the user is out of yeses */
   const voteOnRemainingApps = async () => {
-    document.getElementById("leftover-no-button").disabled = true;
+    setLoading(true)
     if (numYeses === 0) {
       console.log("Voting 'No' on remaining apps!");
       // mark remaining apps as "No"
@@ -43,7 +45,7 @@ const VoteRemaining = (props) => {
           fetch(global.DECISIONS_URL, {
             body: '{"records": [' + r + "]}",
             headers: {
-              Authorization: "Bearer " + global.AIRTABLE_KEY,
+              Authorization: "Bearer " + AIRTABLE_KEY,
               "Content-Type": "application/json",
             },
             method: "POST",
@@ -52,7 +54,7 @@ const VoteRemaining = (props) => {
         dispatch(updateRemainingApps([]));
         dispatch(updateNumYeses(0));
       } catch (err) {
-        console.log("fetch failed [VOTE]", err);
+        console.log("Unable to vote no on remaining apps", err);
       }
     }
     toast("All done! Great work!", {
@@ -64,22 +66,22 @@ const VoteRemaining = (props) => {
 
   if (remainingApps.length > 0) {
     return (
-      <div className="vote">
-        <h3>No Yeses Remaining</h3>
+      <>
         <button
-          className="leftover-no-button"
-          id="leftover-no-button"
+          className="vote-button"
+          style={{ backgroundColor: "#FF9393" }}
+          disabled={loading}
           onClick={() => {
             voteOnRemainingApps();
           }}
         >
-          Vote "No" on Remaining {remainingApps.length} Apps
+          VOTE NO ON <br /> REMAINING APPS
         </button>
-      </div>
+      </>
     );
   } else {
     return (
-      <div className="vote">
+      <div>
         <h3>No Apps to Review.</h3>
         <p>Visit the Airtable to make changes.</p>
       </div>
@@ -91,6 +93,7 @@ const mapStateToProps = (state) => {
   return {
     remainingApps: state.mainReducer.remainingApps,
     numYeses: state.mainReducer.numYeses,
+    reviewerName: state.mainReducer.name,
   };
 };
 

@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import "./login.css";
 import "../../global.js";
+import { AIRTABLE_KEY, NUM_YES, SEM_SECRET, OFFICERS } from "../../secrets.js";
 import Logo from "../../static/logo.png";
 import {
   updateRemainingApps,
@@ -19,14 +20,14 @@ const Login = (props) => {
   const [key, setKey] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
-
+  
   const getDecisionsData = async () => {
     const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
     const decisions = await fetch(
       global.DECISIONS_URL + formula + name + "%22&view=Grid%20view",
       {
         headers: {
-          Authorization: "Bearer " + global.AIRTABLE_KEY,
+          Authorization: "Bearer " + AIRTABLE_KEY,
         },
       }
     )
@@ -39,20 +40,20 @@ const Login = (props) => {
       });
     return decisions;
   };
-
+  
   const getApplicationsData = async (decisions) => {
     fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
       headers: {
-        Authorization: "Bearer " + global.AIRTABLE_KEY,
+        Authorization: "Bearer " + AIRTABLE_KEY,
       },
     })
       .then(handleErrors)
       .then((result) => {
         const yeses =
-          global.NUM_YES -
+          NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
-
+  
         let remaining = result.records.filter(
           (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
         );
@@ -67,7 +68,7 @@ const Login = (props) => {
         console.log(error);
       });
   };
-
+  
   /**
    * Updates state variables to reflect current Airtable state,
    * To find all applications a reviewer has yet to vote on:
@@ -77,12 +78,12 @@ const Login = (props) => {
    */
   const airtableStateHandler = async () => {
     const decisions = await getDecisionsData();
-
+  
     await getApplicationsData(decisions);
   };
 
   const submitForm = () => {
-    if (!global.OFFICERS.includes(name) || key != "993342") {
+    if (!OFFICERS.includes(name) || key != SEM_SECRET) {
       setError("Invalid Credentials. Please try again.");
       return;
     } else {

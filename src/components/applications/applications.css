@@ -8,7 +8,7 @@
   background-color: #f5f9fb;
   padding: 40px 40px;
   flex: 1;
-  max-height: calc(100vh - 190px);
+  height: calc(100vh - 190px);
   display: flex;
 }
 
@@ -19,6 +19,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .header-application {
 }
 
@@ -26,6 +27,12 @@
   font-family: "Karla", sans-serif;
   font-size: 17px;
   color: #248487;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 }
 
 .app-section {
@@ -127,12 +134,13 @@ h4 {
   outline: none;
   border: none;
   margin-top: 10px;
-  padding: 12px;
+  padding: 12px 15px;
   border-radius: 5px;
   font-family: "Karla", sans-serif;
   font-weight: bold;
   color: #383838;
   opacity: 0.8;
+  word-wrap: break-word;
 }
 
 .vote-button:hover {
@@ -140,16 +148,30 @@ h4 {
   opacity: 1;
 }
 
+#refresh-button {
+  width: 165px;
+  margin-left: 20px;
+}
+
+.refresh-error {
+  position: absolute;
+  bottom: 10px;
+  color: red;
+}
+
 .Toastify__toast-body {
   font-family: "Source Sans Pro", sans-serif;
   text-align: center;
-  background-color: #00aaba;
   color: white;
   font-weight: bold;
 }
 
 .Toastify__toast--default {
   background-color: #00aaba !important;
+  border-radius: 10px !important;
+}
+
+.Toastify__toast--error {
   border-radius: 10px !important;
 }
 

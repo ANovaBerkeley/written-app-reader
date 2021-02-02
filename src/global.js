@@ -2,29 +2,14 @@
 // The global scope in React Native is variable global.
 // For ex: as global.foo = foo, then you can use global.foo anywhere as a global variable.
 // Make sure you import './global.js' in your files to use global variables!
-
-global.AIRTABLE_KEY = "keyZ8W3ko0tHQO5zV"; // keep this secret
-
-/** Change these every semester */
-global.BASE_ID = "appm1EwjHL56mOmPx";
-global.SEM_SECRET = "993342";
-global.OFFICERS = [
-  "Aditya Varshney",
-  "Anna Gao",
-  "Sai Yandapalli",
-  "Hau Nguyen",
-  "Andrew Lieu",
-  "test2",
-  "Cidney Weng",
-];
+import { BASE_ID } from "./secrets.js"
 
 global.APPLICATIONS_URL =
-  "https://api.airtable.com/v0/" + global.BASE_ID + "/All%20Applications"; // Applications airtable link
+  "https://api.airtable.com/v0/" + BASE_ID + "/All%20Applications"; // Applications airtable link
 global.DECISIONS_URL =
-  "https://api.airtable.com/v0/" + global.BASE_ID + "/Decisions"; // Decisions airtable link
+  "https://api.airtable.com/v0/" + BASE_ID + "/Decisions"; // Decisions airtable link
 
 /** Specific to the process every semester */
-global.NUM_YES = 30;
 global.IGNORED_FIELDS = ["Name", "Email", "Year", "Phone Number"];
 global.QUESTION_ORDER = [
   6,
@@ -51,6 +36,24 @@ global.QUESTION_ORDER = [
   4,
   5, // based on ordering of airtable fields (optional)
 ];
+
+// global.QUESTION_ORDER = [
+//   5,
+//   6,
+//   7,
+//   8,
+//   4,
+//   9,
+//   10,
+//   11,
+//   12,
+//   13,
+//   14,
+//   24,
+//   25,
+//   26,
+//   27,
+// ];
 
 /** Guidelines page markdown content (change as needed) */
 global.INSTRUCTIONS = `
