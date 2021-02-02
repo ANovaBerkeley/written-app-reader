@@ -40,7 +40,7 @@ The reader uses the Airtable API to read the responses from the application, and
 4. Create a new empty table in this base called `Decisions` with the columns `Applicant Name`, `Reviewer Name`, and `Interview`.
 5. Now, go to `https://airtable.com/api` and click on the current semester's base. Copy the hash in the Introduction that says, "The ID of this base is app**\_\_\_\_**".
 6. Go to `https://airtable.com/account` and copy the API key.
-7. Create a `secrets.js` file. Copy the code block below and paste it into your `secrets.js` file, and replace the variable values with the correct API key, the base ID, the semester secret officers will use to login, a list of officers for this semester, and the number of yeses each officer has. An example `secrets.js` file is:
+7. Create a `secrets.js` file. Copy the code block below and paste it into your `secrets.js` file, and replace the variable values with the correct API key, the base ID, the semester secret officers will use to login, a list of officers for this semester, the number of yeses each officer has, and the order you'd like the questions to appear in. An example `secrets.js` file is:
 
 ```
 // For secret global variables.
