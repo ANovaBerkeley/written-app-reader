@@ -31,18 +31,30 @@ const Guidelines = (props) => {
             voting “Yes” or “No” on whether you’d like the candidate to move
             forward to interviews. You are allowed to vote “Yes” for a maximum
             of {NUM_YES} candidates. If you are unsure of a candidate, you can
-            select “Skip” to come back to their application at the end. You can
-            submit comments and/or flag a candidate if you want to discuss them
-            further during delibs. You will not be able to see the applicants’
-            names to maintain anonymity. Click on <b>Read Applications</b> to
+            select “Skip” to come back to their application at the end. 
+            <b> Comments will not persist when you skip applications.
+              Keep track of comments you make on apps you skip by writing down
+              the app number and your comment on a separate document. </b> 
+            When you make a decision on an application, your comment will be stored,
+            and you won't need the document anymore. 
+            Comments will be required on applicants that you vote "No" on.
+            If you forget to add a comment on an application you vote "No" on,
+            you can fill out this <a href="https://forms.gle/SqyL6nZw6NiF5bFk6"> 
+            Google Form</a> (which is the same as the form to change your decision),
+            but instead choose the option to just add a comment. 
+            You will not be able to see the applicants’names to maintain anonymity. 
+            You will see names briefly after voting on an application. 
+            Click on <b>Read Applications</b> to
             start!
           </p>
 
           <p>
-            Note: Currently, if you make a mistake in your votes, you have to go
-            into Airtable and manually change your vote. This is{" "}
-            <b>not recommended</b>, as it will allow you to see information that
-            could bias your vote, so please vote carefully! If you manually
+            Note: Currently, if you make a mistake in your votes, you have to 
+            fill out this <a href="https://forms.gle/SqyL6nZw6NiF5bFk6"> 
+            Google Form</a>.
+            You will need the name or application ID of the application you are 
+            changing your vote for. Again, for applications where you vote "No",
+            make sure you provide a commment. Please vote carefully! If you manually
             change a vote, click the <b>Refresh Apps</b> button to update the
             apps.{" "}
           </p>
@@ -50,15 +62,20 @@ const Guidelines = (props) => {
           <h2>Deadlines</h2>
           <ul>
             <li>
-              App reading is due by <b>2/4 at 5PM PST</b>
+              App reading is due by <b>9/16 at 5PM PST</b>
             </li>
             <li>
-              The deliberations meeting will be on <b>2/4 at 7PM PST</b> at{" "}
-              <a href="https://berkeley.zoom.us/j/95674299414?pwd=NG1ZaXc0ZGc0RWxCL0tNaXhENUIwQT09">
-                https://berkeley.zoom.us/j/95674299414?pwd=NG1ZaXc0ZGc0RWxCL0tNaXhENUIwQT09
-              </a>
+              The deliberations meeting will be on <b>9/16 at 7:30PM PST</b> in Soda 606.
             </li>
           </ul>
+
+          <h2>Rubric</h2>
+          <p>
+            Here are some of the guiding questions that were used in past semesters for
+            application reading. Here is the link to the 
+            <a href="https://docs.google.com/document/d/1Apvg7A5T1_fRN5ATZx8KvxNry8Ddkh0gMH7cRst-2Qk/edit?usp=sharing">
+            Fall 2021 Written App Rubric</a>.
+          </p>
 
           <h2>Mission Statement</h2>
           <p>Some things to look out for:</p>
