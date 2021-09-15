@@ -9,4 +9,7 @@ global.APPLICATIONS_URL =
 global.DECISIONS_URL =
   "https://api.airtable.com/v0/" + BASE_ID + "/Decisions"; // Decisions airtable link
 
+global.OFFICERS_URL =
+  "https://api.airtable.com/v0/" + BASE_ID + "/Officers"; // Ofiicers  airtable link
+
 global.IGNORED_FIELDS = ["Name", "Email", "Year", "Phone Number"];

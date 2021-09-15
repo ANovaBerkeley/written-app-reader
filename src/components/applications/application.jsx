@@ -35,7 +35,7 @@ const AppLine = (props) => {
  *                                 id: string}}
  */
 const Application = (props) => {
-  const { remainingApps, currentApp, name, dispatch } = props;
+  const { remainingApps, currentApp, reviewerName, dispatch } = props;
   const fields = currentApp.fields;
 
   const orderedFields = orderFields(fields);
@@ -46,7 +46,7 @@ const Application = (props) => {
   const getDecisionsData = async () => {
     const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
     const decisions = await fetch(
-      global.DECISIONS_URL + formula + name + "%22&view=Grid%20view",
+      global.DECISIONS_URL + formula + reviewerName + "%22&view=Grid%20view",
       {
         headers: {
           Authorization: "Bearer " + AIRTABLE_KEY,
@@ -63,7 +63,26 @@ const Application = (props) => {
     return decisions;
   };
 
-  const getApplicationsData = async (decisions) => {
+  const getOfficersData = async () => {
+    const formula = "?filterByFormula=%7BName%7D%20%3D%20%20%22";
+    const officers = await fetch(
+      global.OFFICERS_URL + formula + reviewerName + "%22&view=Grid%20view", 
+    {
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_KEY,
+      },
+    }
+  )
+    .then(handleErrors)
+    .then((result) => result.records)
+    .catch((error) => {
+      console.log("error fetching officers data");
+      console.log(error);
+    });
+    return officers;
+  };
+
+  const getApplicationsData = async (officers, decisions) => {
     fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
       headers: {
         Authorization: "Bearer " + AIRTABLE_KEY,
@@ -71,14 +90,17 @@ const Application = (props) => {
     })
       .then(handleErrors)
       .then((result) => {
+        console.log("hello");
         const yeses =
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
 
+        let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
         let remaining = result.records.filter(
-          (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
+          (r) => ((!decisions.map((r) => r.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
         );
+
         remaining = shuffle(remaining);
         console.log("updating remaining apps");
         console.log(remaining);
@@ -98,10 +120,18 @@ const Application = (props) => {
    * (2) GET from All Applications Table
    * from (2) remove all records with matching IDs in (1)
    */
+  /**
+   * Updates state variables to reflect current Airtable state,
+   * To find all applications a reviewer has yet to vote on:
+   * (1) GET from Decision Table, filter by Reviewer Name
+   * (2) GET from All Applications Table, filter by Officers
+   * from (2) remove all records with matching IDs in (1)
+   */
   const airtableStateHandler = async () => {
     try {
       const decisions = await getDecisionsData();
-      await getApplicationsData(decisions);
+      const officers = await getOfficersData();
+      await getApplicationsData(officers, decisions);
     } catch {
       toast.error("Failed to refresh", {
         position: toast.POSITION.TOP_CENTER,
@@ -141,7 +171,7 @@ const Application = (props) => {
 const mapStateToProps = (state) => {
   return {
     remainingApps: state.mainReducer.remainingApps,
-    name: state.mainReducer.name,
+    reviewerName: state.mainReducer.name,
   };
 };
 

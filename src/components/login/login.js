@@ -17,7 +17,7 @@ import { shuffle, handleErrors } from "../../utils/helpers";
 
 const Login = (props) => {
   const { dispatch, verified } = props;
-  const [name, setName] = useState("");
+  const [reviewerName, setReviewerName] = useState("");
   const [key, setKey] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
@@ -25,7 +25,7 @@ const Login = (props) => {
   const getDecisionsData = async () => {
     const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
     const decisions = await fetch(
-      global.DECISIONS_URL + formula + name + "%22&view=Grid%20view",
+      global.DECISIONS_URL + formula + reviewerName + "%22&view=Grid%20view",
       {
         headers: {
           Authorization: "Bearer " + AIRTABLE_KEY,
@@ -33,7 +33,7 @@ const Login = (props) => {
       }
     )
       .then(handleErrors)
-      .then((result) => result.records)
+      .then((result) => result.records) // result.recordss
       .catch((error) => {
         setError(error);
         console.log("error fetching decisions data");
@@ -42,7 +42,27 @@ const Login = (props) => {
     return decisions;
   };
 
-  const getApplicationsData = async (decisions) => {
+  const getOfficersData = async () => {
+    const formula = "?filterByFormula=%7BName%7D%20%3D%20%20%22";
+    const officers = await fetch(
+      global.OFFICERS_URL + formula + reviewerName + "%22&view=Grid%20view", 
+    {
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_KEY,
+      },
+    }
+  )
+    .then(handleErrors)
+    .then((result) => result.records)
+    .catch((error) => {
+      setError(error);
+      console.log("error fetching officers data");
+      console.log(error);
+    });
+    return officers;
+  };
+
+  const getApplicationsData = async (officers, decisions) => {
     fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
       headers: {
         Authorization: "Bearer " + AIRTABLE_KEY,
@@ -54,13 +74,15 @@ const Login = (props) => {
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
-
+        
+        let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
         let remaining = result.records.filter(
-          (r) => !decisions.map((r) => r.fields["ID"]).includes(r.id)
+          (r) => ((!decisions.map((r) => r.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
         );
+
         remaining = shuffle(remaining);
         console.log("updating remaining apps");
-        console.log(remaining);
+        console.log("Remaining Apps", remaining);
         dispatch(updateRemainingApps(remaining));
       })
       .catch((error) => {
@@ -79,16 +101,16 @@ const Login = (props) => {
    */
   const airtableStateHandler = async () => {
     const decisions = await getDecisionsData();
-
-    await getApplicationsData(decisions);
+    const officers = await getOfficersData();
+    await getApplicationsData(officers, decisions);
   };
 
   const submitForm = () => {
-    if (!OFFICERS.includes(name) || key !== SEM_SECRET) {
+    if (!OFFICERS.includes(reviewerName) || key !== SEM_SECRET) {
       setError("Invalid Credentials. Please try again.");
       return;
     } else {
-      dispatch(login(name));
+      dispatch(login(reviewerName));
       airtableStateHandler();
       history.push("/app-reader-test-deploy/guidelines");
     }
@@ -115,8 +137,8 @@ const Login = (props) => {
                 className="form-input"
                 autoFocus
                 type="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={reviewerName}
+                onChange={(e) => setReviewerName(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="form-item" size="lg" controlId="key">
