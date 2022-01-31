@@ -30,7 +30,7 @@ export const updateNumYeses = (body) => {
 
 /**
  * 
- * @param {*} body: dict, maps app ID to comments for a specific reviewer 
+ * @param {*} body: dict, maps app ID to comments
  */
 export const updateCommentsMap = (body) => {
   return {
@@ -41,7 +41,7 @@ export const updateCommentsMap = (body) => {
 
 /**
  * 
- * @param {*} body: dict, maps app ID to comments for a specific reviewer 
+ * @param {*} body: dict, maps app ID to flags
  */
  export const updateFlagsMap = (body) => {
   return {
