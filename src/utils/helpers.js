@@ -15,13 +15,11 @@ export const formatFieldResponse = (entry) => {
  */
 export const shuffle = (array) => {
   array.sort(() => Math.random() - 0.5);
-  console.log(array);
   return array;
 };
 
 export const orderFields = (fields) => {
   const keys = Object.keys(fields).sort();
-  console.log(keys);
   return QUESTION_ORDER
     ? QUESTION_ORDER.slice().map((i) => keys[i])
     : keys;
