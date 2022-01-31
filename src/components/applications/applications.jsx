@@ -21,7 +21,7 @@ const Applications = (props) => {
   const [pos, setPos] = useState(0);
   const currentApp = remainingApps.length > 0 ? remainingApps[pos] : null;
   
-  const [comments, setComments] = useState(currentApp && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+  const [comments, setComments] = useState(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
   const [flag, setFlag] = useState("No");
   
   /**
@@ -81,9 +81,11 @@ const Applications = (props) => {
         newRemainingApps.splice(pos, 1);
         dispatch(updateRemainingApps(newRemainingApps));
         
-        setPos(pos % newRemainingApps.length);
-        const currentApp = newRemainingApps.length > 0 ? newRemainingApps[pos] : null;
-        setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+        const newPos = pos % newRemainingApps.length; 
+        const currentApp = newRemainingApps.length > 0 ? newRemainingApps[newPos] : null;
+
+        setPos(newPos);
+        setComments(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
         setFlag("No");
 
         document.getElementById("app-view").scrollTop = 0;
@@ -122,12 +124,14 @@ const Applications = (props) => {
     dispatch(updateCommentsMap(newCommentsMap));
     
     let numApps = remainingApps.length;
-    setPos((((pos + 1) % numApps) + numApps) % numApps);
+
+    const newPos = (((pos + 1) % numApps) + numApps) % numApps
+    const currentApp = remainingApps[newPos];
+
+    setPos(newPos);
+    setComments(commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
     setFlag("No");
-  
-    const currentApp = remainingApps[pos];
-    setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-    
+
     document.getElementById("app-view").scrollTop = 0;
   }
 
@@ -137,12 +141,14 @@ const Applications = (props) => {
     dispatch(updateCommentsMap(newCommentsMap));
     
     let numApps = remainingApps.length;
-    setPos((((pos - 1) % numApps) + numApps) % numApps);
+
+    const newPos = (((pos - 1) % numApps) + numApps) % numApps
+    const currentApp = remainingApps[newPos];
+
+    setPos(newPos);
+    setComments(commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
     setFlag("No");
-  
-    const currentApp = remainingApps[pos];
-    setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-    
+
     document.getElementById("app-view").scrollTop = 0;
   }
   
