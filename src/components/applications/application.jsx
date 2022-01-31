@@ -90,7 +90,7 @@ const Application = (props) => {
     })
       .then(handleErrors)
       .then((result) => {
-        console.log("hello");
+        console.log("result:", Object.keys(result.records));
         const yeses =
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;

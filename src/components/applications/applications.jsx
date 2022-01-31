@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "./applications.css";
 import "../../global.js";
 import { handleErrors } from "../../utils/helpers";
-import { updateRemainingApps, updateNumYeses } from "../../store/actions";
+import { updateRemainingApps, updateNumYeses, updateCommentsMap } from "../../store/actions";
 import { AIRTABLE_KEY } from "../../secrets.js";
 import NavBar from "../navbar/navbar";
 import Application from "./application";
@@ -16,12 +16,11 @@ import { Redirect } from "react-router-dom";
  * @param {*} props: {reviewerName: string}
  */
 const Applications = (props) => {
-  const { dispatch, remainingApps, numYeses, reviewerName, verified } = props;
-
-  const [comments, setComments] = useState("");
-  const [flag, setFlag] = useState("No");
-
+  const { dispatch, remainingApps, numYeses, reviewerName, verified, commentsMap } = props;
   const currentApp = remainingApps.length > 0 ? remainingApps[0] : null;
+  const [comments, setComments] = useState(currentApp && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+  
+  const [flag, setFlag] = useState("No");
 
   /**
    * Asynchronously submits a vote via POST and calls airtableStateHandler.
@@ -79,7 +78,10 @@ const Applications = (props) => {
         const newRemainingApps = Object.assign([], remainingApps);
         newRemainingApps.shift();
         dispatch(updateRemainingApps(newRemainingApps));
-        setComments("");
+        
+        const currentApp = newRemainingApps.length > 0 ? newRemainingApps[0] : null;
+        setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+        
         setFlag("No");
         document.getElementById("app-view").scrollTop = 0;
       })
@@ -112,12 +114,21 @@ const Applications = (props) => {
   };
 
   const handleSkip = () => {
+    const newCommentsMap = Object.assign({}, commentsMap);
+    newCommentsMap[id] = comments;
+    dispatch(updateCommentsMap(newCommentsMap));
+
     const newRemainingApps = Object.assign([], remainingApps);
     newRemainingApps.push(newRemainingApps.shift());
     dispatch(updateRemainingApps(newRemainingApps));
-    setComments("");
+
+    const currentApp = newRemainingApps.length > 0 ? newRemainingApps[0] : null;
+    setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : ""); 
+    
     setFlag("No");
+  
     document.getElementById("app-view").scrollTop = 0;
+    
     toast("Skipped application", {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 3000,
@@ -125,14 +136,10 @@ const Applications = (props) => {
     });
   };
 
-  /** Sets up app reader component */
-  // useEffect(() => {
-  //   airtableStateHandler();
-  // }, []);
-
   const doneVoting = remainingApps.length === 0 || numYeses === 0;
   let id = "";
   let applicantName = "";
+
   if (!doneVoting && currentApp) {
     const fields = currentApp.fields;
     id = currentApp.id;
@@ -142,6 +149,7 @@ const Applications = (props) => {
   if (!verified) {
     return <Redirect from="" to="/app-reader-test-deploy/login" />;
   } else if (remainingApps.length === 0) {
+  
     return (
       <>
         <NavBar page="applications" />
@@ -274,6 +282,7 @@ const mapStateToProps = (state) => {
     remainingApps: state.mainReducer.remainingApps,
     reviewerName: state.mainReducer.name,
     numYeses: state.mainReducer.numYeses,
+    commentsMap: state.mainReducer.commentsMap,
   };
 };
 
