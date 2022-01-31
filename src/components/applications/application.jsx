@@ -35,7 +35,7 @@ const AppLine = (props) => {
  *                                 id: string}}
  */
 const Application = (props) => {
-  const { remainingApps, currentApp, reviewerName, dispatch } = props;
+  const { currentApp, reviewerName, dispatch } = props;
   const fields = currentApp.fields;
 
   const orderedFields = orderFields(fields);
