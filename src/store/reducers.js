@@ -5,6 +5,7 @@ import {
   LOGIN,
   LOGOUT,
   UPDATE_COMMENTS_MAP,
+  UPDATE_FLAGS_MAP,
 } from "./actions";
 
 const DEFAULT = {
@@ -13,6 +14,7 @@ const DEFAULT = {
   remainingApps: [],
   numYeses: 0,
   commentsMap: {},
+  flagsMap: {},
 };
 
 const mainReducer = (state = DEFAULT, action) => {
@@ -26,6 +28,8 @@ const mainReducer = (state = DEFAULT, action) => {
     return DEFAULT;
   } else if (action.type === UPDATE_COMMENTS_MAP) {
     return { ...state, commentsMap: action.body}
+  } else if (action.type === UPDATE_FLAGS_MAP) {
+    return { ...state, flagsMap: action.body}
   } else {
     return state;
   }

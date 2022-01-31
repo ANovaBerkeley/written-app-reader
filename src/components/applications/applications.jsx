@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "./applications.css";
 import "../../global.js";
 import { handleErrors } from "../../utils/helpers";
-import { updateRemainingApps, updateNumYeses, updateCommentsMap } from "../../store/actions";
+import { updateRemainingApps, updateNumYeses, updateCommentsMap, updateFlagsMap } from "../../store/actions";
 import { AIRTABLE_KEY } from "../../secrets.js";
 import NavBar from "../navbar/navbar";
 import Application from "./application";
@@ -16,13 +16,13 @@ import { Redirect } from "react-router-dom";
  * @param {*} props: {reviewerName: string}
  */
 const Applications = (props) => {
-  const { dispatch, remainingApps, numYeses, reviewerName, verified, commentsMap } = props;
+  const { dispatch, remainingApps, numYeses, reviewerName, verified, commentsMap, flagsMap } = props;
 
   const [pos, setPos] = useState(0);
   const currentApp = remainingApps.length > 0 ? remainingApps[pos] : null;
   
   const [comments, setComments] = useState(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-  const [flag, setFlag] = useState("No");
+  const [flag, setFlag] = useState(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
   
   /**
    * Asynchronously submits a vote via POST and calls airtableStateHandler.
@@ -86,7 +86,7 @@ const Applications = (props) => {
 
         setPos(newPos);
         setComments(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-        setFlag("No");
+        setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
 
         document.getElementById("app-view").scrollTop = 0;
       })
@@ -123,6 +123,10 @@ const Applications = (props) => {
     newCommentsMap[id] = comments;
     dispatch(updateCommentsMap(newCommentsMap));
     
+    const newFlagsMap = Object.assign({}, flagsMap);
+    newFlagsMap[id] = flag;
+    dispatch(updateFlagsMap(newFlagsMap));
+
     let numApps = remainingApps.length;
 
     const newPos = (((pos + 1) % numApps) + numApps) % numApps
@@ -130,7 +134,7 @@ const Applications = (props) => {
 
     setPos(newPos);
     setComments(commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-    setFlag("No");
+    setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
 
     document.getElementById("app-view").scrollTop = 0;
   }
@@ -140,6 +144,10 @@ const Applications = (props) => {
     newCommentsMap[id] = comments;
     dispatch(updateCommentsMap(newCommentsMap));
     
+    const newFlagsMap = Object.assign({}, flagsMap);
+    newFlagsMap[id] = flag;
+    dispatch(updateFlagsMap(newFlagsMap));
+
     let numApps = remainingApps.length;
 
     const newPos = (((pos - 1) % numApps) + numApps) % numApps
@@ -147,7 +155,7 @@ const Applications = (props) => {
 
     setPos(newPos);
     setComments(commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-    setFlag("No");
+    setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
 
     document.getElementById("app-view").scrollTop = 0;
   }
@@ -156,7 +164,7 @@ const Applications = (props) => {
   let id = "";
   let applicantName = "";
 
-  if (!doneVoting && currentApp) {
+  if (currentApp) {
     const fields = currentApp.fields;
     id = currentApp.id;
     applicantName = fields["Name"];
@@ -307,6 +315,8 @@ const mapStateToProps = (state) => {
     reviewerName: state.mainReducer.name,
     numYeses: state.mainReducer.numYeses,
     commentsMap: state.mainReducer.commentsMap,
+    flagsMap: state.mainReducer.flagsMap,
+
   };
 };
 
