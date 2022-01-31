@@ -12,15 +12,5 @@ global.DECISIONS_URL =
 global.OFFICERS_URL =
   "https://api.airtable.com/v0/" + BASE_ID + "/Officers"; // Ofiicers  airtable link
 
-global.IGNORED_FIELDS = ["Name", "Email", "Year", "Phone Number", 
-                        // bandaid fixes fall 21
-                         "How did you hear about us?",
-                         "Can you attend Orientation on Friday 9/24 from 6 PM - 8 PM? (mandatory for new members)",
-                         "Which of these classes have you completed or are you currently taking?",
-                         "Can you attend General Meetings on Tuesdays 7-8 PM?",
-                         "Interview Availabilities",
-                         "Please indicate ALL your site teaching availabilities.",
-                         "Created",
-                         "Officers",
-                         "Do you have any questions or comments for us?",
+global.IGNORED_FIELDS = ["Name", "Email", "Year", "Phone Number",
 ];

@@ -17,11 +17,13 @@ import { Redirect } from "react-router-dom";
  */
 const Applications = (props) => {
   const { dispatch, remainingApps, numYeses, reviewerName, verified, commentsMap } = props;
-  const currentApp = remainingApps.length > 0 ? remainingApps[0] : null;
-  const [comments, setComments] = useState(currentApp && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-  
-  const [flag, setFlag] = useState("No");
 
+  const [pos, setPos] = useState(0);
+  const currentApp = remainingApps.length > 0 ? remainingApps[pos] : null;
+  
+  const [comments, setComments] = useState(currentApp && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+  const [flag, setFlag] = useState("No");
+  
   /**
    * Asynchronously submits a vote via POST and calls airtableStateHandler.
    * @param {string} applicantName: applicant name
@@ -76,13 +78,14 @@ const Applications = (props) => {
           dispatch(updateNumYeses(numYeses - 1));
         }
         const newRemainingApps = Object.assign([], remainingApps);
-        newRemainingApps.shift();
+        newRemainingApps.splice(pos, 1);
         dispatch(updateRemainingApps(newRemainingApps));
         
-        const currentApp = newRemainingApps.length > 0 ? newRemainingApps[0] : null;
+        setPos(pos % newRemainingApps.length);
+        const currentApp = newRemainingApps.length > 0 ? newRemainingApps[pos] : null;
         setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-        
         setFlag("No");
+
         document.getElementById("app-view").scrollTop = 0;
       })
       .catch((error) => {
@@ -113,29 +116,36 @@ const Applications = (props) => {
     setFlag(flagState);
   };
 
-  const handleSkip = () => {
+  const handleNext = () => {
     const newCommentsMap = Object.assign({}, commentsMap);
     newCommentsMap[id] = comments;
     dispatch(updateCommentsMap(newCommentsMap));
-
-    const newRemainingApps = Object.assign([], remainingApps);
-    newRemainingApps.push(newRemainingApps.shift());
-    dispatch(updateRemainingApps(newRemainingApps));
-
-    const currentApp = newRemainingApps.length > 0 ? newRemainingApps[0] : null;
-    setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : ""); 
     
+    let numApps = remainingApps.length;
+    setPos((((pos + 1) % numApps) + numApps) % numApps);
     setFlag("No");
   
-    document.getElementById("app-view").scrollTop = 0;
+    const currentApp = remainingApps[pos];
+    setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
     
-    toast("Skipped application", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 3000,
-      hideProgressBar: true,
-    });
-  };
+    document.getElementById("app-view").scrollTop = 0;
+  }
 
+  const handleBack = () => {
+    const newCommentsMap = Object.assign({}, commentsMap);
+    newCommentsMap[id] = comments;
+    dispatch(updateCommentsMap(newCommentsMap));
+    
+    let numApps = remainingApps.length;
+    setPos((((pos - 1) % numApps) + numApps) % numApps);
+    setFlag("No");
+  
+    const currentApp = remainingApps[pos];
+    setComments(commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+    
+    document.getElementById("app-view").scrollTop = 0;
+  }
+  
   const doneVoting = remainingApps.length === 0 || numYeses === 0;
   let id = "";
   let applicantName = "";
@@ -187,6 +197,7 @@ const Applications = (props) => {
               {currentApp && <Application currentApp={currentApp} />}
             </div>
             <div className="app-options">
+              <div className="header-stats">APP {pos + 1} OF {remainingApps.length}</div>
               <div className="header-stats">{numYeses} YESES REMAINING</div>
               <div>
                 <h4 className="reviewer-label">Reviewer:</h4>
@@ -260,9 +271,16 @@ const Applications = (props) => {
                   <button
                     className="vote-button"
                     style={{ backgroundColor: "#CACACA" }}
-                    onClick={handleSkip}
+                    onClick={handleNext}
                   >
-                    SKIP
+                    NEXT
+                  </button>
+                  <button
+                    className="vote-button"
+                    style={{ backgroundColor: "#CACACA" }}
+                    onClick={handleBack}
+                  >
+                    BACK
                   </button>
                 </div>
               </div>
