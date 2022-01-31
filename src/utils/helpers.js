@@ -20,9 +20,11 @@ export const shuffle = (array) => {
 };
 
 export const orderFields = (fields) => {
+  const keys = Object.keys(fields).sort();
+  console.log(keys);
   return QUESTION_ORDER
-    ? QUESTION_ORDER.slice().map((i) => Object.keys(fields)[i])
-    : Object.keys(fields);
+    ? QUESTION_ORDER.slice().map((i) => keys[i])
+    : keys;
 };
 
 export const handleErrors = (response) => {
