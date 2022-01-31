@@ -31,10 +31,8 @@ const Guidelines = (props) => {
             voting “Yes” or “No” on whether you’d like the candidate to move
             forward to interviews. You are allowed to vote “Yes” for a maximum
             of {NUM_YES} candidates. If you are unsure of a candidate, you can
-            select “Skip” to come back to their application at the end. 
-            <b> Comments will not persist when you skip applications.
-              Keep track of comments you make on apps you skip by writing down
-              the app number and your comment on a separate document. </b> 
+            select "Next/Back" to move through applications. 
+            <b> Comments will not persist when you logout, so don't logout. </b> 
             When you make a decision on an application, your comment will be stored,
             and you won't need the document anymore. 
             Comments will be required on applicants that you vote "No" on.
@@ -44,6 +42,7 @@ const Guidelines = (props) => {
             but instead choose the option to just add a comment. 
             You will not be able to see the applicants’names to maintain anonymity. 
             You will see names briefly after voting on an application. 
+            <b> You can 'Flag' candidates that you want to discuss about at deliberations. </b>
             Click on <b>Read Applications</b> to
             start!
           </p>
@@ -62,10 +61,10 @@ const Guidelines = (props) => {
           <h2>Deadlines</h2>
           <ul>
             <li>
-              App reading is due by <b>9/16 at 5PM PST</b>
+              App reading is due by <b>2/2 at 5PM PST</b>
             </li>
             <li>
-              The deliberations meeting will be on <b>9/16 at 7:30PM PST</b> in Soda 606.
+              The deliberations meeting will be on <b>2/2 at 8:00PM PST</b> in Barrows 80.
             </li>
           </ul>
 
@@ -74,7 +73,7 @@ const Guidelines = (props) => {
             Here are some of the guiding questions that were used in past semesters for
             application reading. Here is the link to the 
             <a href="https://docs.google.com/document/d/1Apvg7A5T1_fRN5ATZx8KvxNry8Ddkh0gMH7cRst-2Qk/edit?usp=sharing">
-            Fall 2021 Written App Rubric</a>.
+             Spring 2022 Written App Rubric</a>.
           </p>
 
           <h2>Mission Statement</h2>
@@ -111,18 +110,6 @@ const Guidelines = (props) => {
             </li>
           </ul>
 
-          <h2>Structural Inequality</h2>
-          <ul>
-            <li>How much do they understand about inequality vs. inequity?</li>
-            <li>
-              How much do they know about different socioeconomic issues
-              relating to education and beyond?
-            </li>
-            <li>
-              Have they been active in assisting underresourced or marginalized
-              communities?
-            </li>
-          </ul>
         </div>
       </>
     );
