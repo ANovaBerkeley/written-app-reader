@@ -30,7 +30,7 @@ There's two ways to contribute to this repo: Pull Requests or Contributing Direc
 
 ## Linking the Reader with Airtable
 
-The reader uses the Airtable API to read the responses from the application, and write to a new table called Decisions.
+The reader uses the Airtable API to read the responses from the application, and write to a new table called Decisions. Ensure none of the values in airtable are empty (fill empty values with 'N/A') so that questions are displayed in the correct order while reading.
 
 ### [For Exec] Creating a new Workspace and Base
 
