@@ -4,6 +4,7 @@ import {
   UPDATE_NUM_YESES,
   LOGIN,
   LOGOUT,
+  UPDATE_COMMENTS_MAP,
 } from "./actions";
 
 const DEFAULT = {
@@ -11,6 +12,7 @@ const DEFAULT = {
   verified: false,
   remainingApps: [],
   numYeses: 0,
+  commentsMap: {},
 };
 
 const mainReducer = (state = DEFAULT, action) => {
@@ -22,6 +24,8 @@ const mainReducer = (state = DEFAULT, action) => {
     return { ...state, name: action.body, verified: true };
   } else if (action.type === LOGOUT) {
     return DEFAULT;
+  } else if (action.type === UPDATE_COMMENTS_MAP) {
+    return { ...state, commentsMap: action.body}
   } else {
     return state;
   }
