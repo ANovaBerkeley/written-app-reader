@@ -21,7 +21,8 @@ const Applications = (props) => {
   const [comments, setComments] = useState("");
   const [flag, setFlag] = useState("No");
 
-  const currentApp = remainingApps.length > 0 ? remainingApps[0] : null;
+  const [pos, setPos] = useState(0);
+  const currentApp = remainingApps.length > 0 ? remainingApps[pos] : null;
 
   /**
    * Asynchronously submits a vote via POST and calls airtableStateHandler.
@@ -77,8 +78,9 @@ const Applications = (props) => {
           dispatch(updateNumYeses(numYeses - 1));
         }
         const newRemainingApps = Object.assign([], remainingApps);
-        newRemainingApps.shift();
+        newRemainingApps.splice(pos, 1);
         dispatch(updateRemainingApps(newRemainingApps));
+        setPos(pos % newRemainingApps.length);
         setComments("");
         setFlag("No");
         document.getElementById("app-view").scrollTop = 0;
@@ -111,19 +113,35 @@ const Applications = (props) => {
     setFlag(flagState);
   };
 
-  const handleSkip = () => {
-    const newRemainingApps = Object.assign([], remainingApps);
-    newRemainingApps.push(newRemainingApps.shift());
-    dispatch(updateRemainingApps(newRemainingApps));
+  // const handleSkip = () => {
+  //   const newRemainingApps = Object.assign([], remainingApps);
+  //   newRemainingApps.push(newRemainingApps.shift());
+  //   dispatch(updateRemainingApps(newRemainingApps));
+  //   setComments("");
+  //   setFlag("No");
+  //   document.getElementById("app-view").scrollTop = 0;
+  //   toast("Skipped application", {
+  //     position: toast.POSITION.TOP_CENTER,
+  //     autoClose: 3000,
+  //     hideProgressBar: true,
+  //   });
+  // };
+
+  const handleNext = () => {
+    let numApps = remainingApps.length;
+    setPos((((pos + 1) % numApps) + numApps) % numApps);
     setComments("");
     setFlag("No");
     document.getElementById("app-view").scrollTop = 0;
-    toast("Skipped application", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 3000,
-      hideProgressBar: true,
-    });
-  };
+  }
+
+  const handleBack = () => {
+    let numApps = remainingApps.length;
+    setPos((((pos - 1) % numApps) + numApps) % numApps);
+    setComments("");
+    setFlag("No");
+    document.getElementById("app-view").scrollTop = 0;
+  }
 
   /** Sets up app reader component */
   // useEffect(() => {
@@ -179,6 +197,7 @@ const Applications = (props) => {
               {currentApp && <Application currentApp={currentApp} />}
             </div>
             <div className="app-options">
+              <div className="header-stats">APP {pos + 1} OF {remainingApps.length}</div>
               <div className="header-stats">{numYeses} YESES REMAINING</div>
               <div>
                 <h4 className="reviewer-label">Reviewer:</h4>
@@ -252,9 +271,16 @@ const Applications = (props) => {
                   <button
                     className="vote-button"
                     style={{ backgroundColor: "#CACACA" }}
-                    onClick={handleSkip}
+                    onClick={handleNext}
                   >
-                    SKIP
+                    NEXT
+                  </button>
+                  <button
+                    className="vote-button"
+                    style={{ backgroundColor: "#CACACA" }}
+                    onClick={handleBack}
+                  >
+                    BACK
                   </button>
                 </div>
               </div>

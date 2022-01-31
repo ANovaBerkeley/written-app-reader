@@ -35,7 +35,7 @@ const AppLine = (props) => {
  *                                 id: string}}
  */
 const Application = (props) => {
-  const { remainingApps, currentApp, reviewerName, dispatch } = props;
+  const { currentApp, reviewerName, dispatch } = props;
   const fields = currentApp.fields;
 
   const orderedFields = orderFields(fields);
@@ -90,7 +90,6 @@ const Application = (props) => {
     })
       .then(handleErrors)
       .then((result) => {
-        console.log("hello");
         const yeses =
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
@@ -146,9 +145,6 @@ const Application = (props) => {
       <div className="header">
         <h1 className="header-application">Application</h1>
         <div className="header-right">
-          <div className="header-stats">
-            {remainingApps.length} APPS REMAINING
-          </div>
           <button
             className="vote-button"
             id="refresh-button"
