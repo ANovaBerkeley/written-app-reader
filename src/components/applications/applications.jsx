@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -24,6 +24,11 @@ const Applications = (props) => {
   const [comments, setComments] = useState(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
   const [flag, setFlag] = useState(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
   
+  useEffect(() => {
+    setComments(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
+    setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
+  }, [currentApp]);
+
   /**
    * Asynchronously submits a vote via POST and calls airtableStateHandler.
    * @param {string} applicantName: applicant name
@@ -81,12 +86,7 @@ const Applications = (props) => {
         newRemainingApps.splice(pos, 1);
         dispatch(updateRemainingApps(newRemainingApps));
         
-        const newPos = pos % newRemainingApps.length; 
-        const currentApp = newRemainingApps.length > 0 ? newRemainingApps[newPos] : null;
-
-        setPos(newPos);
-        setComments(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-        setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
+        setPos(pos % newRemainingApps.length); 
 
         document.getElementById("app-view").scrollTop = 0;
       })
@@ -128,13 +128,7 @@ const Applications = (props) => {
     dispatch(updateFlagsMap(newFlagsMap));
 
     let numApps = remainingApps.length;
-
-    const newPos = (((pos + 1) % numApps) + numApps) % numApps
-    const currentApp = remainingApps[newPos];
-
-    setPos(newPos);
-    setComments(commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-    setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
+    setPos((((pos + 1) % numApps) + numApps) % numApps);
 
     document.getElementById("app-view").scrollTop = 0;
   }
@@ -149,13 +143,7 @@ const Applications = (props) => {
     dispatch(updateFlagsMap(newFlagsMap));
 
     let numApps = remainingApps.length;
-
-    const newPos = (((pos - 1) % numApps) + numApps) % numApps
-    const currentApp = remainingApps[newPos];
-
-    setPos(newPos);
-    setComments(commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
-    setFlag(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
+    setPos((((pos - 1) % numApps) + numApps) % numApps);
 
     document.getElementById("app-view").scrollTop = 0;
   }
