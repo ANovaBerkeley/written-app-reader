@@ -2,7 +2,9 @@ export const UPDATE_REMAINING_APPS = "UPDATE_REMAINING_APPS";
 export const UPDATE_NUM_YESES = "UPDATE_NUM_YESES";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
-export const UPDATE_COMMENTS_MAP = "UPDATE _COMMENTS_MAP";
+export const UPDATE_COMMENTS_MAP = "UPDATE_COMMENTS_MAP";
+export const UPDATE_FLAGS_MAP = "UPDATE_FLAGS_MAP";
+
 
 /**
  *
@@ -28,11 +30,22 @@ export const updateNumYeses = (body) => {
 
 /**
  * 
- * @param {*} body: dict, maps app ID to comments for a specific reviewer 
+ * @param {*} body: dict, maps app ID to comments
  */
 export const updateCommentsMap = (body) => {
   return {
     type: UPDATE_COMMENTS_MAP,
+    body,
+  }
+}
+
+/**
+ * 
+ * @param {*} body: dict, maps app ID to flags
+ */
+ export const updateFlagsMap = (body) => {
+  return {
+    type: UPDATE_FLAGS_MAP,
     body,
   }
 }

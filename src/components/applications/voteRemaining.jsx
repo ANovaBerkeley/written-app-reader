@@ -8,7 +8,7 @@ import { AIRTABLE_KEY } from "../../secrets.js";
 import { updateRemainingApps, updateNumYeses } from "../../store/actions";
 
 const VoteRemaining = (props) => {
-  const { dispatch, remainingApps, numYeses, reviewerName } = props;
+  const { dispatch, remainingApps, numYeses, reviewerName, commentsMap, flagsMap} = props;
   const [loading, setLoading] = useState(false);
 
   /** Votes "No" on the remaining apps once the user is out of yeses */
@@ -20,8 +20,8 @@ const VoteRemaining = (props) => {
       const records = remainingApps.map((app) => {
         let applicantName = app.fields["Name"];
         let vote = "No";
-        let flag = "No";
-        let comments = "";
+        let flag = app && flagsMap && flagsMap[app.id] ? flagsMap[app.id] : "No";
+        let comments = app && commentsMap && commentsMap[app.id] ? commentsMap[app.id] : "";
         let id = app.id;
         return (
           '{"fields": {"Applicant Name": "' +
@@ -94,6 +94,8 @@ const mapStateToProps = (state) => {
     remainingApps: state.mainReducer.remainingApps,
     numYeses: state.mainReducer.numYeses,
     reviewerName: state.mainReducer.name,
+    commentsMap: state.mainReducer.commentsMap,
+    flagsMap: state.mainReducer.flagsMap,
   };
 };
 
