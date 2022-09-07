@@ -82,21 +82,28 @@ const Application = (props) => {
     return officers;
   };
 
-  const getApplicationsData = async (officers, decisions) => {
-    fetch(global.APPLICATIONS_URL + "?view=Grid%20view", {
-      headers: {
-        Authorization: "Bearer " + AIRTABLE_KEY,
-      },
-    })
+  const getApplicationsData = async (officers, decisions) => {    
+    const responses = await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view`)
+      .then(handleErrors)
+
+    const offset = responses.offset;
+
+    await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view&offset=${offset}`)
       .then(handleErrors)
       .then((result) => {
+        const pageOne = responses.records;
+        const allResponses = pageOne.concat(result.records);
+        return allResponses;
+      })
+      .then((result) => {
+
         const yeses =
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
 
         let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
-        let remaining = result.records.filter(
+        let remaining = result.filter(
           (r) => ((!decisions.map((r) => r.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
         );
 
