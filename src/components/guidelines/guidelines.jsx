@@ -37,7 +37,7 @@ const Guidelines = (props) => {
             and you won't need the document anymore. 
             Comments will be required on applicants that you vote "No" on.
             If you forget to add a comment on an application you vote "No" on,
-            you can fill out this <a href="https://forms.gle/SqyL6nZw6NiF5bFk6"> 
+            you can fill out this <a href="https://forms.gle/pAtNgyJJetRioJMR9"> 
             Google Form</a> (which is the same as the form to change your decision),
             but instead choose the option to just add a comment. 
             You will not be able to see the applicants’names to maintain anonymity. 
@@ -49,7 +49,7 @@ const Guidelines = (props) => {
 
           <p>
             Note: Currently, if you make a mistake in your votes, you have to 
-            fill out this <a href="https://forms.gle/SqyL6nZw6NiF5bFk6"> 
+            fill out this <a href="https://forms.gle/pAtNgyJJetRioJMR9"> 
             Google Form</a>.
             You will need the name or application ID of the application you are 
             changing your vote for. Again, for applications where you vote "No",
@@ -61,19 +61,17 @@ const Guidelines = (props) => {
           <h2>Deadlines</h2>
           <ul>
             <li>
-              App reading is due by <b>2/2 at 5PM PST</b>
+              App reading is due by <b>9/8 at 5PM PST</b>
             </li>
             <li>
-              The deliberations meeting will be on <b>2/2 at 8:00PM PST</b> in Barrows 80.
+              The deliberations meeting will be on <b>9/8 at 7:00PM PST</b> in Cory 531.
             </li>
           </ul>
 
           <h2>Rubric</h2>
           <p>
-            Here are some of the guiding questions that were used in past semesters for
-            application reading. Here is the link to the 
-            <a href="https://docs.google.com/document/d/1Apvg7A5T1_fRN5ATZx8KvxNry8Ddkh0gMH7cRst-2Qk/edit?usp=sharing">
-             Spring 2022 Written App Rubric</a>.
+            Please reference the recruitment guide on tips and tricks to read your apps: Here is the link to the 
+            <a href="https://www.notion.so/anova/ANOVA-RECRUITMENT-GUIDE-409f64f1698c484f93348580177e5225"> notion guide!</a>.
           </p>
 
           <h2>Mission Statement</h2>
