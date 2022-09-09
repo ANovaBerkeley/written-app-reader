@@ -45,8 +45,20 @@ const Application = (props) => {
 
   const getDecisionsData = async () => {
     const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
+
     const decisions = await fetch(
-      global.DECISIONS_URL + formula + reviewerName + "%22&view=Grid%20view",
+      global.DECISIONS_URL + formula + reviewerName + `%22&view=Grid%20view`,
+      {
+        headers: {
+          Authorization: "Bearer " + AIRTABLE_KEY,
+        },
+      }
+    ).then(handleErrors);
+
+    const offset = decisions.offset;
+
+    const moreDecisions = await fetch(
+      global.DECISIONS_URL + formula + reviewerName + `%22&view=Grid%20view&offset=${offset}`,
       {
         headers: {
           Authorization: "Bearer " + AIRTABLE_KEY,
@@ -60,7 +72,10 @@ const Application = (props) => {
         console.log(error);
         throw error;
       });
-    return decisions;
+
+    const allDecisions = decisions.concat(moreDecisions);
+
+    return allDecisions;
   };
 
   const getOfficersData = async () => {
