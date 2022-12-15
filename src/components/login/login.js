@@ -81,9 +81,7 @@ const Login = (props) => {
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
-        console.log("DECISIONS: " + decisions);
         let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
-        console.log("REVIEWER APPS: " + reviewerApps);
         let remaining = result.filter(
           (r) => ((!decisions.map((d) => d.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
         );
