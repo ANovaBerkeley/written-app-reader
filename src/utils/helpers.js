@@ -6,6 +6,7 @@ import { QUESTION_ORDER } from "../secrets";
  * @param {Object} entry: field response to be formatted (can be string or Object[])
  */
 export const formatFieldResponse = (entry) => {
+  console.log(entry);
   return (typeof entry !== "string" && typeof entry !== "number") ? Array.from(entry).join(", ") : entry;
 };
 
@@ -21,6 +22,9 @@ export const shuffle = (array) => {
 export const orderFields = (fields) => {
   const keys = Object.keys(fields).sort();
   console.log("keys: ", keys)
+  if (process.env.REACT_APP_DEV) {
+    return keys.filter((k) => (k == 'Name' || k.includes('Prompt')));
+  } 
   return QUESTION_ORDER
     ? QUESTION_ORDER.slice().map((i) => keys[i])
     : keys;
