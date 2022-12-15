@@ -6,7 +6,6 @@ import { QUESTION_ORDER } from "../secrets";
  * @param {Object} entry: field response to be formatted (can be string or Object[])
  */
 export const formatFieldResponse = (entry) => {
-  console.log(entry);
   return (typeof entry !== "string" && typeof entry !== "number") ? Array.from(entry).join(", ") : entry;
 };
 
