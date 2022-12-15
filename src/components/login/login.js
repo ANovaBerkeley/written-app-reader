@@ -82,10 +82,14 @@ const Login = (props) => {
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
         let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
-        let remaining = result.filter(
-          (r) => ((!decisions.map((d) => d.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
-        );
-
+        // edge case where officer is not assigned any applications yet - should not error on login
+        let remaining = []; 
+        if (reviewerApps[0]) {
+          remaining = result.filter(
+            (r) => ((!decisions.map((d) => d.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
+          );
+        }
+       
         remaining = shuffle(remaining);
         console.log("updating remaining apps");
         console.log(remaining);
