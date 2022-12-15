@@ -23,6 +23,5 @@ if (process.env.REACT_APP_DEV) {
     "https://api.airtable.com/v0/" + BASE_ID + "/Officers"; // Ofiicers  airtable link
 }
 
-global.IGNORED_FIELDS = ["Name", "Email", "Year", "Phone Number",
-];
+global.IGNORED_FIELDS = ["Name", "Email", "Year", "Phone Number", "Officers"];
 

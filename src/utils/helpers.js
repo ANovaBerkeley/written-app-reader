@@ -20,10 +20,7 @@ export const shuffle = (array) => {
 
 export const orderFields = (fields) => {
   const keys = Object.keys(fields).sort();
-  console.log("keys: ", keys)
-  if (process.env.REACT_APP_DEV) {
-    return keys.filter((k) => (k == 'Name' || k.includes('Prompt')));
-  } 
+  console.log("keys: ", keys);
   return QUESTION_ORDER
     ? QUESTION_ORDER.slice().map((i) => keys[i])
     : keys;

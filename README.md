@@ -28,6 +28,16 @@ There's two ways to contribute to this repo: Pull Requests or Contributing Direc
 2. Clone this repo and make necessary changes. Try to keep the # of commits as low as possible to reduce clutter. (Tip: `git rebase`)
 3. Push directly to master after testing thoroughly: `git push origin master`
 
+## Testing the App
+
+Since Fall 2022, we have set up a bare bones testing environment for developers to debug with in case there are any issues with the reader during recruitment. It pulls from the [Test base](https://airtable.com/appvwWqjOPkyIULfE/tblneqO4kcIozm98P/viw0VogHq7jpWdFzB?blocks=hide), which is currently an anonymized version of our Fall 2022 recruitment base. 
+
+You will still need your `secrets.js` file that we include in setup!! 
+
+If you decide to configure the fields in the `All Applications` table, make sure that you that you change the `QUESTION_ORDER` array that corresponds with the newly ordered fields. We should have included a commented out `QUESTION_ORDER` in the `secrets.js` file that is given to you. This configuration should work with the way the Test base is currently set up.
+
+To activate this environment, run `npm run dev`
+
 ## Linking the Reader with Airtable
 
 The reader uses the Airtable API to read the responses from the application, and write to a new table called Decisions. Ensure none of the values in airtable are empty (fill empty values with 'N/A') so that questions are displayed in the correct order while reading.
@@ -59,22 +69,12 @@ export const OFFICERS = [
 
 export const NUM_YES = 30;
 
+
+/* FOR DEBUGGING PURPOSES ONLY - KEEP COMMENTED OUT */
+// export const QUESTION_ORDER = [0, 2, 3, 4]
+
 export const QUESTION_ORDER = [
-  5,
-  6,
-  7,
-  8,
-  4,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  24,
-  25,
-  26,
-  27,
+ 9, 8, 19, 18, 4, 6, 10, 11, 20,
 ];
 ```
 
