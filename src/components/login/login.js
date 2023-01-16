@@ -21,6 +21,7 @@ const Login = (props) => {
   const [key, setKey] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
+  const dev = process.env.REACT_APP_DEV == "dev" ? true : false;
 
   const getDecisionsData = async () => {
     const formula = "?filterByFormula=%7BReviewer%20Name%7D%20%3D%20%20%22";
@@ -76,17 +77,19 @@ const Login = (props) => {
         return allResponses;
       })
       .then((result) => {
-
         const yeses =
           NUM_YES -
           decisions.filter((r) => r.fields["Interview"] === "Yes").length;
         dispatch(updateNumYeses(yeses));
-
         let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
-        let remaining = result.filter(
-          (r) => ((!decisions.map((r) => r.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
-        );
-
+        // edge case where officer is not assigned any applications yet - should not error on login
+        let remaining = []; 
+        if (reviewerApps[0]) {
+          remaining = result.filter(
+            (r) => ((!decisions.map((d) => d.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
+          );
+        }
+       
         remaining = shuffle(remaining);
         console.log("updating remaining apps");
         console.log(remaining);
@@ -113,13 +116,12 @@ const Login = (props) => {
   };
 
   const submitForm = () => {
-    if (!OFFICERS.includes(reviewerName) || key !== SEM_SECRET) {
-      setError("Invalid Credentials. Please try again.");
-      return;
-    } else {
+    if (dev || (OFFICERS.includes(reviewerName) || key == SEM_SECRET)) {
       dispatch(login(reviewerName));
       airtableStateHandler();
       history.push("/app-reader-test-deploy/guidelines");
+    } else {
+      setError("Invalid Credentials. Please try again.");
     }
   };
 
@@ -148,15 +150,20 @@ const Login = (props) => {
                 onChange={(e) => setReviewerName(e.target.value)}
               />
             </Form.Group>
+            {!dev ? 
             <Form.Group className="form-item" size="lg" controlId="key">
-              <Form.Label>Security Key</Form.Label>
-              <Form.Control
-                className="form-input"
-                type="key"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-              />
+            <Form.Label>Security Key</Form.Label>
+            <Form.Control
+              className="form-input"
+              type="key"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+            />
             </Form.Group>
+            : 
+            <></>
+            }
+            
             <Button
               className="form-button"
               block

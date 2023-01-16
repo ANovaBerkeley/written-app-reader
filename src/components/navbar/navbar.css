@@ -8,8 +8,13 @@
   justify-content: space-between;
 }
 
+.testing {
+  background-color: #c94a3e;
+}
+
 .logo {
   height: 70px;
+  margin: 10px;
 }
 
 .links {
