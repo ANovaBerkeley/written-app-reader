@@ -8,16 +8,25 @@ import { logout } from "../../store/actions";
 
 const NavBar = (props) => {
   const { dispatch, page } = props;
+  const dev = process.env.REACT_APP_DEV == "dev" ? true : false;
 
   const handleLogOut = () => {
     dispatch(logout());
   };
 
+  let navbarStyle = "navbar";
+  if (dev) {
+    navbarStyle = "navbar testing"
+  }
+
   return (
-    <div className="navbar">
-      <a href="/app-reader-test-deploy/guidelines">
-        <img src={Logo} alt="ANova" className="logo" />
-      </a>
+    <div className={navbarStyle}>
+      <div className="links">
+        <a href="/app-reader-test-deploy/guidelines">
+          <img src={Logo} alt="ANova" className="logo" />
+        </a>
+        {dev ? <div>TESTING</div> : <></>}
+      </div>
       <div className="links">
         <Link
           id="guidelines"
