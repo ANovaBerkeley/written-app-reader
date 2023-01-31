@@ -54,13 +54,30 @@ const Application = (props) => {
       }
     )
       .then(handleErrors)
-      .then((result) => result.records)
       .catch((error) => {
         console.log("error fetching decisions data");
         console.log(error);
         throw error;
       });
-    return decisions;
+      let allDecisions = decisions.records;
+      if (decisions.offset) {
+        const offset = decisions.offset;
+        allDecisions = await fetch(
+          global.DECISIONS_URL + formula + reviewerName + `%22&view=Grid%20view&offset=${offset}`,
+          {
+            headers: {
+              Authorization: "Bearer " + AIRTABLE_KEY,
+            },
+          }
+        )
+          .then(handleErrors)
+          .then((result) => {
+            const pageOne = decisions.records;
+            const allResponses = pageOne.concat(result.records);
+            return allResponses;
+          })
+      }
+      return allDecisions;
   };
 
   const getOfficersData = async () => {

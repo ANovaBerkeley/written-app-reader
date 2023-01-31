@@ -32,14 +32,33 @@ const Login = (props) => {
         },
       }
     )
-      .then(handleErrors)
-      .then((result) => result.records) // result.recordss
-      .catch((error) => {
-        setError(error);
-        console.log("error fetching decisions data");
-        console.log(error);
-      });
-    return decisions;
+    .then(handleErrors)
+    .catch((error) => {
+      setError(error);
+      console.log("error fetching decisions data");
+      console.log(error);
+      throw error;
+    });
+    let allDecisions = decisions.records;
+    if (decisions.offset) {
+      console.log("paginate decisions");
+      const offset = decisions.offset;
+      allDecisions = await fetch(
+        global.DECISIONS_URL + formula + reviewerName + `%22&view=Grid%20view&offset=${offset}`,
+        {
+          headers: {
+            Authorization: "Bearer " + AIRTABLE_KEY,
+          },
+        }
+      )
+        .then(handleErrors)
+        .then((result) => {
+          const pageOne = decisions.records;
+          const allResponses = pageOne.concat(result.records);
+          return allResponses;
+        })
+      }
+      return allDecisions;
   };
 
   const getOfficersData = async () => {
@@ -88,6 +107,8 @@ const Login = (props) => {
         );
 
         remaining = shuffle(remaining);
+        console.log(decisions);
+        console.log(result);
         console.log("updating remaining apps");
         console.log(remaining);
         dispatch(updateRemainingApps(remaining));
