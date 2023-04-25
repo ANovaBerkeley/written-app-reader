@@ -9,6 +9,7 @@ import "../../global.js";
 import { AIRTABLE_KEY, NUM_YES, SEM_SECRET, OFFICERS } from "../../secrets.js";
 import Logo from "../../static/logo.png";
 import {
+  updateDecisions,
   updateRemainingApps,
   updateNumYeses,
   login,
@@ -59,6 +60,7 @@ const Login = (props) => {
           return allResponses;
         })
       }
+      dispatch(updateDecisions(allDecisions));
       return allDecisions;
   };
 

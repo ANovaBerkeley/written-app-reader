@@ -159,6 +159,18 @@ h4 {
   color: red;
 }
 
+.progress-bar-empty {
+  height: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #d8d5d5;
+}
+
+.progress-bar-full {
+  height: 15px;
+  background-color: #248487;
+  border-radius: 8px;
+}
+
 .Toastify__toast-body {
   font-family: "Source Sans Pro", sans-serif;
   text-align: center;

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "./applications.css";
 import "../../global.js";
 import { handleErrors } from "../../utils/helpers";
-import { updateRemainingApps, updateNumYeses, updateCommentsMap, updateFlagsMap } from "../../store/actions";
+import { updateDecisions, updateRemainingApps, updateNumYeses, updateCommentsMap, updateFlagsMap } from "../../store/actions";
 import { AIRTABLE_KEY } from "../../secrets.js";
 import NavBar from "../navbar/navbar";
 import Application from "./application";
@@ -16,7 +16,7 @@ import { Redirect } from "react-router-dom";
  * @param {*} props: {reviewerName: string}
  */
 const Applications = (props) => {
-  const { dispatch, remainingApps, numYeses, reviewerName, verified, commentsMap, flagsMap } = props;
+  const { dispatch, decisions, remainingApps, numYeses, reviewerName, verified, commentsMap, flagsMap } = props;
 
   const [pos, setPos] = useState(0);
   const currentApp = remainingApps.length > 0 ? remainingApps[pos] : null;
@@ -79,6 +79,9 @@ const Applications = (props) => {
           hideProgressBar: true,
         });
 
+        const newDecisions = Object.assign([], decisions);
+        newDecisions.push(result.records[0]);
+        dispatch(updateDecisions(newDecisions));
         if (vote === "Yes") {
           dispatch(updateNumYeses(numYeses - 1));
         }
@@ -299,6 +302,7 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     verified: state.mainReducer.verified,
+    decisions: state.mainReducer.decisions,
     remainingApps: state.mainReducer.remainingApps,
     reviewerName: state.mainReducer.name,
     numYeses: state.mainReducer.numYeses,
