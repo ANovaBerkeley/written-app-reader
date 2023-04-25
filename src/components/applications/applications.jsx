@@ -6,7 +6,7 @@ import "./applications.css";
 import "../../global.js";
 import { handleErrors } from "../../utils/helpers";
 import { updateRemainingApps, updateNumYeses, updateCommentsMap, updateFlagsMap } from "../../store/actions";
-import { AIRTABLE_KEY } from "../../secrets.js";
+import { AIRTABLE_KEY, NUM_APPLICATIONS } from "../../secrets.js";
 import NavBar from "../navbar/navbar";
 import Application from "./application";
 import VoteRemaining from "./voteRemaining";
@@ -190,6 +190,12 @@ const Applications = (props) => {
       </>
     );
   } else {
+    const readProgress = {
+      width: String((NUM_APPLICATIONS - remainingApps.length) / NUM_APPLICATIONS * 100) + "%",
+    };
+    const yesProgress = {
+      width: String((NUM_YES - numYeses) / NUM_YES * 100) + "%",
+    }
     return (
       <>
         <NavBar page="applications" />
@@ -200,11 +206,13 @@ const Applications = (props) => {
             </div>
             <div className="app-options">
               <div className="header-stats">APP {pos + 1} OF {remainingApps.length}</div>
+              <div class="progress-bar-empty">
+                  <div class="progress-bar-full" style={readProgress}></div>
+                </div>
               <div className="header-stats">{numYeses} YESES REMAINING</div>
-              <div>
-                <h4 className="reviewer-label">Reviewer:</h4>
-                <p style={{ margin: 0 }}>{reviewerName}</p>
-              </div>
+              <div class="progress-bar-empty">
+                  <div class="progress-bar-full" style={yesProgress}></div>
+                </div>
               <div>
                 <h4 className="comments-label">Comment:</h4>
                 <textarea
@@ -295,8 +303,6 @@ const Applications = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("STATE");
-  console.log(state);
   return {
     verified: state.mainReducer.verified,
     remainingApps: state.mainReducer.remainingApps,
