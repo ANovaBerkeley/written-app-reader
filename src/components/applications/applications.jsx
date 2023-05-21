@@ -47,20 +47,15 @@ const Applications = (props) => {
     id
   ) => {
     await fetch(global.DECISIONS_URL, {
-      body:
-        '{"records": [{"fields": {"Applicant Name": "' +
-        applicantName +
-        '","Reviewer Name": "' +
-        reviewerName +
-        '","Interview": "' +
-        vote +
-        '","Flag": "' +
-        flag +
-        '","Comments": "' +
-        comments +
-        '", "ID": "' +
-        id +
-        '"}}]}',
+      body: JSON.stringify({
+        "records": [{"fields": {
+          "Applicant Name": applicantName,
+          "Reviewer Name": reviewerName,
+          "Interview": vote,
+          "Flag": flag,
+          "Comments": comments,
+          "ID": id
+        }}]}),
       headers: {
         Authorization: "Bearer " + AIRTABLE_KEY,
         "Content-Type": "application/json",

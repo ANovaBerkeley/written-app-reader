@@ -24,19 +24,14 @@ const VoteRemaining = (props) => {
         let comments = app && commentsMap && commentsMap[app.id] ? commentsMap[app.id] : "";
         let id = app.id;
         return (
-          '{"fields": {"Applicant Name": "' +
-          applicantName +
-          '","Reviewer Name": "' +
-          reviewerName +
-          '","Interview": "' +
-          vote +
-          '","Flag": "' +
-          flag +
-          '","Comments": "' +
-          comments +
-          '", "ID": "' +
-          id +
-          '"}}'
+          JSON.stringify({"fields": {
+            "Applicant Name": applicantName,
+            "Reviewer Name": reviewerName,
+            "Interview": vote,
+            "Flag": flag,
+            "Comments": comments,
+            "ID": id
+          }})
         );
       });
 
