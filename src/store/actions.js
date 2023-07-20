@@ -1,3 +1,5 @@
+export const UPDATE_LOCK_APPLICATIONS = "UPDATE_LOCK_APPLICATIONS";
+export const UPDATE_ALL_APPLICATIONS = "UPDATE_ALL_APPLICATIONS";
 export const UPDATE_DECISIONS = "UPDATE_DECISIONS";
 export const UPDATE_REMAINING_APPS = "UPDATE_REMAINING_APPS";
 export const UPDATE_NUM_YESES = "UPDATE_NUM_YESES";
@@ -5,6 +7,28 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const UPDATE_COMMENTS_MAP = "UPDATE_COMMENTS_MAP";
 export const UPDATE_FLAGS_MAP = "UPDATE_FLAGS_MAP";
+
+/**
+ *
+ * @param {*} body: int, number of yeses left
+ */
+export const updateLockApplications = (body) => {
+  return {
+    type: UPDATE_LOCK_APPLICATIONS,
+    body,
+  };
+};
+
+/**
+ *
+ * @param {*} body: [], all applications
+ */
+export const updateAllApplications = (body) => {
+  return {
+    type: UPDATE_ALL_APPLICATIONS,
+    body,
+  };
+};
 
 /**
  *

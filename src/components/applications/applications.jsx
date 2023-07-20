@@ -5,24 +5,27 @@ import { toast } from "react-toastify";
 import "./applications.css";
 import "../../global.js";
 import { handleErrors } from "../../utils/helpers";
-import { updateDecisions, updateRemainingApps, updateNumYeses, updateCommentsMap, updateFlagsMap } from "../../store/actions";
+import { updateDecisions, updateLockApplications, updateRemainingApps, updateNumYeses, updateCommentsMap, updateFlagsMap } from "../../store/actions";
 import { AIRTABLE_KEY } from "../../secrets.js";
 import NavBar from "../navbar/navbar";
 import Application from "./application";
 import VoteRemaining from "./voteRemaining";
+import AllApplications from "./allApplications"
 import { Redirect } from "react-router-dom";
 
 /**
  * @param {*} props: {reviewerName: string}
  */
 const Applications = (props) => {
-  const { dispatch, decisions, remainingApps, numYeses, reviewerName, verified, commentsMap, flagsMap } = props;
+  const { dispatch, lockApplications, decisions, remainingApps, numYeses, reviewerName, verified, commentsMap, flagsMap } = props;
 
   const [pos, setPos] = useState(0);
   const currentApp = remainingApps.length > 0 ? remainingApps[pos] : null;
   
   const [comments, setComments] = useState(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
   const [flag, setFlag] = useState(currentApp && flagsMap && flagsMap[currentApp.id] ? flagsMap[currentApp.id] : "No");
+  const [submitStatus, setSubmitStatus] = useState(false);
+  const [password, setPassword] = useState("");
   
   useEffect(() => {
     setComments(currentApp && commentsMap && commentsMap[currentApp.id] ? commentsMap[currentApp.id] : "");
@@ -46,6 +49,7 @@ const Applications = (props) => {
     comments,
     id
   ) => {
+    setSubmitStatus(true);
     await fetch(global.DECISIONS_URL, {
       body:
         '{"records": [{"fields": {"Applicant Name": "' +
@@ -60,7 +64,9 @@ const Applications = (props) => {
         comments +
         '", "ID": "' +
         id +
-        '"}}]}',
+        '", "Link to application": ["' +
+        id +
+        '"]}}]}',
       headers: {
         Authorization: "Bearer " + AIRTABLE_KEY,
         "Content-Type": "application/json",
@@ -102,6 +108,7 @@ const Applications = (props) => {
           hideProgressBar: true,
         });
       });
+      setSubmitStatus(false);
   };
 
   /**
@@ -150,6 +157,23 @@ const Applications = (props) => {
 
     document.getElementById("app-view").scrollTop = 0;
   }
+
+  const unlockApplications = () => {
+    if (password === "forthekids") {
+      dispatch(updateLockApplications(false));
+      toast("Applications unlocked!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    } else {
+      toast.error("Incorrect password", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }
   
   const doneVoting = remainingApps.length === 0 || numYeses === 0;
   let id = "";
@@ -163,31 +187,63 @@ const Applications = (props) => {
 
   if (!verified) {
     return <Redirect from="" to="/app-reader-test-deploy/login" />;
-  } else if (remainingApps.length === 0) {
-  
+  } else if (remainingApps.length == 0) {
+    if (lockApplications) {
+      return (
+        <>
+          <NavBar page="applications" />
+          <div className="applications">
+            <div className="app-section" style={{ width: "100%" }}>
+              <div className="app-view" id="app-view">
+                <div className="congratulations">
+                  <h2>
+                    Congratulations, you're done!{" "}
+                    <span role="img" aria-label="yay">
+                      &#127881;
+                    </span>{" "}
+                  </h2>
+                  <p>
+                    When all decisions are submitted, a password will be 
+                    provided to unlock all applications. Enter the password 
+                    below to unlock.
+                  </p>
+                  <p>
+                    <span role="img" aria-label="caution">
+                      &#128721;
+                    </span>{" "}
+                    CAUTION! DO NOT SUBMIT PASSWORD UNTIL ALL DECISIONS ARE FINAL!
+                    {" "}<span role="img" aria-label="caution">
+                      &#128721;
+                    </span>
+                  </p>
+                  <p>
+                    Once the password is submitted, you will be unable to make 
+                    edits to any decisions. 
+                  </p>
+                  <div className="unlock">
+                    <input onChange={event => setPassword(event.target.value)}/>
+                    <button 
+                      className="unlock-button"
+                      onClick={() => unlockApplications()}
+                      style={{ backgroundColor: "#248487", color: "white" }}
+                    >
+                      Unlock All Applications
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    }
     return (
       <>
         <NavBar page="applications" />
         <div className="applications">
-          <div className="app-section" style={{ width: "100%" }}>
-            <div className="app-view" id="app-view">
-              <div className="header">
-                <h1 className="header-application">Application</h1>
-                <div className="header-stats">
-                  {remainingApps.length} APPS REMAINING
-                </div>
-              </div>
-              <h3>
-                Congratulations, you're done!{" "}
-                <span role="img" aria-label="yay">
-                  &#127881;
-                </span>{" "}
-              </h3>
-              <p>
-                You can close this tab and exit out of terminal to close the
-                server.
-              </p>
-            </div>
+          <div className="all-applications-view">
+            <h2>All Applications</h2>
+            <AllApplications></AllApplications>
           </div>
         </div>
       </>
@@ -238,7 +294,7 @@ const Applications = (props) => {
                       <button
                         className="vote-button"
                         style={{ backgroundColor: "#9AFFB0" }}
-                        disabled={numYeses <= 0}
+                        disabled={numYeses <= 0 || submitStatus}
                         onClick={() => {
                           airtableVoteHandler(
                             applicantName,
@@ -256,7 +312,7 @@ const Applications = (props) => {
                       <button
                         className="vote-button"
                         style={{ backgroundColor: "#FF9393" }}
-                        disabled={numYeses <= 0}
+                        disabled={numYeses <= 0 || submitStatus}
                         onClick={() => {
                           airtableVoteHandler(
                             applicantName,
@@ -302,6 +358,7 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     verified: state.mainReducer.verified,
+    lockApplications: state.mainReducer.lockApplications,
     decisions: state.mainReducer.decisions,
     remainingApps: state.mainReducer.remainingApps,
     reviewerName: state.mainReducer.name,

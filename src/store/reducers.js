@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import {
+  UPDATE_ALL_APPLICATIONS,
   UPDATE_DECISIONS,
   UPDATE_REMAINING_APPS,
   UPDATE_NUM_YESES,
@@ -7,12 +8,15 @@ import {
   LOGOUT,
   UPDATE_COMMENTS_MAP,
   UPDATE_FLAGS_MAP,
+  UPDATE_LOCK_APPLICATIONS,
 } from "./actions";
 
 const DEFAULT = {
   name: "",
   verified: false,
+  lockApplications: true,
   remainingApps: [],
+  allApplications: [],
   decisions: [],
   numYeses: 0,
   commentsMap: {},
@@ -20,7 +24,11 @@ const DEFAULT = {
 };
 
 const mainReducer = (state = DEFAULT, action) => {
-  if (action.type === UPDATE_DECISIONS) {
+  if (action.type === UPDATE_LOCK_APPLICATIONS) {
+    return { ...state, lockApplications: action.body }
+  } else if (action.type === UPDATE_ALL_APPLICATIONS) {
+    return { ...state, allApplications: action.body }
+  } else if (action.type === UPDATE_DECISIONS) {
     return { ...state, decisions: action.body }
   } else if (action.type === UPDATE_REMAINING_APPS) {
     return { ...state, remainingApps: action.body };
