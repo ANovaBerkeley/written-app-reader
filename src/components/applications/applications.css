@@ -8,8 +8,55 @@
   background-color: #f5f9fb;
   padding: 40px 40px;
   flex: 1;
-  height: calc(100vh - 190px);
+  height: calc(100vh - 200px);
   display: flex;
+}
+
+.congratulations {
+  text-align: center;
+  font-size: 20px;
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.unlock {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 40%;
+}
+
+.unlock input {
+  text-align: center;
+  height: 5vh;
+  font-size: 20px;
+}
+
+.unlock-button {
+  text-align: center;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  margin-top: 10px;
+  padding: 12px 15px;
+  border-radius: 5px;
+  font-family: "Karla", sans-serif;
+  font-weight: bold;
+  color: #383838;
+  opacity: 0.8;
+  word-wrap: break-word;
+}
+
+.unlock-button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 /* header bar */
@@ -39,6 +86,10 @@
   display: flex;
 }
 
+.all-applications-view {
+  flex-direction: column;
+}
+
 /* app reading area */
 .app-view {
   background-color: white;
@@ -48,6 +99,7 @@
   padding: 15px 35px;
   flex: 1;
   margin-right: 25px;
+  position: relative;
 }
 
 /* app responses */
@@ -157,6 +209,18 @@ h4 {
   position: absolute;
   bottom: 10px;
   color: red;
+}
+
+.progress-bar-empty {
+  height: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #d8d5d5;
+}
+
+.progress-bar-full {
+  height: 15px;
+  background-color: #248487;
+  border-radius: 8px;
 }
 
 .Toastify__toast-body {

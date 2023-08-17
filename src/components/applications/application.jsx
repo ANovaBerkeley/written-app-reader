@@ -37,7 +37,7 @@ const AppLine = (props) => {
 const Application = (props) => {
   const { currentApp, reviewerName, dispatch } = props;
   const fields = currentApp.fields;
-
+  
   const orderedFields = orderFields(fields);
   const appLines = orderedFields.map((i) => (
     <AppLine fields={fields} i={i} key={i} />

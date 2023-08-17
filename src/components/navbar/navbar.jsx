@@ -44,14 +44,14 @@ const NavBar = (props) => {
         >
           Read Applications
         </Link>
-        {/* <Link
+        <Link
           id="decisions"
           to="/app-reader-test-deploy/decisions"
           className="link"
           style={{ color: page === "decisions" ? "#4e4e4e" : "#b7b6b6" }}
         >
           Decision History
-        </Link> */}
+        </Link>
         <div
           className="link"
           onClick={handleLogOut}
