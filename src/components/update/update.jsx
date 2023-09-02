@@ -79,7 +79,7 @@ const Update = (props) => {
         fetch(global.DECISIONS_URL + `/${decisionId}?api_key=${AIRTABLE_KEY}`)
         .then(handleErrors)
         .then((decision) => {
-            fetch(global.APPLICATIONS_URL + `/${decision.fields["Link to application"][0]}?api_key=${AIRTABLE_KEY}`)
+            fetch(global.APPLICATIONS_URL + `/${decision.fields["ID"]}?api_key=${AIRTABLE_KEY}`)
                 .then(handleErrors)
                 .then((application) =>{
                     setDecisionContent(decision);
