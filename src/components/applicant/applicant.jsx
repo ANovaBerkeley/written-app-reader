@@ -6,7 +6,7 @@ import "../../global.js";
 import { Redirect } from "react-router-dom";
 import NavBar from "../navbar/navbar";
 import { handleErrors, orderFields } from "../../utils/helpers";
-import { AIRTABLE_KEY, QUESTION_ORDER } from "../../secrets.js";
+import { AIRTABLE_KEY } from "../../secrets.js";
 
 const Applicant = (props) => {
   const { verified, allApplications } = props;
