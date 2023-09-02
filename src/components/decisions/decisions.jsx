@@ -7,7 +7,7 @@ import NavBar from "../navbar/navbar";
 import Table from "../table/table";
 
 const Decisions = (props) => {
-  const { verified, numYeses, decisions } = props;
+  const { verified, lockApplications, numYeses, decisions } = props;
 
   // I think this reruns a lot
   const decisionsList = [];
@@ -33,7 +33,8 @@ const Decisions = (props) => {
   } else {
     const column_names = ["ID", "Applicant Name", "Created Time", "Interview", "Flag", "Comments"];
     const column_ids = ["id", "name", "created", "interview", "flag", "comments"];
-    const column_widths = ["5vw", "20vw", "15vw", "5vw", "5vw", ""]
+    const column_widths = ["5vw", "20vw", "15vw", "5vw", "5vw", ""];
+    const blur_names = lockApplications;
     return (
       <>
         <NavBar page="decisions" />
@@ -48,6 +49,7 @@ const Decisions = (props) => {
             column_widths={column_widths}
             rows={decisionsList}
             button="Edit"
+            blur_names={blur_names}
           />
         </div>
       </>
@@ -58,6 +60,7 @@ const Decisions = (props) => {
 const mapStateToProps = (state) => {
   return {
     verified: state.mainReducer.verified,
+    lockApplications: state.mainReducer.lockApplications,
     numYeses: state.mainReducer.numYeses,
     decisions: state.mainReducer.decisions
   };

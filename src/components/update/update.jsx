@@ -109,10 +109,12 @@ const Update = (props) => {
     return (
       <>
         <NavBar page="decisions" />
-        <div className="applications">
-          <div className="app-section" style={{ width: "100%" }}>
-              <div className="app-view">
-                <h2 id="applicant-name">{decisionContent.fields["Applicant Name"]}</h2>
+        <div className="updates">
+          <div className="update-section">
+              <div className="update-view">
+                <h2 id="applicant-name" style={lockApplications ? {color: "transparent", textShadow: "0 0 15px #000", userSelect: "none"} : {}}>
+                  {decisionContent.fields["Applicant Name"]}
+                </h2>
                 {Object.keys(orderedFields).map(index => (
                   <>
                       <p><b>{orderedFields[index]}</b></p>
@@ -121,7 +123,7 @@ const Update = (props) => {
                 ))}
               </div>
           </div>
-          <div className="app-options">
+          <div className="update-options">
                 <div>
                   <div className="header-stats">{numYeses} YESES REMAINING</div>
                   <div class="progress-bar-empty">

@@ -62,7 +62,7 @@
   }
   /* user input area */
   .applicant-decisions {
-    width: 15%;
+    width: calc(25% - 125px);
     position: relative;
     background-color: white;
     box-shadow: 0 0 8px #d8d5d5;

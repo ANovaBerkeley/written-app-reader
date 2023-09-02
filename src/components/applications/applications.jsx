@@ -77,7 +77,7 @@ const Applications = (props) => {
       .then((result) => {
         console.log("SUCCESS submitting vote");
         console.log(result);
-        const toastMessage = "Voted " + vote + " for " + applicantName + "!";
+        const toastMessage = "Successfully submitted vote!";
 
         toast(toastMessage, {
           position: toast.POSITION.TOP_CENTER,

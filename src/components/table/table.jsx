@@ -3,7 +3,7 @@ import "./table.css"
 import { Link } from "react-router-dom";
 
 const Table = (props) => {
-    const { column_names, column_ids, column_widths, rows, button } = props;
+    const { column_names, column_ids, column_widths, rows, button, blur_names } = props;
 
     const [sortAscending, setSortAscending] = React.useState(false);
     const [sortColumn, setSortColumn] = React.useState(null);
@@ -33,13 +33,11 @@ const Table = (props) => {
     
     const sortBy = (column) => {
         if (sortColumn == column) {
-            console.log(sortColumn)
             setSortAscending(!sortAscending);
         } else {
             setSortAscending(true);
             setSortColumn(column);
         }
-        console.log(sortAscending, sortColumn);
     }
     
     if (sortColumn != null) {
@@ -61,7 +59,8 @@ const Table = (props) => {
                 <tr>
                     <td>{i}</td>
                     {column_ids.map(column_id => {
-                        return <td>{row[column_id]}</td>
+                        const blur = blur_names && column_id == "name";
+                        return <td style={blur ? {color: "transparent", textShadow: "0 0 10px #000", userSelect: "none"} : {}}>{row[column_id]}</td>
                     })}
                     <td>
                     <Link

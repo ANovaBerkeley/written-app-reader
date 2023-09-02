@@ -54,7 +54,8 @@ const AllApplications = (props) => {
 
     const column_names = ["ID", "Applicant Name", "Phone Number", "Email", "Year", "Pronouns", "Yes Count"];
     const column_ids = ["id", "name", "phone", "email", "year", "pronouns", "yeses",];
-    const column_widths = ["5vw", "20vw", "8vw", "10vw", "10vw", "10vw", "10vw",]
+    const column_widths = ["5vw", "20vw", "8vw", "10vw", "10vw", "10vw", "10vw",];
+    const blur_names = false;
 
     return (
         <>
@@ -64,6 +65,7 @@ const AllApplications = (props) => {
                 column_widths={column_widths}
                 rows={applicationsList}
                 button="Expand"
+                blur_names={blur_names}
             />
         </>
     )
