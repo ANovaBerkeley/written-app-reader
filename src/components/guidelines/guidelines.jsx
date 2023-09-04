@@ -32,46 +32,32 @@ const Guidelines = (props) => {
             forward to interviews. You are allowed to vote “Yes” for a maximum
             of {NUM_YES} candidates. If you are unsure of a candidate, you can
             select "Next/Back" to move through applications. 
-            <b> Comments will not persist when you logout, so don't logout. </b> 
-            When you make a decision on an application, your comment will be stored,
-            and you won't need the document anymore. 
+            
+            
             Comments will be required on applicants that you vote "No" on.
             If you forget to add a comment on an application you vote "No" on,
-            you can fill out this <a href="https://forms.gle/pAtNgyJJetRioJMR9"> 
-            Google Form</a> (which is the same as the form to change your decision),
-            but instead choose the option to just add a comment. 
+            you can add it by clicking the edit button.
             You will not be able to see the applicants’names to maintain anonymity. 
-            You will see names briefly after voting on an application. 
+
             <b> You can 'Flag' candidates that you want to discuss about at deliberations. </b>
             Click on <b>Read Applications</b> to
             start!
           </p>
 
-          <p>
-            Note: Currently, if you make a mistake in your votes, you have to 
-            fill out this <a href="https://forms.gle/pAtNgyJJetRioJMR9"> 
-            Google Form</a>.
-            You will need the name or application ID of the application you are 
-            changing your vote for. Again, for applications where you vote "No",
-            make sure you provide a commment. Please vote carefully! If you manually
-            change a vote, click the <b>Refresh Apps</b> button to update the
-            apps.{" "}
-          </p>
-
           <h2>Deadlines</h2>
           <ul>
             <li>
-              App reading is due by <b>9/8 at 5PM PST</b>
+              App reading is due by <b> 9/7 at 5PM PST</b>
             </li>
             <li>
-              The deliberations meeting will be on <b>9/8 at 7:00PM PST</b> in Cory 531.
+              The deliberations meeting will be on <b>9/7 at 7:00PM PST</b> in Cory 531.
             </li>
           </ul>
 
           <h2>Rubric</h2>
           <p>
             Please reference the recruitment guide on tips and tricks to read your apps: Here is the link to the 
-            <a href="https://www.notion.so/anova/ANOVA-RECRUITMENT-GUIDE-409f64f1698c484f93348580177e5225"> notion guide!</a>.
+            <a href="https://www.notion.so/anova/OFFICER-ONLY-Recruitment-FA23-72aec2150cc84722803f06c0a9fc7546?pvs=4"> notion guide!</a>.
           </p>
 
           <h2>Mission Statement</h2>
@@ -106,6 +92,23 @@ const Guidelines = (props) => {
               Reading this app, would you anticipate that they'd adjust well to
               an ANova site?
             </li>
+          </ul>
+
+
+          <h2>New Proposal Response</h2>
+          <ul>
+            <li>
+              Is the proposal in benefit of the kids?
+            </li>
+            <li>
+              Is the proposal non-generic and thoughtful?
+            </li>
+            <li>
+              Did they do some research about our existing projects? (must be public)?
+            </li>
+            <li>
+                Don't consider: feasibility of the proposal.
+              </li>
           </ul>
 
         </div>
