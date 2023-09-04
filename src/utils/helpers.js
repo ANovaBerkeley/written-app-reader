@@ -19,11 +19,13 @@ export const shuffle = (array) => {
 };
 
 export const orderFields = (fields) => {
-  const keys = Object.keys(fields).sort();
-  console.log("keys: ", keys);
-  return QUESTION_ORDER
-    ? QUESTION_ORDER.slice().map((i) => keys[i])
-    : keys;
+  // Using numeric QUESTION_ORDER is buggy, replacing with direct strings
+  // const keys = Object.keys(fields).sort();
+  // console.log("keys: ", keys);
+  // return QUESTION_ORDER
+  //   ? QUESTION_ORDER.slice().map((i) => keys[i])
+  //   : keys;
+    return QUESTION_ORDER;
 };
 
 export const handleErrors = (response) => {
