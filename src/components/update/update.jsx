@@ -76,19 +76,31 @@ const Update = (props) => {
 
   React.useEffect(
     () => {
-        fetch(global.DECISIONS_URL + `/${decisionId}?api_key=${AIRTABLE_KEY}`)
-        .then(handleErrors)
-        .then((decision) => {
-            fetch(global.APPLICATIONS_URL + `/${decision.fields["ID"]}?api_key=${AIRTABLE_KEY}`)
-                .then(handleErrors)
-                .then((application) =>{
-                    setDecisionContent(decision);
-                    setApplicationContent(application);
-                    setFlag(decision.fields.Flag);
-                    setVote(decision.fields.Interview);
-                    setComments(decision.fields.Comments);
-                });
-        });
+        fetch(global.DECISIONS_URL + `/${decisionId}`,
+          {
+            headers: {
+              Authorization: "Bearer " + AIRTABLE_KEY,
+            },
+          }
+        )
+          .then(handleErrors)
+          .then((decision) => {
+            fetch(global.APPLICATIONS_URL + `/${decision.fields["ID"]}`,
+              {
+                headers: {
+                  Authorization: "Bearer " + AIRTABLE_KEY,
+                },
+              }
+            )
+              .then(handleErrors)
+              .then((application) =>{
+                setDecisionContent(decision);
+                setApplicationContent(application);
+                setFlag(decision.fields.Flag);
+                setVote(decision.fields.Interview);
+                setComments(decision.fields.Comments);
+              });
+          });
     }, [])
 
   const voteYesColor = vote == "Yes" ? "#9AFFB0" : "";
