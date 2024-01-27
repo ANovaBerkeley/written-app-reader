@@ -100,12 +100,24 @@ const Application = (props) => {
   };
 
   const getApplicationsData = async (officers, decisions) => {    
-    const responses = await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view`)
+    const responses = await fetch(global.APPLICATIONS_URL + `?view=Grid%20view`,
+        {
+            headers: {
+                Authorization: "Bearer " + AIRTABLE_KEY,
+            },
+        }
+    )
       .then(handleErrors)
 
     const offset = responses.offset;
 
-    await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view&offset=${offset}`)
+    await fetch(global.APPLICATIONS_URL + `?view=Grid%20view&offset=${offset}`,
+        {
+            headers: {
+                Authorization: "Bearer " + AIRTABLE_KEY,
+            },
+        }
+    )
       .then(handleErrors)
       .then((result) => {
         const pageOne = responses.records;

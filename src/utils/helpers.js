@@ -6,7 +6,11 @@ import { QUESTION_ORDER } from "../secrets";
  * @param {Object} entry: field response to be formatted (can be string or Object[])
  */
 export const formatFieldResponse = (entry) => {
-  return (typeof entry !== "string" && typeof entry !== "number") ? Array.from(entry).join(", ") : entry;
+  try{
+    return (typeof entry !== "string" && typeof entry !== "number") ? Array.from(entry).join(", ") : entry;
+  } catch (err) {
+    return `Encountered error while parsing application responses: ${err}`
+  }
 };
 
 /**

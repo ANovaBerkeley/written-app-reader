@@ -11,13 +11,25 @@ const AllApplications = (props) => {
 
     const getAllApplications = async () => {
         if (allApplications.length == 0) {
-            const responses = await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view`)
+            const responses = await fetch(global.APPLICATIONS_URL + `?view=Grid%20view`,
+                {
+                    headers: {
+                        Authorization: "Bearer " + AIRTABLE_KEY,
+                    },
+                }
+            )
                 .then(handleErrors)
 
             var offset = responses.offset;
             var collectedApplications = responses.records;
             while (offset != null) {
-                const offset_responses = await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view&offset=${offset}`)
+                const offset_responses = await fetch(global.APPLICATIONS_URL + `?view=Grid%20view&offset=${offset}`,
+                    {
+                        headers: {
+                            Authorization: "Bearer " + AIRTABLE_KEY,
+                        },
+                    }
+                )
                     .then(handleErrors);
                     collectedApplications = collectedApplications.concat(offset_responses.records);
                 offset = offset_responses.offset;

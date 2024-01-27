@@ -66,63 +66,65 @@ const Login = (props) => {
 
   const getOfficersData = async () => {
     const formula = "?filterByFormula=%7BName%7D%20%3D%20%20%22";
-    const officers = await fetch(
-      global.OFFICERS_URL + formula + reviewerName + "%22&view=Grid%20view", 
-    {
-      headers: {
-        Authorization: "Bearer " + AIRTABLE_KEY,
-      },
-    }
-  )
-    .then(handleErrors)
-    .then((result) => result.records)
-    .catch((error) => {
-      setError(error);
-      console.log("error fetching officers data");
-      console.log(error);
-    });
+    const officers = await fetch(global.OFFICERS_URL + formula + reviewerName + "%22&view=Grid%20view", 
+      {
+        headers: {
+          Authorization: "Bearer " + AIRTABLE_KEY,
+        },
+      }
+    )
+      .then(handleErrors)
+      .then((result) => result.records)
+      .catch((error) => {
+        setError(error);
+        console.log("error fetching officers data");
+        console.log(error);
+      });
     return officers;
   };
 
   const getApplicationsData = async (officers, decisions) => {    
-    const responses = await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view`)
+    const responses = await fetch(global.APPLICATIONS_URL + `?view=Grid%20view`, 
+      {
+        headers: {
+          Authorization: "Bearer " + AIRTABLE_KEY,
+        },
+      }
+    )
       .then(handleErrors)
-
-    const offset = responses.offset;
-
-    await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view&offset=${offset}`)
-      .then(handleErrors)
-      .then((result) => {
-        const pageOne = responses.records;
-        const allResponses = pageOne.concat(result.records);
-        return allResponses;
-      })
-      .then((result) => {
-        const yeses =
-          NUM_YES -
-          decisions.filter((r) => r.fields["Interview"] === "Yes").length;
-        dispatch(updateNumYeses(yeses));
-        let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
-        // edge case where officer is not assigned any applications yet - should not error on login
-        let remaining = []; 
-        if (reviewerApps[0]) {
-          remaining = result.filter(
-            (r) => ((!decisions.map((d) => d.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
-          );
+    var allResponses = responses.records
+    if (responses.offset != null) {
+      const offset = responses.offset;
+      const offsetResponses = await fetch(global.APPLICATIONS_URL + `?view=Grid%20view&offset=${offset}`, 
+        {
+          headers: {
+            Authorization: "Bearer " + AIRTABLE_KEY,
+          },
         }
-       
-        remaining = shuffle(remaining);
-        console.log(decisions);
-        console.log(result);
-        console.log("updating remaining apps");
-        console.log(remaining);
-        dispatch(updateRemainingApps(remaining));
-      })
-      .catch((error) => {
-        console.log("error fetching applications data");
-        console.log(error);
-        throw error;
-      });
+      )
+        .then(handleErrors)
+      const allResponses = allResponses.concat(offsetResponses.records);
+    }
+
+    const yeses =
+      NUM_YES -
+      decisions.filter((r) => r.fields["Interview"] === "Yes").length;
+    dispatch(updateNumYeses(yeses));
+    let reviewerApps = (officers.map((r) => r.fields["All Applications"]));
+    // edge case where officer is not assigned any applications yet - should not error on login
+    let remaining = []; 
+    if (reviewerApps[0]) {
+      remaining = allResponses.filter(
+        (r) => ((!decisions.map((d) => d.fields["ID"]).includes(r.id)) && reviewerApps[0].includes(r.id)) 
+      );
+    }
+    
+    remaining = shuffle(remaining);
+    console.log(decisions);
+    console.log(allResponses);
+    console.log("updating remaining apps");
+    console.log(remaining);
+    dispatch(updateRemainingApps(remaining));
   };
 
   /**
