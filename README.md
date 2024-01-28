@@ -12,6 +12,11 @@ This reader is made to be used by officers to read written applcations during re
 6. Run `npm start`, which will open the app reader at http://localhost:3000. If there’s something already running on port 3000, just hit ‘Y’ when terminal prompts you.
 7. Enter your name and secret key (which can be found in `secrets.js`), and get reading!
 
+## Common Bug
+If you have installed node recently, run this in your terminal before typing in `npm start`:
+
+`export NODE_OPTIONS=--openssl-legacy-provider`
+
 ## Updating the Reader for Recruitment 👩‍💻
 
 There's two ways to contribute to this repo: Pull Requests or Contributing Directly.
