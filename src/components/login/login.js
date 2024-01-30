@@ -103,7 +103,7 @@ const Login = (props) => {
         }
       )
         .then(handleErrors)
-      const allResponses = allResponses.concat(offsetResponses.records);
+      allResponses = allResponses.concat(offsetResponses.records);
     }
 
     const yeses =
