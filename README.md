@@ -9,13 +9,9 @@ This reader is made to be used by officers to read written applcations during re
 3. Make sure you have Node.js installed: https://nodejs.org/
 4. Download all the necessary dependencies: `npm i && cd src && npm i`
 5. Place `secrets.js` in the `src` folder, which you should have received from Exec.
-6. Run `npm start`, which will open the app reader at http://localhost:3000. If there’s something already running on port 3000, just hit ‘Y’ when terminal prompts you.
-7. Enter your name and secret key (which can be found in `secrets.js`), and get reading!
-
-## Common Bug
-If you have installed node recently, run this in your terminal before typing in `npm start`:
-
-`export NODE_OPTIONS=--openssl-legacy-provider`
+6. If you have installed node recently, run this in your terminal before typing in `npm start`: `export NODE_OPTIONS=--openssl-legacy-provider` (If you skip this step and recieve an error, run this in the terminal).
+7. Run `npm start`, which will open the app reader at http://localhost:3000. If there’s something already running on port 3000, just hit ‘Y’ when terminal prompts you.
+8. Enter your name and secret key (which can be found in `secrets.js`), and get reading!
 
 ## Updating the Reader for Recruitment 👩‍💻
 

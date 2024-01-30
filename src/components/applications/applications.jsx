@@ -152,7 +152,7 @@ const Applications = (props) => {
   }
 
   const unlockApplications = () => {
-    if (password === "forthekids") {
+    if (password === "berkeleyanova24") {
       dispatch(updateLockApplications(false));
       toast("Applications unlocked!", {
         position: toast.POSITION.TOP_CENTER,
