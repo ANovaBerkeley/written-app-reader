@@ -87,6 +87,22 @@ const Login = (props) => {
   const getApplicationsData = async (officers, decisions) => {    
     const responses = await fetch(global.APPLICATIONS_URL + `?api_key=${AIRTABLE_KEY}&view=Grid%20view`)
       .then(handleErrors)
+<<<<<<< Updated upstream
+=======
+    var allResponses = responses.records
+    if (responses.offset != null) {
+      const offset = responses.offset;
+      const offsetResponses = await fetch(global.APPLICATIONS_URL + `?view=Grid%20view&offset=${offset}`, 
+        {
+          headers: {
+            Authorization: "Bearer " + AIRTABLE_KEY,
+          },
+        }
+      )
+        .then(handleErrors)
+      allResponses = allResponses.concat(offsetResponses.records);
+    }
+>>>>>>> Stashed changes
 
     const offset = responses.offset;
 
