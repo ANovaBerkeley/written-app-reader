@@ -181,7 +181,7 @@ const Application = (props) => {
       <div className="header">
         <h1 className="header-application">Application</h1>
         <div className="header-right">
-          <button
+          {/* <button
             className="vote-button"
             id="refresh-button"
             style={{ backgroundColor: "#248487", color: "#FFFFFF" }}
@@ -191,7 +191,7 @@ const Application = (props) => {
             }}
           >
             REFRESH APPS
-          </button>
+          </button> */}
           {/* {error && <div className="refresh-error">{error}</div>} */}
         </div>
       </div>
