@@ -31,7 +31,7 @@ const Decisions = (props) => {
   if (!verified) {
     return <Redirect from="" to="/app-reader-test-deploy/login" />;
   } else {
-    const column_names = ["ID", "Applicant Name", "Created Time", "Interview", "Flag", "Comments"];
+    const column_names = ["ID", "Applicant Name", "Created Time", "Rating", "Flag", "Comments"];
     const column_ids = ["id", "name", "created", "interview", "flag", "comments"];
     const column_widths = ["5vw", "20vw", "15vw", "5vw", "5vw", ""];
     const blur_names = lockApplications;
@@ -41,7 +41,6 @@ const Decisions = (props) => {
         <div className="md-body">
           <div className="decision-headers">
             <h2>App Decision History</h2>
-            <h3>Yeses Remaining: {numYeses}</h3>
           </div>
           <Table
             column_names={column_names}

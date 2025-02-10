@@ -28,14 +28,13 @@ const Guidelines = (props) => {
           <h2>Instructions</h2>
           <p>
             You will be reading through all of the written applications, and
-            voting “Yes” or “No” on whether you’d like the candidate to move
-            forward to interviews. You are allowed to vote “Yes” for a maximum
-            of {NUM_YES} candidates. If you are unsure of a candidate, you can
-            select "Next/Back" to move through applications. 
+            voting on each applicant from a scale of 1 to 4 on whether you’d 
+            like the candidate to move forward to interviews. If you are unsure 
+            of a candidate, you can select "Next/Back" to move through applications. 
             
             
-            Comments will be required on applicants that you vote "No" on.
-            If you forget to add a comment on an application you vote "No" on,
+            Comments will be required on applicants that you vote 1 / 2 on.
+            If you forget to add a comment on an application,
             you can add it by clicking the edit button.
             You will not be able to see the applicants’names to maintain anonymity. 
 
@@ -47,17 +46,14 @@ const Guidelines = (props) => {
           <h2>Deadlines</h2>
           <ul>
             <li>
-              App reading is due by <b> 9/7 at 5PM PST</b>
-            </li>
-            <li>
-              The deliberations meeting will be on <b>9/7 at 7:00PM PST</b> in Cory 531.
+              Please refer to Exec for deadlines and delib logistics
             </li>
           </ul>
 
           <h2>Rubric</h2>
           <p>
-            Please reference the recruitment guide on tips and tricks to read your apps: Here is the link to the 
-            <a href="https://www.notion.so/anova/OFFICER-ONLY-Recruitment-FA23-72aec2150cc84722803f06c0a9fc7546?pvs=4"> notion guide!</a>.
+            Please reference the 2025 recruitment guide on tips and tricks to read your apps: Here is the link to the
+            <a href="https://www.notion.so/anova/Spring-2025-Officers-Only-18a89bcce3b2806e8f44ca2311ded097"> notion guide!</a>.
           </p>
 
           <h2>Mission Statement</h2>

@@ -63,7 +63,7 @@ const Applicant = (props) => {
                         <h3>
                             {decision.fields["Reviewer Name"]}
                             {" "}
-                            {decision.fields["Interview"] === "Yes" &&
+                            {/* {decision.fields["Interview"] === "Yes" &&
                             <span role="img" aria-label="interview">
                                 &#9989;
                             </span>}
@@ -75,9 +75,9 @@ const Applicant = (props) => {
                             {decision.fields["Interview"] === "No" &&
                             <span role="img" aria-label="interview">
                                 &#128681;
-                            </span>}
+                            </span>} */}
                         </h3>
-                        <p>Interview: {decision.fields["Interview"]}</p>
+                        <p>Written Score: {decision.fields["Interview"]}</p>
                         <p>Flag: {decision.fields["Flag"]}</p>
                         <p>Comments: {decision.fields["Comments"]}</p>
                     </div>

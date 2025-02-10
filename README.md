@@ -13,10 +13,6 @@ This reader is made to be used by officers to read written applcations during re
 7. Run `npm start`, which will open the app reader at http://localhost:3000. If there’s something already running on port 3000, just hit ‘Y’ when terminal prompts you.
 8. Enter your name and secret key (which can be found in `secrets.js`), and get reading!
 
-## Password to Unlock Applications
-
-`berkeleyanova24`
-
 ## Updating the Reader for Recruitment 👩‍💻
 
 There's two ways to contribute to this repo: Pull Requests or Contributing Directly.

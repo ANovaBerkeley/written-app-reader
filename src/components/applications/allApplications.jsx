@@ -59,13 +59,13 @@ const AllApplications = (props) => {
                 email: fields["Email"],
                 year: fields["Year"],
                 pronouns: fields["Pronouns"],
-                yeses: fields["Yes count"],
+                avg: fields["Average Written Score"],
                 button: "/app-reader-test-deploy/applicant?id=" + i.toString()
         })
     }
 
-    const column_names = ["ID", "Applicant Name", "Phone Number", "Email", "Year", "Pronouns", "Yes Count"];
-    const column_ids = ["id", "name", "phone", "email", "year", "pronouns", "yeses",];
+    const column_names = ["ID", "Applicant Name", "Phone Number", "Email", "Year", "Pronouns", "Average Written Score"];
+    const column_ids = ["id", "name", "phone", "email", "year", "pronouns", "avg",];
     const column_widths = ["5vw", "20vw", "8vw", "10vw", "10vw", "10vw", "10vw",];
     const blur_names = false;
 

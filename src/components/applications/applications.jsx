@@ -152,7 +152,7 @@ const Applications = (props) => {
   }
 
   const unlockApplications = () => {
-    if (password === "berkeleyanova24") {
+    if (password === "berkeleyanovaisdabest") {
       dispatch(updateLockApplications(false));
       toast("Applications unlocked!", {
         position: toast.POSITION.TOP_CENTER,
@@ -261,10 +261,6 @@ const Applications = (props) => {
               <div class="progress-bar-empty">
                 <div class="progress-bar-full" style={readProgress}></div>
               </div>
-              <div className="header-stats">{numYeses} YESES REMAINING</div>
-              <div class="progress-bar-empty">
-                <div class="progress-bar-full" style={yesProgress}></div>
-              </div>
               <div>
                 <h4 className="comments-label">Comment:</h4>
                 <textarea
@@ -294,13 +290,13 @@ const Applications = (props) => {
                     <>
                       <button
                         className="vote-button"
-                        style={{ backgroundColor: "#9AFFB0" }}
-                        disabled={numYeses <= 0 || submitStatus}
+                        style={{ backgroundColor: "#F8D6E0" }}
+                        disabled={submitStatus}
                         onClick={() => {
                           airtableVoteHandler(
                             applicantName,
                             reviewerName,
-                            "Yes",
+                            "1",
                             flag,
                             comments,
                             id
@@ -308,17 +304,18 @@ const Applications = (props) => {
                           window.scrollTo(0, 0);
                         }}
                       >
-                        YES
+                        1
                       </button>
+
                       <button
                         className="vote-button"
-                        style={{ backgroundColor: "#FF9393" }}
-                        disabled={numYeses <= 0 || submitStatus}
+                        style={{ backgroundColor: "#FBEBBC" }}
+                        disabled={submitStatus}
                         onClick={() => {
                           airtableVoteHandler(
                             applicantName,
                             reviewerName,
-                            "No",
+                            "2",
                             flag,
                             comments,
                             id
@@ -326,10 +323,50 @@ const Applications = (props) => {
                           window.scrollTo(0, 0);
                         }}
                       >
-                        NO
+                        2
+                      </button>
+
+                      <button
+                        className="vote-button"
+                        style={{ backgroundColor: "#D6F4D4" }}
+                        disabled={submitStatus}
+                        onClick={() => {
+                          airtableVoteHandler(
+                            applicantName,
+                            reviewerName,
+                            "3",
+                            flag,
+                            comments,
+                            id
+                          );
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        3
+                      </button>
+
+                      <button
+                        className="vote-button"
+                        style={{ backgroundColor: "#D4E1FC" }}
+                        disabled={submitStatus}
+                        onClick={() => {
+                          airtableVoteHandler(
+                            applicantName,
+                            reviewerName,
+                            "4",
+                            flag,
+                            comments,
+                            id
+                          );
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        4
                       </button>
                     </>
                   )}
+                </div>
+                <div className="arrow-buttons">
                   <button
                     className="vote-button"
                     style={{ backgroundColor: "#CACACA" }}
@@ -344,7 +381,7 @@ const Applications = (props) => {
                   >
                     BACK
                   </button>
-                </div>
+                  </div>
               </div>
             </div>
           </div>

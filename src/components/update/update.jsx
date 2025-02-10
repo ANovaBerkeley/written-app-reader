@@ -103,8 +103,16 @@ const Update = (props) => {
           });
     }, [])
 
+  // No longer used, but will keep here. These are from when voting was yes/no rather than 1-4 for written
   const voteYesColor = vote == "Yes" ? "#9AFFB0" : "";
   const voteNoColor = vote == "No" ? "#FF9393" : "";
+
+  const voteOneColor = vote == "1" ? "#F8D6E0" : "";
+  const voteTwoColor = vote == "2" ? "#FBEBBC" : "";
+  const voteThreeColor = vote == "3" ? "#D6F4D4" : "";
+  const voteFourColor = vote == "4" ? "#D4E1FC" : "";
+
+
   const flagYesColor = flag == "Yes" ? "#9AFFB0" : "";
   const flagNoColor = flag == "No" ? "#FF9393" : "";
 
@@ -137,10 +145,6 @@ const Update = (props) => {
           </div>
           <div className="update-options">
                 <div>
-                  <div className="header-stats">{numYeses} YESES REMAINING</div>
-                  <div class="progress-bar-empty">
-                    <div class="progress-bar-full" style={readProgress}></div>
-                  </div>
                   <h4 className="comments-label">Comment:</h4>
                   <textarea
                     id="comments-textbox"
@@ -154,23 +158,42 @@ const Update = (props) => {
                   <div className="update-buttons">
                       <button
                         className="update-button"
-                        style={{ backgroundColor: voteYesColor }}
-                        disabled={numYeses <= 0 && vote === "No"}
+                        style={{ backgroundColor: voteOneColor }}
                         onClick={() => {
-                          setVote("Yes");
+                          setVote("1");
                           console.log(vote);
                         }}
                       >
-                        YES
+                        1
                       </button>
                       <button
                         className="update-button"
-                        style={{ backgroundColor: voteNoColor }}
+                        style={{ backgroundColor: voteTwoColor }}
                         onClick={() => {
-                          setVote("No");
+                          setVote("2");
                         }}
                       >
-                        NO
+                        2
+                      </button>
+
+                      <button
+                        className="update-button"
+                        style={{ backgroundColor: voteThreeColor }}
+                        onClick={() => {
+                          setVote("3");
+                          console.log(vote);
+                        }}
+                      >
+                        3
+                      </button>
+                      <button
+                        className="update-button"
+                        style={{ backgroundColor: voteFourColor }}
+                        onClick={() => {
+                          setVote("4");
+                        }}
+                      >
+                        4
                       </button>
                   </div>
                   <h4>Flag:</h4>

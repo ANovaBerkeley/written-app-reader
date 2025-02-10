@@ -176,6 +176,11 @@ h4 {
 
 .vote-buttons {
   display: flex;
+  flex-direction: row;
+}
+
+.arrow-buttons {
+  display: flex;
   flex-direction: column;
 }
 
