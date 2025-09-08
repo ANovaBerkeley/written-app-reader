@@ -53,7 +53,7 @@ const Guidelines = (props) => {
           <h2>Rubric</h2>
           <p>
             Please reference the 2025 recruitment guide on tips and tricks to read your apps: Here is the link to the
-            <a href="https://www.notion.so/anova/Spring-2025-Officers-Only-18a89bcce3b2806e8f44ca2311ded097"> notion guide!</a>.
+            <a href="https://www.notion.so/anova/Written-Process-26189bcce3b28166ad8dc6a364c8b1d1"> notion guide!</a>.
           </p>
 
           <h2>Mission Statement</h2>
@@ -104,6 +104,9 @@ const Guidelines = (props) => {
             </li>
             <li>
                 Don't consider: feasibility of the proposal.
+              </li>
+              <li>
+                This question should be given the least weight.
               </li>
           </ul>
 
